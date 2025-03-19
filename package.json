@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "Sistema de reportes de incidentes en areas de la escuela.",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "test"
+    "test": "node --watch index.js "
   },
   "repository": {
     "type": "git",
