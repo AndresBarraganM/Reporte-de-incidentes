@@ -1,0 +1,19 @@
+{
+  "name": "reporte-de-incidentes",
+  "version": "1.0.0",
+  "description": "Sistema de reportes de incidentes en areas de la escuela.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AndresBarraganM/reporte-de-incidentes.git"
+  },
+  "author": "Barragang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AndresBarraganM/reporte-de-incidentes/issues"
+  },
+  "homepage": "https://github.com/AndresBarraganM/reporte-de-incidentes#readme"
+}
