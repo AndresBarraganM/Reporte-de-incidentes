@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/AndresBarraganM/reporte-de-incidentes/issues"
   },
-  "homepage": "https://github.com/AndresBarraganM/reporte-de-incidentes#readme"
+  "homepage": "https://github.com/AndresBarraganM/reporte-de-incidentes#readme",
+  "dependencies": {
+    "zod": "^3.24.2"
+  }
 }
