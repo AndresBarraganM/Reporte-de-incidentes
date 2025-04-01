@@ -20,7 +20,7 @@ const modelo_incidentes = sequelize.define('modelo_incidentes',{
                 }
     },
     edificio: {
-        type: DataTypes.ENUM('100','200','300','400','500','600','700','centro_informacion', 'gimnacio','auditorio'),
+        type: DataTypes.ENUM('100','200','300','400','500','600','700','centro_informacion', 'gimnasio','auditorio'),
         allowNull: false,
         defaultValue: null,
     },
