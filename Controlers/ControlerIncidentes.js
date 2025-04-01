@@ -20,7 +20,7 @@ export class ControlerIncidentes {
       }
       
       // recuperar reporte
-      const incidentes = "NO IMPLEMENTADO";
+      const incidentes = {message:"NO IMPLEMENTADO"};
 
       res.json(incidentes);
     }catch(error){
