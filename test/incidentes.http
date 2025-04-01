@@ -1,0 +1,16 @@
+### En este archivo se recupera los incidentes de la base de datos
+## se diferencia de encuestas por que estos son para recuperar la informacion de la baase de datos
+
+
+### Peticionar todos los incidentes sin fotos
+GET http://localhost:1234/incientes
+
+
+### Peticionar todos los incidentes de cierto edificio sin fotos
+GET http://localhost:1234/incidentes/?edificio=100
+
+
+### Peticionar cierta foto de incidente segun id 
+GET http://localhost:1234/incidentes/foto/1/
+
+
