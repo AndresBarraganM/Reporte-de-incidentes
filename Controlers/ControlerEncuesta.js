@@ -1,5 +1,5 @@
 import { ClienteEncuesta } from "../models/Encuesta.js";
-import { encuestaShema } from "../models/Encuesta.js";
+import { encuestaShema } from "../Schemas/EncuestaSchema.js";
 
 export class ControlerEncuesta {
   // Metodo que retorna un json de preguntas de la encuesta
