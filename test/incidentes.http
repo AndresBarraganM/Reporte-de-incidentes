@@ -9,6 +9,8 @@ GET http://localhost:1234/incientes
 ### Peticionar todos los incidentes de cierto edificio sin fotos
 GET http://localhost:1234/incidentes/?edificio=100
 
+### Peticionar todos los incidentes de el edificio 100 y de banio de hombres en la planta alta
+GET http://localhost:1234/incidentes/?edificio=100&banio=hombre&planta=alta
 
 ### Peticionar cierta foto de incidente segun id 
 GET http://localhost:1234/incidentes/foto/1/
