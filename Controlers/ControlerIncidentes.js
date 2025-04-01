@@ -5,7 +5,7 @@
 export class ControlerIncidentes {
 
   // retornar incidentes
-  static async getAll(req, res) {
+  static async getIncidentes(req, res) {
     try {
       const filtros = {};
 
