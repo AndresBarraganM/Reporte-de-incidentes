@@ -1,6 +1,6 @@
 import { DataTypes, INTEGER, Sequelize } from 'sequelize';
 import { sequelize } from '../../utils/database_connection.js';
-import { modelo_usuarios } from './ModeloUsuarios.js';
+import { modelo_usuarios } from './ModeloLogin.js'
 
 const modelo_incidentes = sequelize.define('modelo_incidentes',{
     id_incidente: {
