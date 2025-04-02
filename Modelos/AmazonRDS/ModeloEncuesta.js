@@ -2,70 +2,100 @@ import { DataTypes, INTEGER, Sequelize } from 'sequelize';
 import { sequelize } from '../../utils/database_connection.js';
 import { modelo_usuarios } from './ModeloLogin.js';
 
-const modelo_incidentes = sequelize.define('modelo_incidentes',{
+const modelo_edificio = sequelize.define('modelo_edificio', {
+    id_edificio: {
+        type: DataTypes.INTEGER(11),
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false
+    },
+    nombre: {
+        type: DataTypes.STRING(100), // 🔹 Corregido 'types' -> 'type'
+        allowNull: true,
+        unique: true
+    },
+    planta: {
+        type: DataTypes.ENUM('alta', 'baja'), // 🔹 Corregido 'types' -> 'type'
+        allowNull: false
+    }
+}, {
+    tableName: 'edificio'
+});
+
+const modelo_banos = sequelize.define('modelo_banos', {
+    id_bano: {
+        type: DataTypes.INTEGER(11),
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false
+    },
+    id_edificio: {
+        type: DataTypes.INTEGER(11),
+        allowNull: false,
+        references: {
+            model: modelo_edificio,
+            key: 'id_edificio'
+        }
+    }
+}, {
+    tableName: 'banos'
+});
+
+// 🔹 Corrección de relaciones
+modelo_edificio.hasMany(modelo_banos, { foreignKey: 'id_edificio' });
+modelo_banos.belongsTo(modelo_edificio, { foreignKey: 'id_edificio' });
+
+const modelo_incidentes = sequelize.define('modelo_incidentes', {
     id_incidente: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
         primaryKey: true,
         autoIncrement: true,
     },
-
+    id_bano: {
+        type: DataTypes.INTEGER(11),
+        allowNull: false,
+        references: {
+            model: modelo_banos,
+            key: 'id_bano'
+        }
+    },
     id_usuario_reporte: {
         type: DataTypes.INTEGER(11),
-        defaultValue: null,
         allowNull: false,
         references: {
             model: 'modelo_usuarios',
             key: 'id_usuario'
-                }
-    },
-    edificio: {
-        type: DataTypes.ENUM('100','200','300','400','500','600','700','centro_informacion', 'gimnasio','auditorio'),
-        allowNull: false,
-        defaultValue: null,
-    },
-    planta: {
-        type: DataTypes.ENUM('alta','baja'),
-        allowNull: false,
-        defaultValue: null,
-    },
-    banio: {
-        type: DataTypes.ENUM('hombres','mujeres'),
-        allowNull: false,
-        defaultValue: null,
+        }
     },
     descripcion: {
         type: DataTypes.TEXT,
-        allowNull: false,
-        defaultValue: null,
+        allowNull: false
     },
     img: {
         type: DataTypes.BLOB('medium'),
-        allowNull: true,
-        defaultValue: null,
+        allowNull: true
     },
     fecha_reporte: {
         type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: null,
+        allowNull: false
     },
     estado: {
-        type: DataTypes.ENUM('pendiente','en_proceso','resuelto'),
+        type: DataTypes.ENUM('pendiente', 'en_proceso', 'resuelto'),
         allowNull: true,
-        defaultValue: 'pendiente',
+        defaultValue: 'pendiente'
     },
     prioridad: {
-        type: DataTypes.ENUM('baja','media','alta'),
-        allowNull: false,
-        defaultValue: null
+        type: DataTypes.ENUM('baja', 'media', 'alta'),
+        allowNull: false
     }
-},
-{
+}, {
     tableName: 'incidentes',
-    timestamps: false,
-}
-)
-modelo_usuarios.hasMany(modelo_incidentes,{foreignKey: 'id_usuario_reporte'});
-modelo_incidentes.belongsTo(modelo_usuarios,{foreignKey: 'id_usuario_reporte'})
+    timestamps: false
+});
 
-export {modelo_incidentes};
+// 🔹 Corrección de relaciones
+modelo_banos.hasMany(modelo_incidentes, { foreignKey: 'id_bano' });
+modelo_incidentes.belongsTo(modelo_banos, { foreignKey: 'id_bano' });
+
+export { modelo_incidentes, modelo_banos, modelo_edificio };

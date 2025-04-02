@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Apr 02, 2025 at 02:53 AM
+-- Generation Time: Apr 02, 2025 at 04:54 PM
 -- Server version: 11.5.2-MariaDB
 -- PHP Version: 8.2.18
 
@@ -20,6 +20,36 @@ SET time_zone = "+00:00";
 --
 -- Database: `incidentes`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `banos`
+--
+
+DROP TABLE IF EXISTS `banos`;
+CREATE TABLE IF NOT EXISTS `banos` (
+  `id_bano` int(11) NOT NULL AUTO_INCREMENT,
+  `id_edificio` int(11) NOT NULL,
+  `tipo_bano` enum('hombre','mujer') NOT NULL,
+  PRIMARY KEY (`id_bano`),
+  KEY `fk_edificios` (`id_edificio`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `edificios`
+--
+
+DROP TABLE IF EXISTS `edificios`;
+CREATE TABLE IF NOT EXISTS `edificios` (
+  `id_edificio` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(100) DEFAULT NULL,
+  `planta` enum('alta','baja') NOT NULL,
+  PRIMARY KEY (`id_edificio`),
+  UNIQUE KEY `nombre` (`nombre`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -49,30 +79,17 @@ CREATE TABLE IF NOT EXISTS `historial_incidentes` (
 DROP TABLE IF EXISTS `incidentes`;
 CREATE TABLE IF NOT EXISTS `incidentes` (
   `id_incidente` int(11) NOT NULL AUTO_INCREMENT,
+  `id_bano` int(11) DEFAULT NULL,
   `id_usuario_reporte` int(11) NOT NULL,
-  `edificio` enum('100','200','300','400','500','600','700','centro_informacion','gimnacio','auditorio') NOT NULL,
-  `planta` enum('alta','baja') NOT NULL,
-  `banio` enum('hombres','mujeres') NOT NULL,
   `descripcion` text NOT NULL,
   `img` mediumblob NOT NULL,
   `fecha_reporte` datetime NOT NULL,
   `estado` enum('pendiente','en_proceso','resuelto') NOT NULL DEFAULT 'pendiente',
   `prioridad` enum('baja','media','alta') NOT NULL,
   PRIMARY KEY (`id_incidente`),
-  KEY `fk_usuarios` (`id_usuario_reporte`)
+  KEY `fk_usuarios` (`id_usuario_reporte`),
+  KEY `fk_bano` (`id_bano`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
-
---
--- Dumping data for table `incidentes`
---
-
-INSERT INTO `incidentes` (`id_incidente`, `id_usuario_reporte`, `edificio`, `planta`, `banio`, `descripcion`, `img`, `fecha_reporte`, `estado`, `prioridad`) VALUES
-(7, 5, '300', 'alta', 'mujeres', 'Fuga de agua en el baño de mujeres', 0x3130313130313130313031, '2025-04-02 02:26:03', 'pendiente', 'media'),
-(8, 5, '300', 'alta', 'mujeres', 'Fuga de agua en el baño de mujeres', 0x3130313130313130313031, '2025-04-02 02:26:45', 'pendiente', 'media'),
-(10, 5, '300', 'alta', 'mujeres', 'Fuga de agua en el baño de mujeres', 0x3130313130313130313031, '2025-04-02 02:32:19', 'pendiente', 'media'),
-(11, 5, '300', 'alta', 'mujeres', 'Fuga de agua en el baño de mujeres', 0x3130313130313130313031, '2025-04-02 02:34:38', 'pendiente', 'media'),
-(12, 5, '300', 'alta', 'mujeres', 'Fuga de agua en el baño de mujeres', 0x3130313130313130313031, '2025-04-02 02:34:54', 'pendiente', 'media'),
-(13, 5, '300', 'alta', 'mujeres', 'Fuga de agua en el baño de mujeres', 0x3130313130313130313031, '2025-04-02 02:35:06', 'pendiente', 'media');
 
 -- --------------------------------------------------------
 
@@ -126,6 +143,12 @@ INSERT INTO `usuarios` (`id_usuario`, `nombre`, `email`, `telefono`, `rol`, `con
 --
 
 --
+-- Constraints for table `banos`
+--
+ALTER TABLE `banos`
+  ADD CONSTRAINT `fk_edificios` FOREIGN KEY (`id_edificio`) REFERENCES `edificios` (`id_edificio`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `historial_incidentes`
 --
 ALTER TABLE `historial_incidentes`
@@ -136,6 +159,7 @@ ALTER TABLE `historial_incidentes`
 -- Constraints for table `incidentes`
 --
 ALTER TABLE `incidentes`
+  ADD CONSTRAINT `fk_bano` FOREIGN KEY (`id_bano`) REFERENCES `banos` (`id_bano`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_usuarios` FOREIGN KEY (`id_usuario_reporte`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
