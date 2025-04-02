@@ -1,6 +1,6 @@
 import { DataTypes, INTEGER, Sequelize } from 'sequelize';
 import { sequelize } from '../../utils/database_connection.js';
-import { modelo_usuarios } from './ModeloUsuarios.js';
+import { modelo_usuarios } from './ModeloLogin.js';
 
 const modelo_incidentes = sequelize.define('modelo_incidentes',{
     id_incidente: {
@@ -59,7 +59,13 @@ const modelo_incidentes = sequelize.define('modelo_incidentes',{
         allowNull: false,
         defaultValue: null
     }
-})
+},
+{
+    tableName: 'incidentes',
+    timestamps: false,
+}
+)
 modelo_usuarios.hasMany(modelo_incidentes,{foreignKey: 'id_usuario_reporte'});
 modelo_incidentes.belongsTo(modelo_usuarios,{foreignKey: 'id_usuario_reporte'})
+
 export {modelo_incidentes};

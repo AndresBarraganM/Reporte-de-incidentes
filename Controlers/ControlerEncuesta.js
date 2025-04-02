@@ -32,7 +32,7 @@ export class ControlerEncuesta {
     encuesta.fechaHora = new Date().toISOString();
 
 
-    // verificar tama;o de la foto
+    // verificar tamaño de la foto
     if (foto) {
       if (foto.size > 5000000) {
         return res.status(400).json({ message: "La imagen ha de ser menor a 5 mgb" });
