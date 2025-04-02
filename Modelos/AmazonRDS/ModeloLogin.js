@@ -33,7 +33,17 @@ const modelo_usuarios = sequelize.define('modelo_usuarios',{
         type: DataTypes.STRING(255),
         allowNull: false,
         defaultValue: null,
+    },
+    estado: {
+        type: DataTypes.ENUM('activo', 'inactivo'),
+        allowNull: false,
+        defaultValue: ('activo')
     }
-})
+},
+{
+    tableName: 'usuarios',
+    timestamps: false,
+}
+)
 
 export { modelo_usuarios }
