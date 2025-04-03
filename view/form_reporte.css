@@ -1,0 +1,118 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fdffc2; /* Amarillo claro (#fdffc2) */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Contenedor del formulario */
+.contenedor {
+    background-color: #FFFFFF; /* Blanco */
+    padding: 25px; /* Más espacio interno */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra */
+    max-width: 400px;
+    width: 100%;
+    margin: 20px; /* Margen exterior para que no toque los bordes de la pantalla */
+}
+
+/* Título del formulario */
+h2 {
+    color: #000000; /* Negro */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Estilos para las etiquetas */
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #000000; /* Negro */
+    font-weight: bold;
+}
+
+/* Estilos para los campos de entrada */
+input[type="text"],
+input[type="time"],
+select,
+textarea {
+    width: calc(100% - 20px); /* Ajuste para que no toquen los bordes */
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #0000FF; /* Azul */
+    border-radius: 5px;
+    font-size: 16px;
+    color: #000000; /* Negro */
+    background-color: #FFFFFF; /* Blanco */
+}
+
+/* Contenedor del botón de selección de archivo */
+.file-input-container {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+/* Estilo del input de archivo (oculto) */
+.file-input-container input[type="file"] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+/* Estilo del botón personalizado */
+.file-label {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #0000FF; /* Azul */
+    color: #FFFFFF; /* Blanco */
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Efecto hover para el botón personalizado */
+.file-label:hover {
+    background-color: #00008B; /* Azul oscuro */
+}
+
+/* Estilo para mostrar el nombre del archivo */
+.file-name {
+    display: block;
+    margin-top: 8px;
+    font-size: 14px;
+    color: #000000; /* Negro */
+}
+
+/* Estilo para el botón de enviar */
+input[type="submit"] {
+    width: calc(100% - 20px); /* Ajuste para que no toquen los bordes */
+    padding: 10px;
+    background-color: #0000FF; /* Azul */
+    color: #FFFFFF; /* Blanco */
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Efecto hover para el botón de enviar */
+input[type="submit"]:hover {
+    background-color: #00008B; /* Azul oscuro */
+}
+
+/* Estilo para el textarea */
+textarea {
+    resize: vertical; /* Permite redimensionar verticalmente */
+    width: calc(100% - 20px); /* Ajuste para que no toquen los bordes */
+}

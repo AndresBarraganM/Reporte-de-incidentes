@@ -1,0 +1,291 @@
+/* Estilos para logos */
+.logo-left, .logo-right {
+    width: 180px;  
+    height: 100px; 
+    object-fit: contain; 
+}
+
+.logo {
+    width: 60px;       
+    height: 60px;     
+    object-fit: contain; 
+    margin: 0 10px;   
+}
+
+.logo-container {
+    text-align: center;
+    padding: 20px 0;
+}
+
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Menú lateral */
+.menu-lateral {
+    width: 250px;
+    background-color: #4d5fdb;
+    color: #FFFFFF;
+    padding: 20px;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1000;
+}
+
+.menu-lateral h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #FFFFFF;
+}
+
+.menu-lateral nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-lateral nav ul li {
+    margin-bottom: 15px;
+}
+
+.menu-lateral nav ul li a {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.menu-lateral nav ul li a:hover {
+    background-color: #FFFFFF;
+    color: #4d5fdb;
+}
+
+.menu-lateral nav ul li a.active {
+    background-color: #FFFFFF;
+    color: #4d5fdb;
+    font-weight: bold;
+}
+
+/* Contenido principal */
+.container {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+header h1 {
+    color: #4d5fdb;
+    margin-bottom: 30px;
+    font-size: 28px;
+}
+
+/* Formularios y filtros */
+.filtros {
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+
+.filtros h2 {
+    color: #4d5fdb;
+    margin-bottom: 20px;
+}
+
+.campo {
+    margin-bottom: 15px;
+}
+
+.campo label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.campo input,
+.campo select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.btn-primary {
+    background-color: #4d5fdb;
+    color: #FFFFFF;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #3a4bb8;
+}
+
+/* Tabla de incidentes */
+.listado {
+    background-color: #FFFFFF;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.listado h2 {
+    color: #4d5fdb;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+table th {
+    background-color: #f8f9fa;
+    color: #4d5fdb;
+    font-weight: bold;
+}
+
+table tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Estados */
+.estado {
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.estado.pendiente {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.estado.en-proceso {
+    background-color: #cce5ff;
+    color: #004085;
+}
+
+.estado.resuelto {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+/* Dropdown de acciones */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+    background-color: #4d5fdb;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 4px;
+}
+
+.dropdown-content a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-contenido {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 30px;
+    border-radius: 8px;
+    width: 60%;
+    max-width: 700px;
+    position: relative;
+}
+
+.cerrar {
+    color: #aaa;
+    position: absolute;
+    right: 20px;
+    top: 10px;
+    font-size: 28px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.cerrar:hover {
+    color: #333;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .menu-lateral {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+    
+    .container {
+        margin-left: 0;
+        width: 100%;
+    }
+}

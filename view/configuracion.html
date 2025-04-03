@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configuración y Personalización</title>
+  <link rel="stylesheet" href="configuracion.css">
+</head>
+<body>
+    <div class="dashboard-container">
+    <!-- Menú lateral -->
+    <aside class="menu-lateral">
+      <h2>Menus</h2>
+      <nav>
+        <ul>
+          <li><a href="#" class="active"><span>🏠</span> Inicio</a></li>
+          <li><a href="#"><span>📄</span> Reportes</a></li>
+          <li><a href="#"><span>🚨</span> Incidentes</a></li>
+          <li><a href="#"><span>👥</span> Usuarios</a></li>
+          <li><a href="#"><span>⚙️</span> Configuración</a></li>
+        </ul>
+      </nav>
+    </aside>
+  <div class="container">
+    <header>
+      <h1>Configuración y Personalización</h1>
+      <p>Ajusta la forma en que recibes alertas y actualiza tus datos personales.</p>
+    </header>
+    
+    <!-- Sección Notificaciones y Alertas -->
+    <section class="notificaciones-alertas">
+      <h2>Notificaciones y Alertas</h2>
+      <form id="form-notificaciones">
+        <div class="campo">
+          <label for="canal-notificacion">Canal de Notificación:</label>
+          <select id="canal-notificacion" name="canal-notificacion">
+            <option value="correo">Correo Electrónico</option>
+            <option value="sms">SMS</option>
+            <option value="push">Notificaciones Push</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label for="frecuencia">Frecuencia de Notificaciones:</label>
+          <select id="frecuencia" name="frecuencia">
+            <option value="inmediata">Inmediata</option>
+            <option value="diaria">Diaria</option>
+            <option value="semanal">Semanal</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label for="umbral">Umbral de Alerta (número de incidentes):</label>
+          <input type="number" id="umbral" name="umbral" placeholder="Ej. 5">
+        </div>
+        <button type="submit">Guardar Configuración</button>
+      </form>
+    </section>
+    
+    <!-- Sección Editar Perfil -->
+    <section class="editar-perfil">
+      <h2>Editar Perfil</h2>
+      <form id="form-editar-perfil" class="form-vertical">
+        <div class="campo">
+          <label for="nombre">Nombre:</label>
+          <input type="text" id="nombre" name="nombre" placeholder="Ingresa tu nombre">
+        </div>
+        <div class="campo">
+          <label for="cargo">Cargo:</label>
+          <input type="text" id="cargo" name="cargo" placeholder="Ingresa tu cargo">
+        </div>
+        <div class="campo">
+          <label for="correo">Correo:</label>
+          <input type="email" id="correo" name="correo" placeholder="Ingresa tu correo">
+        </div>
+        <div class="campo">
+          <label for="celular">Celular:</label>
+          <input type="tel" id="celular" name="celular" placeholder="Ingresa tu celular">
+        </div>
+        <button type="submit">Guardar Perfil</button>
+      </form>
+    </section>
+  </div>
+</body>
+</html>

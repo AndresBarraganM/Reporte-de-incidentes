@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Control</title>
+  <link rel="stylesheet" href="dashboard.css"> <!-- Enlaza el archivo CSS -->
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Menú lateral -->
+    <aside class="menu-lateral">
+      <h2>Menus</h2>
+      <nav>
+        <ul>
+          <li><a href="#" class="active"><span>🏠</span> Inicio</a></li>
+          <li><a href="#"><span>📄</span> Reportes</a></li>
+          <li><a href="#"><span>🚨</span> Incidentes</a></li>
+          <li><a href="#"><span>👥</span> Usuarios</a></li>
+          <li><a href="#"><span>⚙️</span> Configuración</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="contenido-principal">
+      <header>
+        <h1>Bienvenido al Panel de Control</h1>
+        <p>Aquí puedes gestionar reportes, incidentes, usuarios y configurar el sistema.</p>
+      </header>
+
+      <!-- Sección de Vista General / Resumen -->
+      <section class="vista-general">
+        <h2>Resumen en Tiempo Real</h2>
+        <div class="resumen">
+          <div class="card">
+            <h3>Total Incidentes</h3>
+            <p>15</p>
+          </div>
+          <div class="card">
+            <h3>Incidentes Pendientes</h3>
+            <p>5</p>
+          </div>
+          <div class="card">
+            <h3>Tiempo Promedio de Resolución</h3>
+            <p>30 min</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sección de Incidentes -->
+      <section class="incidentes">
+        <h2>Gestión de Incidentes</h2>
+        <p>Aquí se listan los reportes de incidentes. Usa los filtros para buscar por fecha, ubicación o estado.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Ubicación</th>
+              <th>Descripción</th>
+              <th>Hora</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Ejemplo de fila -->
+            <tr>
+              <td>001</td>
+              <td>Baño 1</td>
+              <td>Fuga de agua</td>
+              <td>08:15</td>
+              <td>Pendiente</td>
+              <td>
+                <button>Ver Detalle</button>
+                <button>Marcar como Resuelto</button>
+              </td>
+            </tr>
+            <!-- Más filas dinámicas -->
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Sección de Estadísticas y Gráficos -->
+      <section class="estadisticas">
+        <h2>Estadísticas</h2>
+        <p>Visualiza la frecuencia de incidentes por ubicación y horario.</p>
+        <!-- Área para gráficos: puedes integrar librerías como Chart.js -->
+        <div class="grafico" id="grafico-incidentes">
+          <!-- Gráfico de barras o pastel -->
+        </div>
+      </section>
+
+      <!-- Sección de Gestión de Usuarios y Configuración (Opcional) -->
+      <section class="gestion-usuarios">
+        <h2>Gestión de Usuarios y Roles</h2>
+        <p>Administra los usuarios, asigna roles y consulta el historial de actividad.</p>
+        <button>Ver Usuarios</button>
+        <button>Historial de Actividades</button>
+      </section>
+
+      <!-- Sección de Notificaciones -->
+      <section class="notificaciones">
+        <h2>Notificaciones</h2>
+        <p>Aquí se muestran las alertas recientes y notificaciones en tiempo real.</p>
+        <ul>
+          <li>08:20 - Nuevo incidente registrado en Baño 2</li>
+          <li>08:45 - Incidente 001 marcado como en proceso</li>
+          <!-- Más notificaciones -->
+        </ul>
+      </section>
+
+      <!-- Sección de Soporte y Ayuda -->
+      <section class="soporte">
+        <h2>Centro de Ayuda</h2>
+        <p>Consulta documentación y tutoriales para el uso del sistema.</p>
+        <button>Ver Ayuda</button>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Gestión de Incidentes</title>
+    <style>
+        /* Estilos base del sistema */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #4d5fdb; /* Fondo azul como el menú lateral */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Contenedor principal del login */
+        .login-container {
+            background-color: #FFFFFF;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        /* Encabezado del login */
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header h1 {
+            color: #4d5fdb;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        /* Estilos del formulario */
+        .login-form .campo {
+            margin-bottom: 20px;
+        }
+
+        .login-form label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .login-form input,
+        .login-form select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .login-form input:focus,
+        .login-form select:focus {
+            border-color: #4d5fdb;
+            outline: none;
+        }
+
+        /* Botón de ingreso */
+        .btn-login {
+            width: 100%;
+            padding: 15px;
+            background-color: #4d5fdb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .btn-login:hover {
+            background-color: #3a4bb8;
+        }
+
+        /* Mensaje de selección de rol */
+        .rol-message {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <h1>Gestor de Incidentes</h1>
+            <p>Inicie sesión con sus credenciales</p>
+        </div>
+        
+        <form class="login-form" action="procesar_login.php" method="POST">
+            <div class="campo">
+                <label for="username">Usuario:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            
+            <div class="campo">
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            
+            <div class="campo">
+                <label for="role">Rol:</label>
+                <select id="role" name="role" required>
+                    <option value="">Seleccione un rol</option>
+                    <option value="admin">Administrador</option>
+                    <option value="limpieza">Empleado de Limpieza</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="btn-login">Ingresar al Sistema</button>
+        </form>
+        
+        <div class="rol-message">
+            Seleccione su rol correspondiente para acceder al sistema
+        </div>
+    </div>
+</body>
+</html>
