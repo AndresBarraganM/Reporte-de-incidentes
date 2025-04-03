@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Usuarios y Roles</title>
+  <link rel="stylesheet" href="usuarios.css">
+</head>
+<body>
+  <aside class="menu-lateral">
+    <h2>Menú</h2>
+    <nav>
+      <ul>
+        <li><a href="#">Inicio</a></li>
+        <li><a href="#">Incidentes</a></li>
+        <li><a href="#">Reportes</a></li>
+        <li><a href="#">Configuración</a></li>
+      </ul>
+    </nav>
+  </aside>
+  <div class="container">
+    <header>
+      <h1>Gestión de Usuarios y Roles</h1>
+      <p>Administra los usuarios, asigna roles y revisa el historial de actividad para auditorías.</p>
+    </header>
+
+    <!-- Sección Control de Acceso -->
+    <section class="control-acceso">
+      <h2>Control de Acceso</h2>
+      <button class="btn agregar">Agregar Nuevo Usuario</button>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Rol</th>
+            <th>Email</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Ejemplo de fila -->
+          <tr>
+            <td>001</td>
+            <td>Juan Pérez</td>
+            <td>Administrador</td>
+            <td>juan.perez@ejemplo.com</td>
+            <td>
+              <button class="btn editar">Editar</button>
+              <button class="btn eliminar">Eliminar</button>
+            </td>
+          </tr>
+          <tr>
+            <td>002</td>
+            <td>María López</td>
+            <td>Encargada de Limpieza</td>
+            <td>maria.lopez@ejemplo.com</td>
+            <td>
+              <button class="btn editar">Editar</button>
+              <button class="btn eliminar">Eliminar</button>
+            </td>
+          </tr>
+          <!-- Más filas dinámicas -->
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Sección Historial de Actividad -->
+    <section class="historial-actividad">
+      <h2>Historial de Actividad</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Fecha / Hora</th>
+            <th>Usuario</th>
+            <th>Acción Realizada</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Ejemplo de fila -->
+          <tr>
+            <td>2025-03-07 08:45</td>
+            <td>Juan Pérez</td>
+            <td>Marcó incidente 001 como en proceso</td>
+          </tr>
+          <tr>
+            <td>2025-03-07 09:10</td>
+            <td>María López</td>
+            <td>Agregó nuevo reporte de incidente</td>
+          </tr>
+          <!-- Más filas dinámicas -->
+        </tbody>
+      </table>
+    </section>
+  </div>
+</body>
+</html>

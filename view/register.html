@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Gestión de Incidentes</title>
+    <style>
+        /* Estilos base del sistema */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #4d5fdb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Contenedor principal del registro */
+        .register-container {
+            background-color: #FFFFFF;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        /* Encabezado del registro */
+        .register-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .register-header h1 {
+            color: #4d5fdb;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        /* Estilos del formulario */
+        .register-form .campo {
+            margin-bottom: 15px;
+        }
+
+        .register-form label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .register-form input,
+        .register-form select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .register-form input:focus,
+        .register-form select:focus {
+            border-color: #4d5fdb;
+            outline: none;
+        }
+
+        /* Botón de registro */
+        .btn-register {
+            width: 100%;
+            padding: 15px;
+            background-color: #4d5fdb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-register:hover {
+            background-color: #3a4bb8;
+        }
+
+        /* Enlace de login */
+        .login-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+
+        .login-link a {
+            color: #4d5fdb;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="register-header">
+            <h1>Registro de Usuario</h1>
+            <p>Complete todos los campos requeridos</p>
+        </div>
+        
+        <form class="register-form" action="procesar_registro.php" method="POST">
+            <div class="campo">
+                <label for="nombre">Nombre Completo:</label>
+                <input type="text" id="nombre" name="nombre" required>
+            </div>
+            
+            <div class="campo">
+                <label for="email">Correo Electrónico:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="campo">
+                <label for="telefono">Teléfono:</label>
+                <input type="tel" id="telefono" name="telefono" pattern="[0-9]{9,15}">
+            </div>
+            
+            <div class="campo">
+                <label for="rol">Rol:</label>
+                <select id="rol" name="rol" required>
+                    <option value="">Seleccione un rol</option>
+                    <option value="administrador">Administrador</option>
+                    <option value="encargado_limpieza">Encargado de Limpieza</option>
+                </select>
+            </div>
+            
+            <div class="campo">
+                <label for="contrasena">Contraseña:</label>
+                <input type="password" id="contrasena" name="contrasena" required minlength="8">
+            </div>
+            
+            <button type="submit" class="btn-register">Registrar Usuario</button>
+        </form>
+        
+        <div class="login-link">
+            ¿Ya tienes cuenta? <a href="login.html">Inicia sesión aquí</a>
+        </div>
+    </div>
+</body>
+</html>

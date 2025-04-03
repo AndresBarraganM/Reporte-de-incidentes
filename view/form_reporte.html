@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Reporte</title>
+    <link rel="stylesheet" href="form_reporte.css"> <!-- Enlaza el archivo CSS -->
+</head>
+<body>
+
+    <div class="contenedor">
+        <h2>Formulario de Reporte</h2>
+
+        <form action="#" method="post" enctype="multipart/form-data">
+            <label for="edificio">Edificio:</label>
+            <select id="planta" name="planta" required>
+                <option value="edif_100">100</option>
+                <option value="edif_200">200</option>
+                <option value="edif_200">300</option>
+                <option value="edif_200">400</option>
+                <option value="edif_200">500</option>
+                <option value="edif_200">600</option>
+                <option value="edif_auditorio">Auditorio</option>
+                <option value="edif_gym">Gimnasio</option>
+                <option value="edif_centroinfo">Centro de Informacion</option>
+            </select>
+
+            <!-- Cambiamos el campo de texto a un combobox para la planta -->
+            <label for="planta">Planta:</label>
+            <select id="planta" name="planta" required>
+                <option value="alta">Alta</option>
+                <option value="baja">Baja</option>
+            </select>
+
+            <!-- Botón de selección de archivo personalizado -->
+            <label for="foto">Subir foto:</label>
+            <div class="file-input-container">
+                <input type="file" id="foto" name="foto" accept="image/*" required>
+                <label for="foto" class="file-label">Seleccionar archivo</label>
+                <span class="file-name">Ningún archivo seleccionado</span>
+            </div>
+
+            <label for="baño">Baño:</label>
+            <select id="baño" name="baño" required>
+                <option value="hombre">Baño Hombre</option>
+                <option value="mujer">Baño Mujer</option>
+            </select>
+
+            <label for="incidente">Tipo de Incidente:</label>
+                <select id="incidente" name="incidente" required>
+                    <option value="limpieza">Limpieza</option>
+                    <option value="averia">Avería</option>
+                    <option value="seguridad">Seguridad</option>
+                    <option value="otros">Otros</option>
+                </select>
+            <label for="descripcion">Descripción:</label>
+            <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
+
+ 
+
+            <input type="submit" value="Enviar Reporte">
+        </form>
+    </div>
+
+    <script>
+        // JavaScript para mostrar el nombre del archivo seleccionado
+        document.getElementById('foto').addEventListener('change', function (e) {
+            const fileName = e.target.files[0] ? e.target.files[0].name : "Ningún archivo seleccionado";
+            document.querySelector('.file-name').textContent = fileName;
+        });
+    </script>
+
+</body>
+</html>
