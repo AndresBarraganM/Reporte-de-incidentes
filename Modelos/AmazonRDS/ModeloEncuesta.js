@@ -10,16 +10,18 @@ const modelo_edificio = sequelize.define('modelo_edificio', {
         allowNull: false
     },
     nombre: {
-        type: DataTypes.STRING(100), // 
+        type: DataTypes.STRING(100), // 🔹 Corregido 'types' -> 'type'
         allowNull: true,
         unique: true
     },
     planta: {
-        type: DataTypes.ENUM('alta', 'baja'), //
+        type: DataTypes.ENUM('alta', 'baja'), // 🔹 Corregido 'types' -> 'type'
         allowNull: false
     }
 }, {
-    tableName: 'edificio'
+    tableName: 'edificios',
+    createdAt: false,
+    updatedAt: false
 });
 
 const modelo_banos = sequelize.define('modelo_banos', {
@@ -36,12 +38,23 @@ const modelo_banos = sequelize.define('modelo_banos', {
             model: modelo_edificio,
             key: 'id_edificio'
         }
+    },
+    planta: {
+        type: DataTypes.ENUM('alta', 'baja'), //  Corregido 'types' -> 'type'
+        allowNull: false
+    },
+    tipo_bano: {
+        type: DataTypes.ENUM('hombre','mujer'),
+        allowNull: false
     }
+    
 }, {
-    tableName: 'banos'
+    tableName: 'banos',
+    createdAt: false,
+    updatedAt: false
 });
 
-// 🔹 Corrección de relaciones
+//  Corrección de relaciones
 modelo_edificio.hasMany(modelo_banos, { foreignKey: 'id_edificio' });
 modelo_banos.belongsTo(modelo_edificio, { foreignKey: 'id_edificio' });
 
@@ -80,7 +93,7 @@ const modelo_incidentes = sequelize.define('modelo_incidentes', {
         type: DataTypes.DATE,
         allowNull: false
     },
-    estado: {
+    estado_incidente: {
         type: DataTypes.ENUM('pendiente', 'en_proceso', 'resuelto'),
         allowNull: true,
         defaultValue: 'pendiente'
@@ -91,11 +104,16 @@ const modelo_incidentes = sequelize.define('modelo_incidentes', {
     }
 }, {
     tableName: 'incidentes',
-    timestamps: false
+    timestamps: false,
+    createdAt: false,
+    updatedAt: false
 });
 
-//  Corrección de relaciones
+// 🔹 Corrección de relaciones
 modelo_banos.hasMany(modelo_incidentes, { foreignKey: 'id_bano' });
 modelo_incidentes.belongsTo(modelo_banos, { foreignKey: 'id_bano' });
+
+modelo_usuarios.hasMany(modelo_incidentes, {foreignKey: 'id_usuario_reporte'})
+modelo_incidentes.belongsTo(modelo_usuarios, {foreignKey: 'id_usuario_reporte'})
 
 export { modelo_incidentes, modelo_banos, modelo_edificio };

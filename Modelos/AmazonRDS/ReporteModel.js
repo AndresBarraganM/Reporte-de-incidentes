@@ -13,7 +13,7 @@ export class ReporteModel{
     }
     /**
      * @param {any} any No require parametros de entrada
-     * @returns {JSON} todos los reportes en formato JSON
+     * @returns {JSON}
      * @description obtiene todos los reportes de la base de datos
      */
     static async getReportes(){

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Apr 02, 2025 at 04:54 PM
+-- Generation Time: Apr 03, 2025 at 02:35 AM
 -- Server version: 11.5.2-MariaDB
 -- PHP Version: 8.2.18
 
@@ -31,10 +31,24 @@ DROP TABLE IF EXISTS `banos`;
 CREATE TABLE IF NOT EXISTS `banos` (
   `id_bano` int(11) NOT NULL AUTO_INCREMENT,
   `id_edificio` int(11) NOT NULL,
+  `planta` enum('alta','baja') DEFAULT NULL,
   `tipo_bano` enum('hombre','mujer') NOT NULL,
   PRIMARY KEY (`id_bano`),
   KEY `fk_edificios` (`id_edificio`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `banos`
+--
+
+INSERT INTO `banos` (`id_bano`, `id_edificio`, `planta`, `tipo_bano`) VALUES
+(1, 18, 'alta', 'hombre'),
+(2, 18, 'baja', 'hombre'),
+(3, 18, 'alta', 'mujer'),
+(5, 20, 'baja', 'hombre'),
+(8, 13, 'alta', 'mujer'),
+(9, 20, 'alta', 'mujer'),
+(10, 20, 'baja', 'mujer');
 
 -- --------------------------------------------------------
 
@@ -46,10 +60,24 @@ DROP TABLE IF EXISTS `edificios`;
 CREATE TABLE IF NOT EXISTS `edificios` (
   `id_edificio` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) DEFAULT NULL,
-  `planta` enum('alta','baja') NOT NULL,
   PRIMARY KEY (`id_edificio`),
   UNIQUE KEY `nombre` (`nombre`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `edificios`
+--
+
+INSERT INTO `edificios` (`id_edificio`, `nombre`) VALUES
+(13, '100'),
+(14, '200'),
+(15, '300'),
+(18, '400'),
+(16, '500'),
+(17, '600'),
+(21, 'Auditorio'),
+(20, 'Centro de Información'),
+(19, 'Gimnacio');
 
 -- --------------------------------------------------------
 
@@ -80,16 +108,23 @@ DROP TABLE IF EXISTS `incidentes`;
 CREATE TABLE IF NOT EXISTS `incidentes` (
   `id_incidente` int(11) NOT NULL AUTO_INCREMENT,
   `id_bano` int(11) DEFAULT NULL,
-  `id_usuario_reporte` int(11) NOT NULL,
+  `id_usuario_reporte` int(11) DEFAULT NULL,
   `descripcion` text NOT NULL,
   `img` mediumblob NOT NULL,
   `fecha_reporte` datetime NOT NULL,
-  `estado` enum('pendiente','en_proceso','resuelto') NOT NULL DEFAULT 'pendiente',
+  `estado_incidente` enum('pendiente','en_proceso','resuelto') NOT NULL DEFAULT 'pendiente',
   `prioridad` enum('baja','media','alta') NOT NULL,
   PRIMARY KEY (`id_incidente`),
   KEY `fk_usuarios` (`id_usuario_reporte`),
   KEY `fk_bano` (`id_bano`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
+--
+-- Dumping data for table `incidentes`
+--
+
+INSERT INTO `incidentes` (`id_incidente`, `id_bano`, `id_usuario_reporte`, `descripcion`, `img`, `fecha_reporte`, `estado_incidente`, `prioridad`) VALUES
+(14, 1, 4, 'Baño tapado con papel', 0x3634363238323838323031303138393435, '2025-04-03 01:22:10', 'pendiente', 'alta');
 
 -- --------------------------------------------------------
 
