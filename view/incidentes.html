@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Incidentes</title>
+  <link rel="stylesheet" href="incidentes.css">
+</head>
+<body>
+  <aside class="menu-lateral">
+    <h2>Menú</h2>
+    <nav>
+      <ul>
+        <li><a href="#">Inicio</a></li>
+        <li><a href="#">Incidentes</a></li>
+        <li><a href="#">Reportes</a></li>
+        <li><a href="#">Configuración</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <div class="container">
+    <header>
+      <h1>Gestión de Incidentes</h1>
+    </header>
+
+    <section class="filtros">
+      <h2>Filtrar incidentes</h2>
+      <form id="filtro-incidentes">
+        <div class="campo">
+          <label for="fecha">Fecha:</label>
+          <input type="date" id="fecha" name="fecha">
+        </div>
+        <div class="campo">
+          <label for="banio">Baño:</label>
+          <select id="banio" name="banio">
+            <option value="">Todos</option>
+            <option value="banio1">Baño 1</option>
+            <option value="banio2">Baño 2</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label for="estado">Estado:</label>
+          <select id="estado" name="estado">
+            <option value="">Todos</option>
+            <option value="pendiente">Pendiente</option>
+            <option value="en-proceso">En proceso</option>
+            <option value="resuelto">Resuelto</option>
+          </select>
+        </div>
+        <div class="campo">
+          <label for="prioridad">Prioridad:</label>
+          <select id="prioridad" name="prioridad">
+            <option value="">Todos</option>
+            <option value="alta">Alta</option>
+            <option value="media">Media</option>
+            <option value="baja">Baja</option>
+          </select>
+        </div>
+        <button type="submit">Filtrar</button>
+      </form>
+    </section>
+
+    <section class="listado">
+      <h2>Listado de Incidentes</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Ubicacion</th>
+            <th>Tipo de incidente</th>
+            <th>Fecha / Hora</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>001</td>
+            <td>Baño 1</td>
+            <td>Fuga de agua en el lavabo</td>
+            <td>2025-03-07 08:15</td>
+            <td>Pendiente</td>
+            <td>
+              <div class="dropdown">
+                <button class="dropbtn">Acciones</button>
+                <div class="dropdown-content">
+                  <a href="#detalle-incidente">Ver Detalle</a>
+                  <a href="#" data-estado="en-proceso">Marcar como En Proceso</a>
+                  <a href="#" data-estado="resuelto">Marcar como Resuelto</a>
+                  <a href="#" data-estado="pendiente">Marcar como Pendiente</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <div id="detalle-incidente" class="modal">
+    <div class="modal-contenido">
+      <a href="#" class="cerrar">&times;</a>
+      <h2>Detalle del Incidente</h2>
+      <p><strong>ID:</strong> 001</p>
+      <p><strong>Baño:</strong> Baño 1</p>
+      <p><strong>Descripción:</strong> Fuga de agua en el lavabo.</p>
+      <p><strong>Fecha y Hora:</strong> 2025-03-07 08:15</p>
+      <div class="imagenes">
+        <img src="imagen-ejemplo.jpg" alt="Imagen del incidente">
+      </div>
+      <p><strong>Comentarios Adicionales:</strong> Se requiere intervención inmediata.</p>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,282 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #FFFFFF; /* Fondo blanco */
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Contenedor del dashboard */
+.dashboard-container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+
+/* Menú lateral */
+.menu-lateral {
+  width: 250px;
+  background-color: #4d5fdb; /* Azul */
+  color: #FFFFFF; /* Blanco */
+  padding: 20px;
+  box-sizing: border-box;
+  position: fixed;   /* Fijamos el menú para que esté pegado al borde */
+  top: 0;
+  left: 0;
+  height: 100vh;     /* Ocupa toda la altura de la pantalla */
+  z-index: 1000;
+}
+
+/* Resto del menú */
+.menu-lateral h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.menu-lateral nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-lateral nav ul li {
+  margin-bottom: 15px;
+}
+
+.menu-lateral nav ul li a {
+  color: #FFFFFF; /* Blanco */
+  text-decoration: none;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.menu-lateral nav ul li a span {
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+/* Efecto hover */
+.menu-lateral nav ul li a:hover {
+  background-color: #FFFFFF; /* Blanco */
+  color: #0000FF; /* Azul */
+}
+
+.menu-lateral nav ul li a.active {
+  background-color: #FFFFFF; /* Blanco */
+  color: #0000FF; /* Azul */
+}
+
+/* Contenido principal */
+.container {
+  margin-left: 250px; /* Separa el contenido del menú fijo */
+  width: calc(100% - 250px);
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #FFFFFF;
+  overflow-y: auto;
+}
+
+/* Encabezado */
+header {
+  margin-bottom: 20px;
+}
+
+header h1 {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+/* Sección de filtros */
+.filtros {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.filtros h2 {
+  margin-bottom: 15px;
+  font-size: 24px;
+}
+
+.filtros form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: center;
+}
+
+.filtros .campo {
+  display: flex;
+  flex-direction: column;
+}
+
+.filtros label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.filtros input,
+.filtros select {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.filtros button {
+  padding: 10px 15px;
+  background-color: #4d5fdb;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.filtros button:hover {
+  background-color: #3a4bb8;
+}
+
+/* Listado de incidentes */
+.listado {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+}
+
+.listado h2 {
+  margin-bottom: 15px;
+  font-size: 24px;
+}
+
+.listado table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.listado table th,
+.listado table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.listado table thead {
+  background-color: #4d5fdb;
+  color: #fff;
+}
+
+.listado table tbody tr:nth-child(even) {
+  background-color: #f4f4f4;
+}
+
+/* Dropdown en acciones */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn {
+  padding: 5px 10px;
+  background-color: #4d5fdb;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 14px;
+}
+
+.dropbtn:hover {
+  background-color: #3a4bb8;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  min-width: 180px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  border-radius: 4px;
+  z-index: 1;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: #333;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+/* Mostrar dropdown al pasar el cursor */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Modal para Detalle del Incidente */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+}
+
+.modal:target {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-contenido {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 20px;
+  max-width: 600px;
+  border-radius: 8px;
+  position: relative;
+}
+
+/* Botón cerrar modal */
+.cerrar {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  text-decoration: none;
+  font-size: 28px;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.cerrar:hover {
+  color: #000;
+}
+
+/* Estilo para imágenes en el detalle */
+.imagenes {
+  margin: 15px 0;
+}
+
+.imagenes img {
+  max-width: 100%;
+  border-radius: 4px;
+}
