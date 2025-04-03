@@ -1,0 +1,15 @@
+### Llamadas relacionadas a los banios
+## llamada para obtener la lista de bainos
+GET http://localhost:1234/banios
+
+### Llamada para crear un nuevo banio
+POST http://localhost:1234/banios
+Content-Type: application/json
+
+{
+  "ubicacion": "700 planta baja",
+  "genero": "hombre"
+}
+
+### Llamada para borrar un banio Segun su ID.
+DELETE http://localhost:1234/banios/1

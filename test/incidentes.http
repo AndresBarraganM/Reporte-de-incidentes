@@ -16,3 +16,25 @@ GET http://localhost:1234/incidentes/?edificio=100&banio=hombre&planta=alta
 GET http://localhost:1234/incidentes/foto/1/
 
 
+### Agregar un incidente
+## Otros campos seran agregados dentro del lado del servidor
+POST http://localhost:1234/incidentes
+Content-Type: multipart/form-data; boundary=----MyBoundary
+
+------MyBoundary
+Content-Disposition: form-data; name="data"
+Content-Type: application/json
+
+{
+    "ubicacion": "100 planta alta",
+    "genero": "hombre",
+    "descripcion": "Lavabo tapado con papel",
+    "Tipo_incidente": "Falta de jabon"
+}
+------MyBoundary
+Content-Disposition: form-data; name="foto"; filename="imagen.png"
+Content-Type: image/png
+
+< ./vandalizmo.jpg
+------MyBoundary--
+
