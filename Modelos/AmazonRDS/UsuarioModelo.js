@@ -1,3 +1,4 @@
+
 import {modelo_usuarios} from './ModeloLogin.js'
 
 class UsuarioModelo{
@@ -18,7 +19,8 @@ class UsuarioModelo{
                 return JSON.stringify(nuevoUsuario, null, 2)
             }
             else{
-                return console.log("Ya Existe un usuario Registrado a este correo")
+                console.log("el correo ya existe en la base de datos")
+                return false
             }
         }
         catch(error){
