@@ -10,12 +10,12 @@ const modelo_edificio = sequelize.define('modelo_edificio', {
         allowNull: false
     },
     nombre: {
-        type: DataTypes.STRING(100), // 🔹 Corregido 'types' -> 'type'
+        type: DataTypes.STRING(100), // 
         allowNull: true,
         unique: true
     },
     planta: {
-        type: DataTypes.ENUM('alta', 'baja'), // 🔹 Corregido 'types' -> 'type'
+        type: DataTypes.ENUM('alta', 'baja'), //
         allowNull: false
     }
 }, {
@@ -94,7 +94,7 @@ const modelo_incidentes = sequelize.define('modelo_incidentes', {
     timestamps: false
 });
 
-// 🔹 Corrección de relaciones
+//  Corrección de relaciones
 modelo_banos.hasMany(modelo_incidentes, { foreignKey: 'id_bano' });
 modelo_incidentes.belongsTo(modelo_banos, { foreignKey: 'id_bano' });
 
