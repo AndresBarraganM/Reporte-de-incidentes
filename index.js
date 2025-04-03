@@ -1,4 +1,4 @@
-
+import { IncidenteRouter } from "./Middlewares/Routers/RouterIncidente.js";
 
 
 //Creacion de la App
@@ -7,6 +7,9 @@ const createApp = () => {
 
   app.use(json());
   app.disable('x-powered-by');
+
+  // Routers
+  app.use('/incidentes', IncidenteRouter)
 
   const PORT = process.env.PORT || 1234;
 

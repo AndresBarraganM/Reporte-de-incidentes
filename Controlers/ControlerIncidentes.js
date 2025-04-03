@@ -1,6 +1,7 @@
-//import { } as Incidente from '../Models/Incidente.js'; // modelo de incidentes
+import { IncidenteModel } from '../Modelos/IncidenteModel.js'; // modelo de incidentes
 
-// Controlers para recuperar incidentes, los cales son el conjunto de encuestas ya respondidas y almacenadas en la base de datos
+import { validarIncidente } from '../Schemas/IncidenteSchema.js'
+import { validarFoto } from '../Schemas/FotoSchema.js';
 
 export class ControlerIncidentes {
 
@@ -11,33 +12,85 @@ export class ControlerIncidentes {
 
       // Extrae los parámetros de la query y los agrega a los filtros si existen
       if (req.query.edificio) filtros.edificio = req.query.edificio;
-      if (req.query.banio) filtros.banio = req.query.banio;
+      if (req.query.banio) filtros.genero = req.query.genero;
       if (req.query.planta) filtros.planta = req.query.planta;
       if (req.query.fechaAntesDe || req.query.fechaDespuesDe) {
         filtros.fecha = {};
-        if (req.query.fechaAntesDe) filtros.fecha.$lte = new Date(req.query.fechaAntesDe);
-        if (req.query.fechaDespuesDe) filtros.fecha.$gte = new Date(req.query.fechaDespuesDe);
+        if (req.query.fechaAntesDe) filtros.fecha.antesDe = new Date(req.query.fechaAntesDe);
+        if (req.query.fechaDespuesDe) filtros.fecha.despuesDe = new Date(req.query.fechaDespuesDe);
       }
       
       // recuperar reporte
-      const incidentes = {message:"NO IMPLEMENTADO"};
+      const incidentes = await IncidenteModel.obtenerIncidentes(filtros); 
+      
+      res.status(200).json(incidentes);
 
-      res.json(incidentes);
     }catch(error){
-      res.status(500).json({ message: 'Error al recuperar los incidentes', error });
+      res.status(500).json({ error: 'Error al recuperar los incidentes', error });
     }
   }
 
+  // obtener foto de un incidente seugn ID
   static async getFotoIncidente(req, res) {
     const id = req.params.id;
 
     if (!id){
-      res.status(400).json({ message: 'Se requiere de una id' });
+      res.status(400).json({ message: 'Se requiere indicar una id' });
       return
     }
-    return
+
+    // recuperar imagenes
+    const imagenes = {message:"NO IMPLEMENTADO"};
+    if (imagenes.length === 0) {
+      res.status(404).json({ message: 'No se encontraron imágenes para el incidente' });
+      return;
+    }
+
+    return res.status(200).json(imagenes);
   }
 
+  // agregar un incidente a la base de datos
+  static async postIncidente(req, res) {
+    // conprobar segun esquema
+    if (!req.body.data) {
+      return res.status(400).json({ message: "faltan campos requeridos"})
+    }
+    
+    let encuesta, foto
+    try {
+      encuesta = req.body.data ? JSONparse(req.body.data) : {};
+
+      foto = req.file ? req.file : false;
+    } catch (error) {
+      res.status(500).json(error)
+      return
+    }
+
+    // verificar foto
+    if (!validarFoto(foto)){
+      res.status(500).json(error)
+      return
+    }
+
+    // verificar encuesta
+    if (!validarIncidente(encuesta)){
+      res.status(400).json({message: "formato de la encuesta incorrecto"})
+      return
+    }
+
+    // agregar a base de datos
+    try {
+      IncidenteModel.crearIncidente(encuesta)
+    } catch (error) {
+      res.status(500).json({message: "no se pudo registar el incidente"})       
+    }
+    try {
+      IncidenteModel.agregarFoto(foto)      
+    } catch (error) {
+      res.status(500).json({message: "no se pudo registar la foto"})      
+    }
+
+  }
 }
 
 
