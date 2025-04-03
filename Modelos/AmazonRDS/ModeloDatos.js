@@ -3,7 +3,7 @@ import { DataTypes } from 'sequelize'
 import { modelo_incidentes } from './ModeloIncidentes.js';
 import { modelo_usuarios } from './ModeloUsuarios.js';
 
-const modelo_historial_incidentes = sequelize.define('modelo_historial_incidentes',{
+const modelo_historial_incidentes = sequelize.define('historial_incidentes',{
     id_historial: {
         type: DataTypes.INTEGER(11),
         primaryKey: true,
@@ -45,7 +45,7 @@ modelo_incidentes.hasMany(modelo_historial_incidentes,{foreignKey:'id_incidente'
 modelo_historial_incidentes.belongsTo(modelo_incidentes,{foreignKey:'id_incidente'})
 
 
-const modelo_notificaciones = sequelize.define('modelo_notificaciones',{
+const modelo_notificaciones = sequelize.define('notificaciones',{
     id_notificacion: {
         type: DataTypes.INTEGER(11),
         primaryKey: true,
@@ -57,7 +57,7 @@ const modelo_notificaciones = sequelize.define('modelo_notificaciones',{
         allowNull: false,
         references: {
             model: modelo_incidentes,
-            key: 'id_incidente'
+            key: 'id_reporte'
         },
     },
     id_usuario: {
@@ -93,8 +93,8 @@ const modelo_notificaciones = sequelize.define('modelo_notificaciones',{
 modelo_usuarios.hasMany(modelo_notificaciones,{foreignKey:'id_usuario'})
 modelo_notificaciones.belongsTo(modelo_usuarios,{foreignKey:'id_usuario'}) 
 
-modelo_incidentes.hasMany(modelo_notificaciones,{foreignKey:'id_incidente'})
-modelo_notificaciones.belongsTo(modelo_incidentes,{foreignKey:'id_incidente'})
+modelo_incidentes.hasMany(modelo_notificaciones,{foreignKey:'id_reporte'})
+modelo_notificaciones.belongsTo(modelo_incidentes,{foreignKey:'id_reporte'})
 
 
 export { modelo_historial_incidentes }

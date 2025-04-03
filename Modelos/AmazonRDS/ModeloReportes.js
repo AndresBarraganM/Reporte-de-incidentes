@@ -2,7 +2,7 @@ import { DataTypes, INTEGER, Sequelize } from 'sequelize';
 import { sequelize } from '../../utils/database_connection.js';
 import { modelo_usuarios } from './ModeloLogin.js';
 
-const modelo_edificio = sequelize.define('modelo_edificio', {
+const modelo_edificio = sequelize.define('edificios', {
     id_edificio: {
         type: DataTypes.INTEGER(11),
         primaryKey: true,
@@ -10,12 +10,12 @@ const modelo_edificio = sequelize.define('modelo_edificio', {
         allowNull: false
     },
     nombre: {
-        type: DataTypes.STRING(100), // 🔹 Corregido 'types' -> 'type'
+        type: DataTypes.STRING(100),
         allowNull: true,
         unique: true
     },
     planta: {
-        type: DataTypes.ENUM('alta', 'baja'), // 🔹 Corregido 'types' -> 'type'
+        type: DataTypes.ENUM('alta', 'baja'), 
         allowNull: false
     }
 }, {
@@ -24,7 +24,7 @@ const modelo_edificio = sequelize.define('modelo_edificio', {
     updatedAt: false
 });
 
-const modelo_banos = sequelize.define('modelo_banos', {
+const modelo_banos = sequelize.define('banos', {
     id_bano: {
         type: DataTypes.INTEGER(11),
         primaryKey: true,
@@ -38,10 +38,6 @@ const modelo_banos = sequelize.define('modelo_banos', {
             model: modelo_edificio,
             key: 'id_edificio'
         }
-    },
-    planta: {
-        type: DataTypes.ENUM('alta', 'baja'), //  Corregido 'types' -> 'type'
-        allowNull: false
     },
     tipo_bano: {
         type: DataTypes.ENUM('hombre','mujer'),
@@ -58,8 +54,29 @@ const modelo_banos = sequelize.define('modelo_banos', {
 modelo_edificio.hasMany(modelo_banos, { foreignKey: 'id_edificio' });
 modelo_banos.belongsTo(modelo_edificio, { foreignKey: 'id_edificio' });
 
-const modelo_incidentes = sequelize.define('modelo_incidentes', {
+const modelo_tipo_incidente = sequelize.define('tipo_incidente',{
     id_incidente: {
+        type: DataTypes.INTEGER(11),
+        primaryKey: true,
+        autoIncrement: true,
+        allowNull: false
+    },
+    nombre: {
+        type: DataTypes.STRING(80),
+        allowNull: false,
+        defaultValue: null
+    }
+
+},
+{
+    tableName: 'tipo_incidente',
+    createdAt: false,
+    updatedAt: false
+}
+)
+
+const modelo_incidentes = sequelize.define('reporte_incidente', {
+    id_reporte: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
         primaryKey: true,
@@ -77,8 +94,17 @@ const modelo_incidentes = sequelize.define('modelo_incidentes', {
         type: DataTypes.INTEGER(11),
         allowNull: false,
         references: {
-            model: 'modelo_usuarios',
+            model: modelo_incidentes,
             key: 'id_usuario'
+        }
+    },
+    id_incidente: {
+        type: DataTypes.INTEGER(11),
+        allowNull: false,
+        defaultValue: null,
+        references: {
+            model: modelo_tipo_incidente,
+            key: 'id_incidente'
         }
     },
     descripcion: {
@@ -109,11 +135,14 @@ const modelo_incidentes = sequelize.define('modelo_incidentes', {
     updatedAt: false
 });
 
-// 🔹 Corrección de relaciones
+
 modelo_banos.hasMany(modelo_incidentes, { foreignKey: 'id_bano' });
 modelo_incidentes.belongsTo(modelo_banos, { foreignKey: 'id_bano' });
 
 modelo_usuarios.hasMany(modelo_incidentes, {foreignKey: 'id_usuario_reporte'})
 modelo_incidentes.belongsTo(modelo_usuarios, {foreignKey: 'id_usuario_reporte'})
 
-export { modelo_incidentes, modelo_banos, modelo_edificio };
+modelo_tipo_incidente.hasMany(modelo_incidentes, {foreignKey: 'id_incidente'})
+modelo_incidentes.belongsTo(modelo_tipo_incidente, {foreignKey: 'id_incidente'})
+
+export { modelo_incidentes, modelo_banos, modelo_edificio, modelo_tipo_incidente };

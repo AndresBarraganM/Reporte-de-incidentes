@@ -2,7 +2,7 @@ import { sequelize } from '../../utils/database_connection.js'
 import { DataTypes } from 'sequelize';
 
 // Instancia de la tabla Usuarios
-const modelo_usuarios = sequelize.define('modelo_usuarios',{
+const modelo_usuarios = sequelize.define('usuarios',{
     id_usuario: {
         type: DataTypes.INTEGER(11),
         primaryKey: true,
@@ -29,7 +29,7 @@ const modelo_usuarios = sequelize.define('modelo_usuarios',{
         allowNull: false,
         defaultValue: null,
     },
-    contrasenia: {
+    contrasenia_hash: {
         type: DataTypes.STRING(255),
         allowNull: false,
         defaultValue: null,
@@ -43,6 +43,8 @@ const modelo_usuarios = sequelize.define('modelo_usuarios',{
 {
     tableName: 'usuarios',
     timestamps: false,
+    createdAt: false,
+    updatedAt: false
 }
 )
 

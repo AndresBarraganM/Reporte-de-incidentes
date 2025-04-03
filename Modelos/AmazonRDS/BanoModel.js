@@ -35,5 +35,14 @@ export class BanoModel{
             throw error
         }
     }
+
+    static async obtenerBano(datos){
+        const bano = modelo_banos.findOne({
+            
+            where: {
+                datos: datos.
+            }
+        })
+    }
 }
 

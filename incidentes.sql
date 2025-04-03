@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Apr 03, 2025 at 02:35 AM
+-- Generation Time: Apr 03, 2025 at 04:33 PM
 -- Server version: 11.5.2-MariaDB
 -- PHP Version: 8.2.18
 
@@ -30,25 +30,11 @@ SET time_zone = "+00:00";
 DROP TABLE IF EXISTS `banos`;
 CREATE TABLE IF NOT EXISTS `banos` (
   `id_bano` int(11) NOT NULL AUTO_INCREMENT,
-  `id_edificio` int(11) NOT NULL,
-  `planta` enum('alta','baja') DEFAULT NULL,
-  `tipo_bano` enum('hombre','mujer') NOT NULL,
+  `id_edificio` int(11) DEFAULT NULL,
+  `tipo_bano` enum('hombre','mujer') DEFAULT NULL,
   PRIMARY KEY (`id_bano`),
-  KEY `fk_edificios` (`id_edificio`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `banos`
---
-
-INSERT INTO `banos` (`id_bano`, `id_edificio`, `planta`, `tipo_bano`) VALUES
-(1, 18, 'alta', 'hombre'),
-(2, 18, 'baja', 'hombre'),
-(3, 18, 'alta', 'mujer'),
-(5, 20, 'baja', 'hombre'),
-(8, 13, 'alta', 'mujer'),
-(9, 20, 'alta', 'mujer'),
-(10, 20, 'baja', 'mujer');
+  KEY `id_edificio` (`id_edificio`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -59,25 +45,10 @@ INSERT INTO `banos` (`id_bano`, `id_edificio`, `planta`, `tipo_bano`) VALUES
 DROP TABLE IF EXISTS `edificios`;
 CREATE TABLE IF NOT EXISTS `edificios` (
   `id_edificio` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id_edificio`),
-  UNIQUE KEY `nombre` (`nombre`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
-
---
--- Dumping data for table `edificios`
---
-
-INSERT INTO `edificios` (`id_edificio`, `nombre`) VALUES
-(13, '100'),
-(14, '200'),
-(15, '300'),
-(18, '400'),
-(16, '500'),
-(17, '600'),
-(21, 'Auditorio'),
-(20, 'Centro de Información'),
-(19, 'Gimnacio');
+  `nombre` varchar(80) NOT NULL,
+  `planta` enum('alta','baja') DEFAULT NULL,
+  PRIMARY KEY (`id_edificio`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -94,37 +65,9 @@ CREATE TABLE IF NOT EXISTS `historial_incidentes` (
   `descripcion` text DEFAULT NULL,
   `fecha_registro` datetime DEFAULT NULL,
   PRIMARY KEY (`id_historial`),
-  KEY `fk_incidentes` (`id_incidente`),
-  KEY `fk_usuarios_responsable` (`id_usuario_responsable`)
+  KEY `id_incidente` (`id_incidente`),
+  KEY `id_usuario_responsable` (`id_usuario_responsable`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `incidentes`
---
-
-DROP TABLE IF EXISTS `incidentes`;
-CREATE TABLE IF NOT EXISTS `incidentes` (
-  `id_incidente` int(11) NOT NULL AUTO_INCREMENT,
-  `id_bano` int(11) DEFAULT NULL,
-  `id_usuario_reporte` int(11) DEFAULT NULL,
-  `descripcion` text NOT NULL,
-  `img` mediumblob NOT NULL,
-  `fecha_reporte` datetime NOT NULL,
-  `estado_incidente` enum('pendiente','en_proceso','resuelto') NOT NULL DEFAULT 'pendiente',
-  `prioridad` enum('baja','media','alta') NOT NULL,
-  PRIMARY KEY (`id_incidente`),
-  KEY `fk_usuarios` (`id_usuario_reporte`),
-  KEY `fk_bano` (`id_bano`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
-
---
--- Dumping data for table `incidentes`
---
-
-INSERT INTO `incidentes` (`id_incidente`, `id_bano`, `id_usuario_reporte`, `descripcion`, `img`, `fecha_reporte`, `estado_incidente`, `prioridad`) VALUES
-(14, 1, 4, 'Baño tapado con papel', 0x3634363238323838323031303138393435, '2025-04-03 01:22:10', 'pendiente', 'alta');
 
 -- --------------------------------------------------------
 
@@ -140,10 +83,46 @@ CREATE TABLE IF NOT EXISTS `notificaciones` (
   `tipo_notificacion` enum('SMS','email','app') NOT NULL,
   `mensaje` text NOT NULL,
   `fecha_envio` datetime DEFAULT NULL,
-  `estado` enum('pendiente','enviado','fallido') DEFAULT NULL,
+  `estado` enum('pendiente','enviado','fallido') DEFAULT 'pendiente',
   PRIMARY KEY (`id_notificacion`),
-  KEY `fk_usuario` (`id_usuario`),
-  KEY `fk_incidente` (`id_incidente`)
+  KEY `id_incidente` (`id_incidente`),
+  KEY `id_usuario` (`id_usuario`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reporte_incidente`
+--
+
+DROP TABLE IF EXISTS `reporte_incidente`;
+CREATE TABLE IF NOT EXISTS `reporte_incidente` (
+  `id_reporte` int(11) NOT NULL AUTO_INCREMENT,
+  `id_bano` int(11) NOT NULL,
+  `id_usuario_reporta` int(11) DEFAULT NULL,
+  `id_incidente` int(11) DEFAULT NULL,
+  `img` blob DEFAULT NULL,
+  `descripcion` text NOT NULL,
+  `fecha_reporte` datetime DEFAULT NULL,
+  `estado` enum('pendiente','en_proceso','resuelto') DEFAULT 'pendiente',
+  `prioridad` enum('baja','media','alta') DEFAULT 'media',
+  PRIMARY KEY (`id_reporte`),
+  KEY `id_bano` (`id_bano`),
+  KEY `id_usuario_reporta` (`id_usuario_reporta`),
+  KEY `id_incidente` (`id_incidente`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tipo_incidente`
+--
+
+DROP TABLE IF EXISTS `tipo_incidente`;
+CREATE TABLE IF NOT EXISTS `tipo_incidente` (
+  `id_incidente` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(80) DEFAULT NULL,
+  PRIMARY KEY (`id_incidente`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 -- --------------------------------------------------------
@@ -156,22 +135,13 @@ DROP TABLE IF EXISTS `usuarios`;
 CREATE TABLE IF NOT EXISTS `usuarios` (
   `id_usuario` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) NOT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `telefono` varchar(15) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `telefono` varchar(15) DEFAULT NULL,
   `rol` enum('administrador','encargado_limpieza') NOT NULL,
-  `contrasenia` varchar(255) NOT NULL,
-  `estado` enum('activo','inactivo') DEFAULT 'activo',
+  `contrasena_hash` varchar(255) NOT NULL,
   PRIMARY KEY (`id_usuario`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
-
---
--- Dumping data for table `usuarios`
---
-
-INSERT INTO `usuarios` (`id_usuario`, `nombre`, `email`, `telefono`, `rol`, `contrasenia`, `estado`) VALUES
-(4, 'Diego Francisco Soto Flores', 'eldieguillo87@gmail.com', '12345678', 'encargado_limpieza', 'pizzaconpiña', 'inactivo'),
-(5, 'Salva Laguna', 'al22760575@ite.edu.mx', '5849265365', 'encargado_limpieza', 'atunconarroz', 'activo');
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 --
 -- Constraints for dumped tables
@@ -181,28 +151,29 @@ INSERT INTO `usuarios` (`id_usuario`, `nombre`, `email`, `telefono`, `rol`, `con
 -- Constraints for table `banos`
 --
 ALTER TABLE `banos`
-  ADD CONSTRAINT `fk_edificios` FOREIGN KEY (`id_edificio`) REFERENCES `edificios` (`id_edificio`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `banos_ibfk_1` FOREIGN KEY (`id_edificio`) REFERENCES `edificios` (`id_edificio`);
 
 --
 -- Constraints for table `historial_incidentes`
 --
 ALTER TABLE `historial_incidentes`
-  ADD CONSTRAINT `fk_incidentes` FOREIGN KEY (`id_incidente`) REFERENCES `incidentes` (`id_incidente`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_usuarios_responsable` FOREIGN KEY (`id_usuario_responsable`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `incidentes`
---
-ALTER TABLE `incidentes`
-  ADD CONSTRAINT `fk_bano` FOREIGN KEY (`id_bano`) REFERENCES `banos` (`id_bano`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_usuarios` FOREIGN KEY (`id_usuario_reporte`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `historial_incidentes_ibfk_1` FOREIGN KEY (`id_incidente`) REFERENCES `reporte_incidente` (`id_reporte`) ON DELETE CASCADE,
+  ADD CONSTRAINT `historial_incidentes_ibfk_2` FOREIGN KEY (`id_usuario_responsable`) REFERENCES `usuarios` (`id_usuario`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `notificaciones`
 --
 ALTER TABLE `notificaciones`
-  ADD CONSTRAINT `fk_incidente` FOREIGN KEY (`id_incidente`) REFERENCES `incidentes` (`id_incidente`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `notificaciones_ibfk_1` FOREIGN KEY (`id_incidente`) REFERENCES `reporte_incidente` (`id_reporte`) ON DELETE CASCADE,
+  ADD CONSTRAINT `notificaciones_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `reporte_incidente`
+--
+ALTER TABLE `reporte_incidente`
+  ADD CONSTRAINT `reporte_incidente_ibfk_1` FOREIGN KEY (`id_bano`) REFERENCES `banos` (`id_bano`),
+  ADD CONSTRAINT `reporte_incidente_ibfk_2` FOREIGN KEY (`id_usuario_reporta`) REFERENCES `usuarios` (`id_usuario`),
+  ADD CONSTRAINT `reporte_incidente_ibfk_3` FOREIGN KEY (`id_incidente`) REFERENCES `tipo_incidente` (`id_incidente`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
