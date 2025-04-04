@@ -81,6 +81,7 @@ body {
 .contenido-principal header h1 {
     color: #000000; /* Negro */
     margin-bottom: 20px;
+    text-align: center;
 }
 
 .contenido-principal section p {
@@ -275,3 +276,38 @@ body {
 .soporte button:hover {
     background-color: #3a4bb8;
 }
+
+.Telegram {
+    display: flex;
+    flex-direction: column;  /* Para alinear los elementos verticalmente */
+    align-items:flex-start;     /* Para centrar los elementos horizontalmente */
+    justify-content: center; /* Asegura que se centren verticalmente si es necesario */
+    text-align: center;      /* Centra el texto */
+    /*gap: 20px; */               /* Espacio entre la imagen y el botón */
+}
+
+
+
+.Telegram button{
+    border-radius: 10px;
+    background-color: rgb(99, 146, 204);
+    font-size: 20px;       /* Tamaño de texto */
+    padding: 15px 30px;    /* Espaciado interno */
+    width: 300px;          /* Ancho fijo */
+    height: 70px;          /* Alto fijo */
+    color: white;          /* Color de texto */
+    border:#000000;          /* Sin borde */
+    cursor: pointer;       /* Cambia el cursor a mano */
+    transition: transform 0.3s; /* Suaviza la animación */
+    margin-top: 10px;
+}
+
+.Telegram button:hover {
+    transform: scale(1.08);  /* Agranda el botón al pasar el mouse */
+}
+
+.Telegram img{
+    border-radius: 10px;
+    text-align: center;
+}
+
