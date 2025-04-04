@@ -1,4 +1,4 @@
-import { ReporteIncidenteModel } from '../Modelos/AmazonRDS/ReporteIncidenteModel.js'; // modelo de incidentes
+import { IncidenteModel } from '../Modelos/AmazonRDS/IncidenteModel.js'; // modelo de incidentes
 
 import { validarIncidente } from '../Schemas/IncidenteSchema.js'
 import { validarFoto } from '../Schemas/FotoSchema.js';

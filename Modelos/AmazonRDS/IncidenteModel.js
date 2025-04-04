@@ -1,5 +1,5 @@
 import { sequelize } from '../../utils/database_connection.js'
-import { modelo_banos, modelo_edificio, modelo_incidentes } from './ModeloEncuesta.js'
+import { modelo_banos, modelo_edificio, modelo_incidentes } from './ModeloReportes.js'
 import { modelo_usuarios } from './ModeloLogin.js'
 
 export class IncidenteModel{

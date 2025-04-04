@@ -3,7 +3,7 @@
 
 
 ### Peticionar todos los incidentes sin fotos
-GET http://localhost:1234/incientes
+GET http://localhost:1234/incidentes
 
 
 ### Peticionar todos los incidentes de cierto edificio sin fotos

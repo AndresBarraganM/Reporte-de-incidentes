@@ -55,7 +55,9 @@ export class BanoModel{
     }
 }
 
+/*
 BanoModel.obtenerBano({nombre: '300'})
 .then((result) => {
     console.log(result)
 })
+*/

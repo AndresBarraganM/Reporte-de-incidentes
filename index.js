@@ -1,5 +1,5 @@
 import { IncidenteRouter } from "./Middlewares/Routers/RouterIncidente.js";
-
+import  express, { json } from "express";
 
 //Creacion de la App
 const createApp = () => {

@@ -4,16 +4,16 @@ import { validarBanio } from "../Schemas/BanoSchema.js"; // esquema de validacio
 
 export class ControlerBano {
   // retornar banios disponibles
-  static async getBanios(req, res) {
+  static async getBanos(req, res) {
     try {
-      const banios = await ClienteEncuesta.getBanios();
+      const banios = await BanoModel.obtenerBanios();
       res.status(200).json(banios);
     } catch (error) {
       res.status(500).json(error);
     }
   }
 
-  static async postBanio(req, res) {
+  static async postBano(req, res) {
     try {
       const banio = req.body;
 
@@ -24,7 +24,7 @@ export class ControlerBano {
       }
 
       // crear en la base de datos
-      BanoModel.createBanio(banio)
+      BanoModel.agregarBano(banio)
         .then((banio) => {
           res.status(200).json({ message: "Banio creado", banio });
         })
