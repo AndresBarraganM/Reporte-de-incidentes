@@ -1,4 +1,4 @@
-import { modelo_edificio } from "./ModeloEncuesta.js";
+import { modelo_edificio } from "./ModeloReportes.js";
 
 export class EdificioModel{
     /**
@@ -11,15 +11,17 @@ export class EdificioModel{
         try {
             const edificio = await modelo_edificio.findOne({
                 where: {
-                    nombre : datos.nombre
+                    nombre : datos.nombre,
+                    planta: datos.planta
                 }
             })
             if(!edificio){
                 const nuevo_edificio = await modelo_edificio.create(datos)
+                console.log("Edificio Agregado Correctamente")
                 return JSON.stringify(nuevo_edificio, null, 2)
             }
             else{
-                console.log("Ya existe ese edificio")
+                console.log("Ya existe este edificio")
                 return false
             }
         }
@@ -49,3 +51,9 @@ export class EdificioModel{
         }
     }
 }
+
+
+EdificioModel.agregarEdificio({
+    nombre: 'Auditorio',
+    planta: 'baja'
+})

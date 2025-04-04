@@ -36,13 +36,13 @@ export class BanoModel{
         }
     }
 
-    static async obtenerBano(datos){
+/*     static async obtenerBano(datos){
         const bano = modelo_banos.findOne({
             
             where: {
                 datos: datos.
             }
         })
-    }
+    } */
 }
 

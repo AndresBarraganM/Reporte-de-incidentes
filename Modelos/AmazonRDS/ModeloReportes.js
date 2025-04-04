@@ -94,7 +94,7 @@ const modelo_incidentes = sequelize.define('reporte_incidente', {
         type: DataTypes.INTEGER(11),
         allowNull: false,
         references: {
-            model: modelo_incidentes,
+            model: modelo_usuarios,
             key: 'id_usuario'
         }
     },

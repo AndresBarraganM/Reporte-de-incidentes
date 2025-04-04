@@ -7,7 +7,39 @@ export class TipoIncidenteModel{
      * @description Agrega un tipo de incidente a la base de datos
      * @returns {JSON} deveuelve el resultado agregado
      */
-    static async agregarTipoIncidente(){
-        const nuevoIncidente = await modelo_tipo_incidente.create()
+    static async agregarTipoIncidente(nombre_incidente){
+        try {
+            const incidente = await modelo_tipo_incidente.findAll({
+                where: {
+                    nombre : nombre_incidente.nombre
+                }
+            })
+            if(incidente.length === 0){
+                const nuevoIncidente = await modelo_tipo_incidente.create(nombre_incidente)
+                return JSON.stringify(nuevoIncidente,null,2)
+            }
+            else{
+                console.log("Ya existe este incidente")
+                return false
+            }
+        }
+        catch(error){
+            console.error(`Error al agregar el incidente ${error}`)
+        }
+    }
+
+    static async getAllTipoIncidentes(){
+        const incidentes = await modelo_tipo_incidente.findAll({})
+        return JSON.stringify(incidentes, null, 2)
     }
 }
+
+/* TipoIncidenteModel.agregarTipoIncidente({
+    nombre: 'Falta de jabón'
+}).then((incidente) => {
+    console.log(incidente)
+}) */
+
+TipoIncidenteModel.getAllTipoIncidentes().then((incidentes) => {
+    console.log(incidentes)
+})

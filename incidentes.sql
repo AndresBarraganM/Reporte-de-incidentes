@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Apr 03, 2025 at 04:33 PM
+-- Generation Time: Apr 03, 2025 at 05:50 PM
 -- Server version: 11.5.2-MariaDB
 -- PHP Version: 8.2.18
 
@@ -48,7 +48,25 @@ CREATE TABLE IF NOT EXISTS `edificios` (
   `nombre` varchar(80) NOT NULL,
   `planta` enum('alta','baja') DEFAULT NULL,
   PRIMARY KEY (`id_edificio`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
+--
+-- Dumping data for table `edificios`
+--
+
+INSERT INTO `edificios` (`id_edificio`, `nombre`, `planta`) VALUES
+(2, '100', 'baja'),
+(3, '100', 'alta'),
+(4, '200', 'baja'),
+(5, '200', 'alta'),
+(6, '300', 'baja'),
+(8, '400', 'baja'),
+(9, '400', 'alta'),
+(10, '500', 'baja'),
+(11, '600', 'baja'),
+(12, 'Gimnacio', 'baja'),
+(13, 'Centro de Información', 'baja'),
+(14, 'Auditorio', 'baja');
 
 -- --------------------------------------------------------
 
@@ -123,7 +141,15 @@ CREATE TABLE IF NOT EXISTS `tipo_incidente` (
   `id_incidente` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(80) DEFAULT NULL,
   PRIMARY KEY (`id_incidente`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
+--
+-- Dumping data for table `tipo_incidente`
+--
+
+INSERT INTO `tipo_incidente` (`id_incidente`, `nombre`) VALUES
+(1, 'Bandalismo'),
+(2, 'Falta de jabón');
 
 -- --------------------------------------------------------
 
