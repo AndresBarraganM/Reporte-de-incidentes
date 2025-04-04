@@ -280,3 +280,11 @@ header h1 {
   max-width: 100%;
   border-radius: 4px;
 }
+
+
+#limpiar-filtros {
+    background-color: #f00; /* Rojo */
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
