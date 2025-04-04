@@ -9,16 +9,12 @@ export class IncidenteModel{
             attributes: ['id_incidente', 'descripcion', 'estado_incidente', 'prioridad', 'fecha_reporte'],
             include: [
                 {
-                    model: modelo_usuarios,
-                    attributes: ['id_usuario', ['nombre', 'nombre_usuario'], 'email', 'telefono', 'rol', 'contrasenia', 'estado']
-                },
-                {
                     model: modelo_banos,
-                    attributes: ['id_bano', 'planta', 'tipo_bano'],
+                    attributes: ['id_bano', 'id_edificio', 'tipo_bano'],
                     include: [
                         {
                             model: modelo_edificio,
-                            attributes: [['nombre', 'nombre_edificio']] // Alias para cambiar el nombre
+                            attributes: [['nombre', 'nombre_edificio'], 'planta'] // Alias para cambiar el nombre
                         }
                     ]
                 },

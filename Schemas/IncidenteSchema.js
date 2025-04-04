@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { validarBano } from "./BanoSchema"
+import { validarBano } from "./BanoSchema.js"
 
 // consideraciones para los banos en otro esquema
 const schemaIncidente = z.object({

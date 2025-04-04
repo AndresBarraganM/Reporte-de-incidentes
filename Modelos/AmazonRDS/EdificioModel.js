@@ -54,6 +54,8 @@ export class EdificioModel{
 
 
 EdificioModel.agregarEdificio({
-    nombre: 'Auditorio',
-    planta: 'baja'
+    "nombre": "Gimnasio",
+    "planta": 'baja'
+}).then((edificio) => {
+    console.log(edificio)
 })

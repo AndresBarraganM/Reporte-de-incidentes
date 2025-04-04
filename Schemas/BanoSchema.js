@@ -1,5 +1,5 @@
 import {z} from "zod";
-import { BanoModel } from "../Modelos/BanoModel.js"; // modelo de baños
+import { BanoModel } from "../Modelos/AmazonRDS/BanoModel.js"; // modelo de baños
 
 const banoSchema = z.object({
   edificio: z.string().max(250),

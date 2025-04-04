@@ -1,5 +1,5 @@
 import { sequelize } from "../../utils/database_connection.js";
-import { modelo_banos, modelo_edificio } from "./ModeloEncuesta.js";
+import { modelo_banos, modelo_edificio } from "./ModeloReportes.js";
 
 export class BanoModel{
     /**
@@ -9,10 +9,13 @@ export class BanoModel{
     static async agregarBano(datos){
         try {
             const bano = await modelo_banos.findAll({
-                attributes: ['id_bano', [sequelize.col("modelo_edificio.nombre"), "nombre_edificio"], 'planta','tipo_bano'],
+                attributes: ['id_bano', 'genero_bano'],
                 include: [{ 
                     model: modelo_edificio,
-                    attributes: []
+                    attributes: ['id_edificio','nombre', 'planta'],
+                    where: {
+                        id_edificio: datos.id_edificio
+                    }
                 }],
                 where: {
                     id_edificio: datos.id_edificio,
@@ -36,13 +39,23 @@ export class BanoModel{
         }
     }
 
-/*     static async obtenerBano(datos){
-        const bano = modelo_banos.findOne({
-            
-            where: {
-                datos: datos.
-            }
+    static async obtenerBano(datos){
+        const bano = await modelo_banos.findAll({
+            attributes: ['id_bano', 'genero_bano'],
+            include: [{
+                model: modelo_edificio,
+                attributes: ['id_edificio', 'nombre', 'planta'],
+                where: {
+                    nombre: datos.nombre
+                }
+            }],
+           
         })
-    } */
+        return JSON.stringify(bano, null, 2)
+    }
 }
 
+BanoModel.obtenerBano({nombre: '300'})
+.then((result) => {
+    console.log(result)
+})

@@ -25,11 +25,14 @@ Content-Type: multipart/form-data; boundary=----MyBoundary
 Content-Disposition: form-data; name="data"
 Content-Type: application/json
 
+# Con estos campos se crea el reporte de incidente
 {
-    "ubicacion": "100 planta alta",
-    "genero": "hombre",
-    "descripcion": "Lavabo tapado con papel",
-    "Tipo_incidente": "Falta de jabon"
+    "nombre": "100",
+    "planta": "alta",
+    "Tipo_incidente": "Falta de jabón",
+    "genero_bano": "hombre",
+    "descripcion": "Falta jabón en ambos dispensadores",
+    
 }
 ------MyBoundary
 Content-Disposition: form-data; name="foto"; filename="imagen.png"
