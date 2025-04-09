@@ -26,7 +26,7 @@ export class IncidenteModel{
             include: [
                 {
                     model: modelo_banos,
-                    attributes: ['id_bano', 'id_edificio', 'tipo_bano'],
+                    attributes: ['id_bano', 'id_edificio', 'genero_bano'],
                     include: [
                         {
                             model: modelo_edificio,

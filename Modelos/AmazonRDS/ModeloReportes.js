@@ -38,7 +38,7 @@ const modelo_banos = sequelize.define('banos', {
             key: 'id_edificio'
         }
     },
-    tipo_bano: {
+    genero_bano: {
         type: DataTypes.ENUM('hombre','mujer'),
         allowNull: false
     }
