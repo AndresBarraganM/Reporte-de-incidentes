@@ -29,7 +29,7 @@ Content-Type: application/json
 {
     "nombre": "100",
     "planta": "alta",
-    "Tipo_incidente": "Falta de jabón",
+    "tipo_incidente": "Falta de jabón",
     "genero_bano": "hombre",
     "descripcion": "Falta jabón en ambos dispensadores",
     

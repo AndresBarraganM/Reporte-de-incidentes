@@ -29,8 +29,22 @@ export class TipoIncidenteModel{
     }
 
     static async getAllTipoIncidentes(){
-        const incidentes = await modelo_tipo_incidente.findAll({})
+        const incidentes = await modelo_tipo_incidente.findAll()
         return JSON.stringify(incidentes, null, 2)
+    }
+
+    static async getTipoIncidente(datos){
+        try{
+            const incidente = await modelo_tipo_incidente.findOne({
+                where: {
+                    nombre: datos.tipo_incidente
+                }
+            })
+            return incidente.dataValues
+        }
+        catch(error){
+
+        }
     }
 }
 

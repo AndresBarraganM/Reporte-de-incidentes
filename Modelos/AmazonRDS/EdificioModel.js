@@ -36,6 +36,22 @@ export class EdificioModel{
      * @returns {JSON}
      * @description Obtiene todos los edificios ordenados por nombre
      */
+
+    static async getEdificio(datos){
+        try{
+            const edificio = await modelo_edificio.findOne({
+                where: {
+                    nombre: datos.nombre,
+                    planta: datos.planta
+                }
+            })
+            return edificio.dataValues
+
+        }
+        catch(error){
+
+        }
+    }
     static async getAllEdificios(){
         try{
             const edificios = await modelo_edificio.findAll({
@@ -51,11 +67,3 @@ export class EdificioModel{
         }
     }
 }
-
-
-EdificioModel.agregarEdificio({
-    "nombre": "Gimnasio",
-    "planta": 'baja'
-}).then((edificio) => {
-    console.log(edificio)
-})

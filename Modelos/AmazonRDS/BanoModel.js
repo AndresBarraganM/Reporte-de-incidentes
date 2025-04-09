@@ -8,7 +8,9 @@ export class BanoModel{
      * @returns {JSON}
      * @example
      * ModeloBanos.agregarBano({
-     * 
+     * nombre: "300",
+     * planta: "alta",
+     * tipo_bano: "hombre"
      * })
      */
     static async agregarBano(datos){
@@ -49,31 +51,65 @@ export class BanoModel{
         }
     }
 
+    /**
+     * Obtiene los datos de todos los baños regisgtrados, si se ingresan parametros retornará los datos como
+     * confirmación de la existencia de este
+     * @param {JSON | null} datos 
+     * @returns {JSON}
+     * @example
+     * BanoModel.obtenerBano()
+     * O bien
+     * BanoModel.obtenerBano({
+     * tipo_bano: "hombre",
+     * nombre: "600",
+     * planta: "alta"
+     * })
+     */
     static async obtenerBano(datos){
-        const bano = await modelo_banos.findAll({
-            attributes: ['id_bano', 'tipo_bano'],
-            include: [{
-                model: modelo_edificio,
-                attributes: ['nombre', 'planta'],
-                where: {
-                    nombre: datos.nombre,
-                    planta: datos.planta
-                }
-            }],
-            where: {
-                tipo_bano: datos.tipo_bano
+        try{
+            if(datos){
+                const bano = await modelo_banos.findOne({
+                    attributes: ['id_bano', 'tipo_bano'],
+                    include: [{
+                        model: modelo_edificio,
+                        attributes: ['nombre', 'planta'],
+                        where: {
+                            nombre: datos.nombre,
+                            planta: datos.planta
+                        }
+                    }],
+                    where: {
+                        tipo_bano: datos.tipo_bano
+                    }
+                })
+                return bano.dataValues
             }
-           
-        })
-        return JSON.stringify(bano, null, 2)
+            else{
+                const banos = await modelo_banos.findAll({
+                    attributes: ['id_bano', 'tipo_bano'],
+                    include: [{
+                        model: modelo_edificio,
+                        attributes: ['nombre', 'planta']
+                    }]
+                })
+                return banos.map(bano => {
+                    return {
+                        id_bano: bano.id_bano,
+                        tipo_bano: bano.tipo_bano,
+                        nombre: bano.edificio.nombre,
+                        planta: bano.edificio.planta
+                    }
+                })
+            }
+
+        }
+        catch(error){
+            console.log(`Error al obtener los baños: ${error}`)
+        }
+        
     }
 }
 
-
-BanoModel.obtenerBano({
-    nombre: '300',
-    tipo_bano: 'hombre',
-    planta: 'baja'
-}).then((banos) =>{
+BanoModel.obtenerBano().then((banos) =>{
     console.log(banos)
 })

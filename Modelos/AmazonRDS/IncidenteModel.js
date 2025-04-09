@@ -1,8 +1,24 @@
 import { sequelize } from '../../utils/database_connection.js'
 import { modelo_banos, modelo_edificio, modelo_incidentes } from './ModeloReportes.js'
 import { modelo_usuarios } from './ModeloLogin.js'
+import { EdificioModel } from './EdificioModel.js';
+import { TipoIncidenteModel } from './TipoIncidenteModel.js';
+import { BanoModel } from './BanoModel.js';
 
 export class IncidenteModel{
+
+    static async generarIncidente(datos){
+        try {
+            const edificio = EdificioModel.getEdificio(datos)
+            const tipo_incidente = TipoIncidenteModel.getTipoIncidente(datos)
+            // const bano = BanoModel.getBano
+            if (edificio && tipo_incidente && bano){
+            }
+        }
+        catch(error){
+            
+        }
+    }
 
     static async obtenerIncidentes() {
         const incidentes = await modelo_incidentes.findAll({
