@@ -1,13 +1,19 @@
-import { BanoModel } from "../models/BanoModel.js";
-import { validarBanio } from "../Schemas/BanoSchema.js"; // esquema de validacion para banios
+import { BanoModel } from "../Modelos/AmazonRDS/BanoModel.js"; 
+import { validarBano } from "../Schemas/BanoSchema.js"; // esquema de validacion para banios
 
 
 export class ControlerBano {
-  // retornar banios disponibles
   static async getBanos(req, res) {
     try {
-      const banios = await BanoModel.obtenerBanios();
-      res.status(200).json(banios);
+      const banios = await BanoModel.obtenerBano();
+      
+      // Modificar el array para unir nombre y planta
+      const baniosModificados = banios.map(bano => ({
+        ...bano,  // Mantener todas las propiedades originales
+        ubicacion: `${bano.nombre} planta ${bano.planta}`  // Nueva propiedad combinada
+      }));
+      
+      res.status(200).json(baniosModificados);
     } catch (error) {
       res.status(500).json(error);
     }
@@ -18,10 +24,17 @@ export class ControlerBano {
       const banio = req.body;
 
       // Validar el esquema de la encuesta
-      const resultado = validarBanio(banio);
-      if (!resultado.success) {
-        throw new Error("Error de validación", resultado.error.errors);
+      const resultado = validarBano(banio);
+
+      try{
+        if (!resultado.success) {
+          throw new Error("Error de validación", resultado.error.errors);
+        }
+      } catch {
+        res.status(400).json({ message: "Error de validación, la peticion cuenta con campos incorrectos" });
+        return;
       }
+      
 
       // crear en la base de datos
       BanoModel.agregarBano(banio)
@@ -33,7 +46,7 @@ export class ControlerBano {
         });
       
     } catch (error) {
-      res.status(500).json({ message: "Error de validación", errors: error.errors });
+      res.status(500).json({ message: "Error de validación", errors: error });
     }
   }
 }
