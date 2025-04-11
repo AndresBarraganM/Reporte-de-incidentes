@@ -14,7 +14,7 @@ const banoSchema = z.object({
 
 export function validarBanoZod(bano) {
   // Validar el esquema del baño
-  const resultado = banoSchema.safeParse(bano);
+  const resultado = banoSchema.safeParseAsync(bano);
   
   return resultado;
 }
