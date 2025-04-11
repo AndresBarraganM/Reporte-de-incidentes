@@ -4,7 +4,7 @@ import { validarTipoIncidenteZod } from "./TipoIncidenteSchema.js" // esquema de
 
 // consideraciones para los banos en otro esquema
 const schemaIncidente = z.object({
-  descripcion: z.string().max(250),
+  descripcion: z.string().max(80),
 })
 
 export async function validarIncidenteZod(incidente){
