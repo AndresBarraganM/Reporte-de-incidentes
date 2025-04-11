@@ -48,7 +48,7 @@ export class IncidenteModel{
                     include: [
                         {
                             model: modelo_edificio,
-                            attributes: ['nombre', 'planta']
+                            attributes: ['id_edificio','nombre', 'planta']
                         }
                     ]
                 },
@@ -66,11 +66,15 @@ export class IncidenteModel{
                 id_bano: incidente.bano.id_bano,
                 genero: incidente.bano.genero_bano,
                 edificio: {
+                    id_edificio: incidente.bano.edificio.id_edificio,
                     nombre: incidente.bano.edificio.nombre,
                     planta: incidente.bano.edificio.planta
                 }
             }
         }));
     }
-    
 }
+
+IncidenteModel.obtenerIncidentes().then((incindente) =>{
+    console.log(JSON.stringify(incindente,null,2))
+})

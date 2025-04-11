@@ -1,15 +1,23 @@
 import { Sequelize } from "sequelize";
+import dotenv from "dotenv";
 
-const sequelize = new Sequelize('incidentes', 'root', '1234',{
-    host: 'localhost',
-    dialect: 'mysql',
-    timezone: '-07:00', // UTC-7
+// Cargar variables del .env
+dotenv.config();
+
+const sequelize = new Sequelize(
+  process.env.DB_NAME || 'incidentes',
+  process.env.DB_USER || 'root',
+  (process.env.DB_PASS !== undefined ? process.env.DB_PASS : '1234'),
+  {
+    host: process.env.DB_HOST || 'localhost',
+    dialect: process.env.DB_DIALECT || 'mysql',
+    timezone: process.env.DB_TIMEZONE || '-07:00',
     dialectOptions: {
-        dateStrings: true,
-        typeCast: true,
+      dateStrings: true,
+      typeCast: true,
     },
-
-    port: 3306,
-});
+    port: parseInt(process.env.DB_PORT) || 3306,
+  }
+);
 
 export { sequelize };
