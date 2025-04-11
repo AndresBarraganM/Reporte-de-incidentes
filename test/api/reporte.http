@@ -56,9 +56,9 @@ Content-Disposition: form-data; name="data"
 Content-Type: application/json
 
 {
-    "ubicacion": "100 planta alta",
+    "ubicacion": "Centro de Información planta baja",
     "genero_bano": "hombre",
-    "Tipo_incidente": "Falta de jabón",
+    "tipo_incidente": "Falta de jabón",
     "descripcion": "Falta jabón en ambos dispensadores"
 }
 ------MyBoundary
