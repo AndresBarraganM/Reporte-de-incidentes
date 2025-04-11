@@ -1,5 +1,5 @@
 import { BanoModel } from "../Modelos/AmazonRDS/BanoModel.js"; 
-import { validarBano } from "../Schemas/BanoSchema.js"; // esquema de validacion para banios
+import { validarBanoZod } from "../Schemas/BanoSchema.js"; // esquema de validacion para banios
 
 
 export class ControlerBano {
@@ -24,14 +24,14 @@ export class ControlerBano {
       const banio = req.body;
 
       // Validar el esquema de la encuesta
-      const resultado = validarBano(banio);
+      const resultado = validarBanoZod(banio);
 
       try{
         if (!resultado.success) {
           throw new Error("Error de validación", resultado.error.errors);
         }
       } catch {
-        res.status(400).json({ message: "Error de validación, la peticion cuenta con campos incorrectos" });
+        res.status(400).json({ message: "Error de validación, la peticion cuenta con campos incorrectos", error: resultado.error.errors });
         return;
       }
       
