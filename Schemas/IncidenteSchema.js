@@ -7,10 +7,10 @@ const schemaIncidente = z.object({
   descripcion: z.string().max(250),
 })
 
-export function validarIncidenteZod(incidente){
+export async function validarIncidenteZod(incidente){
   // utilizar esquema para verificar datos
   const resultado = schemaIncidente.safeParse(incidente)
-  if (!resultado.succes){
+  if (!resultado.success){
     return resultado
   }
 
@@ -22,14 +22,14 @@ export function validarIncidenteZod(incidente){
   }
   
   // verificar que exista el bano en la base de datos
-  const resultadoBano = validarBanoZod(bano)
+  const resultadoBano = await validarBanoZod(bano)
   if(!resultadoBano.success){ 
     return resultadoBano
   }
   
   // verificar el campo de tipo incidente
   const tipo_incidente = {tipo_incidente: incidente.tipo_incidente}
-  const resultadoTipoIncidente = validarTipoIncidenteZod(tipo_incidente)
+  const resultadoTipoIncidente = await validarTipoIncidenteZod(tipo_incidente)
   if(!resultadoTipoIncidente.success){
     return resultadoTipoIncidente
   }
@@ -40,15 +40,11 @@ export function validarIncidenteZod(incidente){
 
 
 
-/* 
-Formato deseado:*/
-const incidente = {
-  genero_bano: 'hombre',
-  tipo_incidente: 'Falta de jabón',
-  descripcion: 'agua',
-  nombre: '200',
-  planta: 'alta'
-}
-console.log('inicio')
-console.log(validarIncidenteZod(incidente))
-console.log('fin')
+// Formato deseado:
+// const incidente = {
+//   genero_bano: 'hombre',
+//   tipo_incidente: 'Banadalismo',
+//   descripcion: 'agua',
+//   nombre: 'Centro de Información',
+//   planta: 'baja'
+// }
