@@ -1,5 +1,5 @@
 import z from 'zod';
-import { TipoIncidenteModel } from '../Modelos/AmazonRDS/TipoIncidenteModel';
+import { TipoIncidenteModel } from '../Modelos/AmazonRDS/TipoIncidenteModel.js';
 
 const schemaTipoincidente = z.object({
   Tipo_incidente: z.string().max(250)
