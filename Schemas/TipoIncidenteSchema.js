@@ -19,7 +19,7 @@ async function revisarQueExisteEnDatabase(tipo) {
   }
 }
 
-export function validarIncidenteZod(incidente){
+export function validarTipoIncidenteZod(incidente){
   const resultado = schemaTipoincidente.safeParse(incidente)
   
   return resultado
