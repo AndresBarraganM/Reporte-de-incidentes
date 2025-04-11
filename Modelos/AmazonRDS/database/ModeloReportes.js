@@ -1,5 +1,5 @@
 import { DataTypes, INTEGER, Sequelize } from 'sequelize';
-import { sequelize } from '../../utils/database_connection.js';
+import { sequelize } from '../../../utils/database_connection.js';
 
 const modelo_edificio = sequelize.define('edificios', {
     id_edificio: {
@@ -38,7 +38,7 @@ const modelo_banos = sequelize.define('banos', {
             key: 'id_edificio'
         }
     },
-    tipo_bano: {
+    genero_bano: {
         type: DataTypes.ENUM('hombre','mujer'),
         allowNull: false
     }
@@ -110,7 +110,7 @@ const modelo_incidentes = sequelize.define('reporte_incidente', {
         type: DataTypes.DATE,
         allowNull: false
     },
-    estado_incidente: {
+    estado: {
         type: DataTypes.ENUM('pendiente', 'en_proceso', 'resuelto'),
         allowNull: true,
         defaultValue: 'pendiente'

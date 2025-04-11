@@ -1,4 +1,4 @@
-import { modelo_edificio } from "./ModeloReportes.js";
+import { modelo_edificio } from "./database/ModeloReportes.js";
 
 export class EdificioModel{
     /**

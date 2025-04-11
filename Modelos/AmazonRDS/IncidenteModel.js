@@ -1,48 +1,76 @@
-import { sequelize } from '../../utils/database_connection.js'
-import { modelo_banos, modelo_edificio, modelo_incidentes } from './ModeloReportes.js'
-import { modelo_usuarios } from './ModeloLogin.js'
+import { modelo_banos, modelo_edificio, modelo_incidentes } from './database/ModeloReportes.js'
 import { EdificioModel } from './EdificioModel.js';
 import { TipoIncidenteModel } from './TipoIncidenteModel.js';
 import { BanoModel } from './BanoModel.js';
 
 export class IncidenteModel{
 
-    static async generarIncidente(datos){
+    static async generarIncidente(datos) {
         try {
-            const edificio = EdificioModel.getEdificio(datos)
-            const tipo_incidente = TipoIncidenteModel.getTipoIncidente(datos)
-            // const bano = BanoModel.getBano
-            if (edificio && tipo_incidente && bano){
-            }
-        }
-        catch(error){
+            console.log(JSON.stringify(datos, null, 2));
             
+            // Buscar con await
+            const bano = await BanoModel.obtenerBano({
+                nombre: datos.nombre,
+                planta: datos.planta,
+                genero_bano: datos.genero_bano
+            });
+            const tipo_incidente = await TipoIncidenteModel.getTipoIncidente(datos.tipo_incidente);
+    
+            // Validar existencia
+            if (!bano || !tipo_incidente) {
+                throw new Error("Recursos no encontrados para crear el incidente");
+            }
+    
+            // Crear incidente con todos los campos requeridos
+            const nuevo_incidente = await modelo_incidentes.create({
+                id_bano: bano.id_bano,
+                id_incidente: tipo_incidente.id_incidente,
+                descripcion: datos.descripcion,
+                fecha_reporte: new Date()  // Campo obligatorio
+            });
+    
+            return nuevo_incidente;
+            
+        } catch (error) {
+            console.error(`Error al crear el incidente: ${error.message}`);
+            throw error; // Propagar el error para manejo superior
         }
     }
 
     static async obtenerIncidentes() {
         const incidentes = await modelo_incidentes.findAll({
-            attributes: ['id_incidente', 'descripcion', 'estado_incidente', 'prioridad', 'fecha_reporte'],
+            attributes: ['id_incidente', 'descripcion', 'estado', 'prioridad', 'fecha_reporte'],
             include: [
                 {
                     model: modelo_banos,
-                    attributes: ['id_bano', 'id_edificio', 'tipo_bano'],
+                    attributes: ['id_bano', 'genero_bano'],
                     include: [
                         {
                             model: modelo_edificio,
-                            attributes: [['nombre', 'nombre_edificio'], 'planta'] // Alias para cambiar el nombre
+                            attributes: ['nombre', 'planta']
                         }
                     ]
                 },
             ],
             order: [['fecha_reporte', 'DESC']],
-            raw: false, // Devuelve objetos planos en lugar de objetos anidados
         });
-
-        return JSON.stringify(incidentes, null, 2);
+    
+        return incidentes.map(incidente => ({
+            id_incidente: incidente.id_incidente,
+            descripcion: incidente.descripcion,
+            estado: incidente.estado,
+            prioridad: incidente.prioridad,
+            fecha_reporte: incidente.fecha_reporte,
+            bano: {
+                id_bano: incidente.bano.id_bano,
+                genero: incidente.bano.genero_bano,
+                edificio: {
+                    nombre: incidente.bano.edificio.nombre,
+                    planta: incidente.bano.edificio.planta
+                }
+            }
+        }));
     }
+    
 }
-
-IncidenteModel.obtenerIncidentes().then((incidentes)=>{
-    console.log(incidentes)
-})

@@ -1,21 +1,20 @@
 import { DataSessionInstance } from "twilio/lib/rest/wireless/v1/sim/dataSession.js";
-import { sequelize } from "../../utils/database_connection.js";
-import { modelo_banos, modelo_edificio } from "./ModeloReportes.js";
+import { modelo_banos, modelo_edificio } from "./database/ModeloReportes.js";
 
 export class BanoModel{
     /**
-     * @param {datos} JSON nombre_planta, planta, tipo_bano
+     * @param {datos} JSON nombre_planta, planta, genero_bano
      * @returns {JSON}
      * @example
      * ModeloBanos.agregarBano({
      * nombre: "300",
      * planta: "alta",
-     * tipo_bano: "hombre"
+     * genero_bano: "hombre"
      * })
      */
     static async agregarBano(datos){
         try {
-            console.log(datos.nombre_edificio, datos.planta, datos.tipo_bano)
+            console.log(datos.nombre_edificio, datos.planta, datos.genero_bano)
             const edificio = await modelo_edificio.findOne({
                 where: {
                     nombre: datos.nombre_edificio,
@@ -30,13 +29,13 @@ export class BanoModel{
             const bano = await modelo_banos.findOne({
                 where: {
                     id_edificio: edificio.id_edificio,
-                    tipo_bano: datos.tipo_bano
+                    genero_bano: datos.genero_bano
                 }
             })
             if(!bano){
                 const nuevo_bano = await modelo_banos.create({
                     id_edificio: edificio.id_edificio,
-                    tipo_bano: datos.tipo_bano
+                    genero_bano: datos.genero_bano
                 })
                 console.log("Baño creado correctamente")
                 return nuevo_bano
@@ -60,7 +59,7 @@ export class BanoModel{
      * BanoModel.obtenerBano()
      * O bien
      * BanoModel.obtenerBano({
-     * tipo_bano: "hombre",
+     * genero_bano: "hombre",
      * nombre: "600",
      * planta: "alta"
      * })
@@ -69,7 +68,7 @@ export class BanoModel{
         try{
             if(datos){
                 const bano = await modelo_banos.findOne({
-                    attributes: ['id_bano', 'tipo_bano'],
+                    attributes: ['id_bano', 'genero_bano'],
                     include: [{
                         model: modelo_edificio,
                         attributes: ['nombre', 'planta'],
@@ -79,14 +78,17 @@ export class BanoModel{
                         }
                     }],
                     where: {
-                        tipo_bano: datos.tipo_bano
+                        genero_bano: datos.genero_bano
                     }
                 })
+                if(!bano){
+                    return null
+                }
                 return bano.dataValues
             }
             else{
                 const banos = await modelo_banos.findAll({
-                    attributes: ['id_bano', 'tipo_bano'],
+                    attributes: ['id_bano', 'genero_bano'],
                     include: [{
                         model: modelo_edificio,
                         attributes: ['nombre', 'planta']
@@ -95,13 +97,12 @@ export class BanoModel{
                 return banos.map(bano => {
                     return {
                         id_bano: bano.id_bano,
-                        tipo_bano: bano.tipo_bano,
+                        genero_bano: bano.genero_bano,
                         nombre: bano.edificio.nombre,
                         planta: bano.edificio.planta
                     }
                 })
             }
-
         }
         catch(error){
             console.log(`Error al obtener los baños: ${error}`)
@@ -109,7 +110,3 @@ export class BanoModel{
         
     }
 }
-
-BanoModel.obtenerBano().then((banos) =>{
-    console.log(banos)
-})

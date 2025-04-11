@@ -1,4 +1,4 @@
-import { sequelize } from '../../utils/database_connection.js'
+import { sequelize } from '../../../utils/database_connection.js'
 import { DataTypes } from 'sequelize'
 import { modelo_incidentes } from './ModeloIncidentes.js';
 import { modelo_usuarios } from './ModeloUsuarios.js';
