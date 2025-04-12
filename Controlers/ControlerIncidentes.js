@@ -1,6 +1,6 @@
 import { IncidenteModel } from '../Modelos/AmazonRDS/IncidenteModel.js'; // modelo de incidentes
 
-import { validarIncidente } from '../Schemas/IncidenteSchema.js'
+import { validarIncidenteZod } from '../Schemas/IncidenteSchema.js'
 import { validarFoto } from '../Schemas/FotoSchema.js';
 
 import { separaUbicacion } from '../utils/functions/separarUbicacion.js';
@@ -74,17 +74,17 @@ export class ControlerIncidentes {
       return
     }
 
-    // separar el campo de banio
+    // separar el campo de banio y eliminar ubicacion
     const ubicacion = reporte.ubicacion
     const resultado = separaUbicacion(ubicacion);
     reporte.nombre = resultado.nombre;
     reporte.planta = resultado.planta;
-
-    console.log(reporte)
+    delete reporte.ubicacion;
 
     // verificar reporte
-    if (!validarIncidente(reporte)){
-      res.status(400).json({message: "formato de el reporte incorrecto"})
+    const resultadoVerificacion = validarIncidenteZod(reporte)
+    if (!resultadoVerificacion.success){
+      res.status(400).json({error: resultadoVerificacion.error.errors})
       return
     }
 
@@ -103,5 +103,13 @@ export class ControlerIncidentes {
     res.status(200).json({message: "incidente registrado exitosamente"})
   }
 }
-
+// formato de un incidente
+// DESPUES de separar el campo ubicacion
+// const incidente = {
+//   genero_bano: 'hombre',
+//   tipo_incidente: 'Banadalismo',
+//   descripcion: 'agua',
+//   nombre: 'Centro de Información',
+//   planta: 'baja'
+// }
 
