@@ -10,7 +10,7 @@ function aplicarFiltros(filtros) {
 
         const coincideFecha = !filtros.fecha || fechaIncidente === filtros.fecha;
         const coincideUbicacion = !filtros.banio || ubicacion === filtros.banio.toLowerCase();
-        const coincideEstado = !filtros.estado || estado === filtros.estado.toLowerCase();
+        const coincideEstado = !filtros.estado_incidente || estado === filtros.estado_incidente.toLowerCase();
         const coincidePrioridad = !filtros.prioridad || prioridad === filtros.prioridad.toLowerCase();
 
         fila.style.display = (coincideFecha && coincideUbicacion && coincideEstado && coincidePrioridad) 
@@ -26,7 +26,7 @@ document.getElementById('filtro-incidentes').addEventListener('submit', function
     const filtros = {
         fecha: this.fecha.value,
         banio: this.banio.value,
-        estado: this.estado.value,
+        estado: this.estado_incidente.value,
         prioridad: this.prioridad.value
     };
     
@@ -48,7 +48,7 @@ document.querySelectorAll('.dropdown-content a[data-estado]').forEach(boton => {
     boton.addEventListener('click', function(e) {
         e.preventDefault();
         const idIncidente = this.closest('tr').dataset.id; // Asumiendo que agregas data-id a cada fila
-        const nuevoEstado = this.dataset.estado;
+        const nuevoEstado = this.dataset.estado_incidente;
         cambiarEstado(idIncidente, nuevoEstado);
     });
 });

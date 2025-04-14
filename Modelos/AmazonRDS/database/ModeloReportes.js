@@ -110,7 +110,7 @@ const modelo_incidentes = sequelize.define('reporte_incidente', {
         type: DataTypes.DATE,
         allowNull: false
     },
-    estado: {
+    estado_incidente: {
         type: DataTypes.ENUM('pendiente', 'en_proceso', 'resuelto'),
         allowNull: true,
         defaultValue: 'pendiente'

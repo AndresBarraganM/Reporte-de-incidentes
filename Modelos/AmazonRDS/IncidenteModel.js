@@ -40,7 +40,7 @@ export class IncidenteModel{
 
     static async obtenerIncidentes() {
         const incidentes = await modelo_incidentes.findAll({
-            attributes: ['id_incidente', 'descripcion', 'estado', 'prioridad', 'fecha_reporte'],
+            attributes: ['id_incidente', 'descripcion', 'estado_incidente', 'prioridad', 'fecha_reporte'],
             include: [
                 {
                     model: modelo_banos,
@@ -59,7 +59,7 @@ export class IncidenteModel{
         return incidentes.map(incidente => ({
             id_incidente: incidente.id_incidente,
             descripcion: incidente.descripcion,
-            estado: incidente.estado,
+            estado_incidente: incidente.estado_incidente,
             prioridad: incidente.prioridad,
             fecha_reporte: incidente.fecha_reporte,
             bano: {
