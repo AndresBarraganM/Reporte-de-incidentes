@@ -82,9 +82,9 @@ export class ControlerIncidentes {
     delete reporte.ubicacion;
 
     // verificar reporte
-    const resultadoVerificacion = validarIncidenteZod(reporte)
+    const resultadoVerificacion = await validarIncidenteZod(reporte)
     if (!resultadoVerificacion.success){
-      res.status(400).json({error: resultadoVerificacion.error.errors})
+      res.status(400).json({error: resultadoVerificacion.error})
       return
     }
 
