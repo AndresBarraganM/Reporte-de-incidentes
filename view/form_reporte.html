@@ -27,6 +27,7 @@
 
             <label for="baño">Baño:</label>
             <select id="baño" name="baño" required>
+                <option value="" disabled selected>Seleccione un baño</option>
                 <option value="hombre">Baño Hombre</option>
                 <option value="mujer">Baño Mujer</option>
             </select>
@@ -56,27 +57,62 @@
     </script>
 
     <script>
-        // JavaScript para cargar las ubicaciones desde el servidor
+        // JavaScript para cargar los datos de los baños y ubicaciones
+        // y habilitar/deshabilitar genero si existe en la ubicacion seleccionada
+        let datosBanos = [];
+
+        const ubicacionSelect = document.getElementById('ubicacion');
+        const banoSelect = document.getElementById('baño');
+
         fetch('http://localhost:1234/banos')
             .then(response => response.json())
             .then(data => {
-                const select = document.getElementById('ubicacion');
-                const ubicacionesUnicas = new Set();
+                datosBanos = data;
 
+                // Rellenar ubicaciones únicas
+                const ubicacionesUnicas = new Set();
                 data.forEach(item => {
                     if (!ubicacionesUnicas.has(item.ubicacion)) {
                         ubicacionesUnicas.add(item.ubicacion);
-
                         const option = document.createElement('option');
                         option.value = item.ubicacion;
                         option.textContent = item.ubicacion;
-                        select.appendChild(option);
+                        ubicacionSelect.appendChild(option);
                     }
                 });
             })
             .catch(error => {
-                console.error('Error al obtener las ubicaciones:', error);
+                console.error('Error al obtener los baños:', error);
             });
+
+        ubicacionSelect.addEventListener('change', () => {
+            const ubicacionSeleccionada = ubicacionSelect.value;
+
+            // Verificar qué géneros están disponibles en esta ubicación
+            const generosDisponibles = new Set(
+                datosBanos
+                    .filter(item => item.ubicacion === ubicacionSeleccionada)
+                    .map(item => item.genero_bano)
+            );
+
+            // Habilitar o deshabilitar opciones en el select de baño
+            let seleccionValida = false;
+            for (const option of banoSelect.options) {
+                if (option.value === "") continue; // ignorar el default
+
+                if (generosDisponibles.has(option.value)) {
+                    option.disabled = false;
+                    if (option.selected) seleccionValida = true;
+                } else {
+                    option.disabled = true;
+                }
+            }
+
+            // Si el género actual no es válido, volver al default
+            if (!seleccionValida) {
+                banoSelect.value = "";
+            }
+        });
     </script>
 
 
