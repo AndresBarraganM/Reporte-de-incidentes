@@ -30,7 +30,7 @@ export class TipoIncidenteModel{
 
     static async getAllTipoIncidentes(){
         const incidentes = await modelo_tipo_incidente.findAll()
-        return incidentes.dataValues
+        return incidentes
     }
 
     static async getTipoIncidente(tipo_incidente){
