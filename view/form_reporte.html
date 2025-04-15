@@ -12,24 +12,9 @@
         <h2>Formulario de Reporte</h2>
 
         <form action="#" method="post" enctype="multipart/form-data">
-            <label for="edificio">Edificio:</label>
-            <select id="planta" name="planta" required>
-                <option value="edif_100">100</option>
-                <option value="edif_200">200</option>
-                <option value="edif_200">300</option>
-                <option value="edif_200">400</option>
-                <option value="edif_200">500</option>
-                <option value="edif_200">600</option>
-                <option value="edif_auditorio">Auditorio</option>
-                <option value="edif_gym">Gimnasio</option>
-                <option value="edif_centroinfo">Centro de Informacion</option>
-            </select>
-
-            <!-- Cambiamos el campo de texto a un combobox para la planta -->
-            <label for="planta">Planta:</label>
-            <select id="planta" name="planta" required>
-                <option value="alta">Alta</option>
-                <option value="baja">Baja</option>
+            <label for="ubicacion">Ubicación:</label>
+            <select id="ubicacion" name="ubicacion" required>
+                <option value="" disabled selected>Seleccione una ubicación</option>
             </select>
 
             <!-- Botón de selección de archivo personalizado -->
@@ -69,6 +54,31 @@
             document.querySelector('.file-name').textContent = fileName;
         });
     </script>
+
+    <script>
+        // JavaScript para cargar las ubicaciones desde el servidor
+        fetch('http://localhost:1234/banos')
+            .then(response => response.json())
+            .then(data => {
+                const select = document.getElementById('ubicacion');
+                const ubicacionesUnicas = new Set();
+
+                data.forEach(item => {
+                    if (!ubicacionesUnicas.has(item.ubicacion)) {
+                        ubicacionesUnicas.add(item.ubicacion);
+
+                        const option = document.createElement('option');
+                        option.value = item.ubicacion;
+                        option.textContent = item.ubicacion;
+                        select.appendChild(option);
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Error al obtener las ubicaciones:', error);
+            });
+    </script>
+
 
 </body>
 </html>
