@@ -131,7 +131,9 @@
                     option.textContent = item.nombre;
                     incidenteSelect.appendChild(option);
                 });
-            })
+            }).catch(error => {
+                console.error('Error al obtener los tipos de incidentes:', error);
+            });
     </script>
 
 </body>
