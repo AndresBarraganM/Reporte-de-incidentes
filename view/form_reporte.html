@@ -6,6 +6,12 @@
     <title>Formulario de Reporte</title>
     <link rel="stylesheet" href="form_reporte.css"> <!-- Enlaza el archivo CSS -->
 </head>
+
+<script>
+    // direccion del servidor
+    const serverUrl = 'http://localhost:1234/';
+</script>
+
 <body>
 
     <div class="contenedor">
@@ -34,10 +40,7 @@
 
             <label for="incidente">Tipo de Incidente:</label>
                 <select id="incidente" name="incidente" required>
-                    <option value="limpieza">Limpieza</option>
-                    <option value="averia">Avería</option>
-                    <option value="seguridad">Seguridad</option>
-                    <option value="otros">Otros</option>
+
                 </select>
             <label for="descripcion">Descripción:</label>
             <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
@@ -64,7 +67,7 @@
         const ubicacionSelect = document.getElementById('ubicacion');
         const banoSelect = document.getElementById('baño');
 
-        fetch('http://localhost:1234/banos')
+        fetch(serverUrl+'banos')
             .then(response => response.json())
             .then(data => {
                 datosBanos = data;
@@ -115,6 +118,21 @@
         });
     </script>
 
+    <script> 
+        const incidenteSelect = document.getElementById('incidente');
+
+        fetch(serverUrl+'tipos_incidentes')
+            .then(response => response.json())
+            .then(data => {
+                // Rellenar el select con los tipos de incidentes
+                data.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.nombre;
+                    option.textContent = item.nombre;
+                    incidenteSelect.appendChild(option);
+                });
+            })
+    </script>
 
 </body>
 </html>
