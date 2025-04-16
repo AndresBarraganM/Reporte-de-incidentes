@@ -55,7 +55,7 @@ export class ControlerIncidentes {
   static async postIncidente(req, res) {
     // conprobar segun esquema
     if (req.body.data== null) {
-      return res.status(400).json({ message: "faltan campos requeridos"})
+      return res.status(400).json({ error: "faltan campos requeridos"})
     }
     
     let reporte, foto
@@ -90,7 +90,7 @@ export class ControlerIncidentes {
 
     // agregar a base de datos
     try {
-      //await IncidenteModel.crearIncidente(reporte)
+      await IncidenteModel.generarIncidente(reporte)
     } catch (error) {
       res.status(500).json({message: "no se pudo registar el incidente"})       
     }

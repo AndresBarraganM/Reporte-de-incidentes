@@ -12,4 +12,11 @@ IncidenteRouter.get('/',  ControlerIncidentes.getIncidentes)
 
 IncidenteRouter.get('/foto/:id', ControlerIncidentes.getFotoIncidente)
 
-IncidenteRouter.post('/', upload.single('foto'), ControlerIncidentes.postIncidente)
+IncidenteRouter.post(
+  '/',
+  upload.fields([
+    { name: 'foto', maxCount: 1 },
+    { name: 'data', maxCount: 1 }
+  ]),
+  ControlerIncidentes.postIncidente
+)
