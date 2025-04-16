@@ -17,7 +17,7 @@
     <div class="contenedor">
         <h2>Formulario de Reporte</h2>
 
-        <form action="#" method="post" enctype="multipart/form-data">
+        <form id="reporteForm">
             <label for="ubicacion">Ubicación:</label>
             <select id="ubicacion" name="ubicacion" required>
                 <option value="" disabled selected>Seleccione una ubicación</option>
@@ -26,7 +26,7 @@
             <!-- Botón de selección de archivo personalizado -->
             <label for="foto">Subir foto:</label>
             <div class="file-input-container">
-                <input type="file" id="foto" name="foto" accept="image/*" required>
+                <input type="file" id="foto" name="foto" accept="image/*">
                 <label for="foto" class="file-label">Seleccionar archivo</label>
                 <span class="file-name">Ningún archivo seleccionado</span>
             </div>
@@ -136,5 +136,54 @@
             });
     </script>
 
+    <script>
+    document.getElementById('reporteForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+    
+        const ubicacion = document.getElementById('ubicacion').value;
+        const genero = document.getElementById('baño').value;
+        const tipo = document.getElementById('incidente').value;
+        const descripcion = document.getElementById('descripcion').value;
+        const fotoInput = document.getElementById('foto');
+        const foto = fotoInput.files[0];
+    
+        const formData = new FormData();
+        console.log(formData)
+    
+        // Adjuntar campo "data" como JSON
+        const json = {
+            ubicacion: ubicacion,
+            genero_bano: genero,
+            tipo_incidente: tipo,
+            descripcion: descripcion
+        };
+        //const blob = new Blob([JSON.stringify(json)], { type: 'application/json' });
+        formData.append('data', JSON.stringify(json));
+    
+        // Adjuntar imagen
+        if (foto) {
+        formData.append('foto', foto);
+        }
+    
+        try {
+            const response = await fetch(serverUrl+'incidentes', {
+                method: 'POST',
+                body: formData
+            });
+    
+            if (response.ok) {
+                alert('Reporte enviado con éxito');
+                // Opcional: resetear formulario
+                e.target.reset();
+            } else {
+                const errorText = await response.text();
+                alert('Error al enviar reporte:\n' + errorText);
+            }
+        } catch (err) {
+            console.error('Error:', err);
+            alert('Error al conectar con el servidor');
+        }
+    });
+    </script>
 </body>
 </html>
