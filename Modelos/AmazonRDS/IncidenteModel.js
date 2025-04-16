@@ -75,6 +75,8 @@ export class IncidenteModel{
     }
 }
 
+/*
 IncidenteModel.obtenerIncidentes().then((incindente) =>{
     console.log(JSON.stringify(incindente,null,2))
 })
+*/
