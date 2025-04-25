@@ -10,6 +10,17 @@ body {
     height: 100vh;
 }
 
+.descripcion-formulario {
+    background-color: #f9f9f9;
+    border-left: 4px solid #007BFF;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+    color: #333;
+    border-radius: 4px;
+}
+
+
 /* Contenedor del formulario */
 .contenedor {
     background-color: #FFFFFF; /* Blanco */
