@@ -5,9 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Generación y Exportación de Reportes</title>
   <link rel="stylesheet" href="reporte.css">
+  <!-- Incluimos Chart.js desde CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <aside class="menu-lateral">
+  <aside class="menu-lateral">
     <h2>Menú</h2>
     <nav>
       <ul>
@@ -18,13 +20,13 @@
       </ul>
     </nav>
   </aside>
+
   <div class="container">
     <header>
       <h1>Generación y Exportación de Reportes</h1>
       <p>Filtra, exporta y analiza los incidentes para tomar decisiones informadas.</p>
     </header>
     
-    <!-- Sección de Filtros Avanzados -->
     <section class="filtros-avanzados">
       <h2>Filtros Avanzados</h2>
       <form id="form-filtros">
@@ -58,7 +60,7 @@
       </form>
     </section>
 
-    <!-- Sección de Exportación de Datos -->
+  <!-- Sección de Exportación de Datos -->
     <section class="exportacion">
       <h2>Exportación de Datos</h2>
       <p>Descarga los reportes en formatos CSV o PDF para análisis externos o reuniones.</p>
@@ -67,23 +69,81 @@
         <button id="export-pdf">Exportar PDF</button>
       </div>
     </section>
+    </section>
 
     <!-- Sección de Estadísticas Avanzadas -->
     <section class="estadisticas-avanzadas">
       <h2>Estadísticas Avanzadas</h2>
       <p>Visualiza tendencias por hora, día y ubicación, y realiza comparativas entre periodos.</p>
       <div class="graficos">
-        <!-- Contenedor para gráficos. Se puede integrar librerías como Chart.js -->
-        <div class="grafico" id="grafico-tendencias">
-          <!-- Ejemplo de gráfico de barras o línea -->
-          <p>Gráfico de Tendencias</p>
+        <!-- Aquí insertamos nuestra gráfica de barras -->
+        <div class="grafico">
+          <canvas id="graficaDanios" width="600" height="400"></canvas>
         </div>
         <div class="grafico" id="grafico-comparativo">
-          <!-- Ejemplo de gráfico comparativo -->
           <p>Gráfico Comparativo</p>
         </div>
       </div>
     </section>
   </div>
+
+  <!-- Script para generar la gráfica con Chart.js -->
+  <script>
+    /**
+     * Genera una gráfica de barras de reportes por tipo de daño.
+     * @param {string} canvasId   — Id del elemento <canvas>.
+     * @param {string[]} tipos     — Array con los nombres de cada tipo de daño.
+     * @param {number[]} cantidades— Array con la cantidad de reportes correspondiente.
+     * @param {string} [titulo]    — (Opcional) Título de la gráfica.
+     * @returns {Chart}            — Instancia de Chart.js.
+     */
+    function generarGraficaDanios(canvasId, tipos, cantidades, titulo = 'Reportes por tipo de daño') {
+      const ctx = document.getElementById(canvasId).getContext('2d');
+      return new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: tipos,
+          datasets: [{
+            label: 'Cantidad de reportes',
+            data: cantidades,
+            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            title: {
+              display: true,
+              text: titulo,
+              font: { size: 18 }
+            },
+            legend: { display: false }
+          },
+          scales: {
+            x: {
+              title: { display: true, text: 'Tipo de daño' },
+              ticks: { maxRotation: 45, minRotation: 0 }
+            },
+            y: {
+              title: { display: true, text: 'Cantidad de reportes' },
+              beginAtZero: true,
+              precision: 0
+            }
+          }
+        }
+      });
+    }
+
+    // EJEMPLO: datos estáticos. Cámbialos por tu array real o por datos que obtengas vía fetch.
+    const tipos = ['Obstrucción', 'Fugas', 'Vandalismo', 'Mantenimiento'];
+    const cantidades = [12, 7, 5, 3];
+
+    // Al cargar la página, generamos la gráfica
+    window.addEventListener('DOMContentLoaded', () => {
+      generarGraficaDanios('graficaDanios', tipos, cantidades);
+    });
+  </script>
 </body>
 </html>

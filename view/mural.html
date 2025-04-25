@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mural de Incidentes</title>
+  <style>
+    /* Colores principales */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #4d5fdb; /* Azul */
+      color: #FFFFFF; /* Blanco */
+    }
+    /* Encabezado con logos */
+    .mural-header {
+    background-color: #FFFFFF; /* Fondo blanco */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 30px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .mural-header .logo-container img,
+    .mural-header .iconos-header img {
+      height: 50px;
+      margin-right: 15px;
+    }
+    .mural-header .iconos-header img:last-child {
+      margin-right: 0;
+    }
+
+    .mural-container {
+      position: relative;
+      max-width: 800px;
+      margin: 20px auto;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      background-color: #ffffff20;
+    }
+    .slide {
+      display: none;
+      width: 100%;
+    }
+    .slide img {
+      width: 100%;
+      display: block;
+      border-radius: 8px;
+    }
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.3);
+      border: none;
+      color: #FFFFFF;
+      font-size: 2rem;
+      padding: 8px 12px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    .nav-btn:hover {
+      background: rgba(0,0,0,0.5);
+    }
+    .prev { left: 10px; }
+    .next { right: 10px; }
+    .caption {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.5);
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Encabezado con logos e iconos -->
+  <header class="mural-header">
+    <div class="logo-container">
+      <img src="logo_sep.png" alt="Secretaría de Educación Pública">
+      <img src="logo_tecnologico.png" alt="Tecnológico Nacional de México">
+      <img src="logo_ite.png" alt="Instituto Tecnológico">
+    </div>
+    <div class="iconos-header">
+      <img src="icon_mail.png" alt="Correo">
+      <img src="icon_search.png" alt="Buscar">
+    </div>
+  </header>
+
+  <div class="mural-container">
+    <button class="nav-btn prev">&#10094;</button>
+    <button class="nav-btn next">&#10095;</button>
+    <div id="slides-wrapper">
+      <!-- Slides dinámicas -->
+    </div>
+  </div>
+
+  <script>
+    const serverUrl = 'http://localhost:1234/';
+    let slideIndex = 0;
+    let slides = [];
+
+    function showSlide(index) {
+      if (!slides.length) return;
+      slides.forEach((slide, i) => {
+        slide.style.display = (i === index) ? 'block' : 'none';
+      });
+    }
+
+    function nextSlide() {
+      slideIndex = (slideIndex + 1) % slides.length;
+      showSlide(slideIndex);
+    }
+
+    function prevSlide() {
+      slideIndex = (slideIndex - 1 + slides.length) % slides.length;
+      showSlide(slideIndex);
+    }
+
+    function initSlideshow(imageData) {
+      const wrapper = document.getElementById('slides-wrapper');
+      imageData.forEach((item) => {
+        const slide = document.createElement('div');
+        slide.className = 'slide';
+        const img = document.createElement('img');
+        img.src = item.foto;
+        img.alt = item.tipo_incidente || 'Incidente';
+        slide.appendChild(img);
+        if (item.descripcion) {
+          const cap = document.createElement('div');
+          cap.className = 'caption';
+          cap.textContent = item.descripcion;
+          slide.appendChild(cap);
+        }
+        wrapper.appendChild(slide);
+      });
+      slides = Array.from(document.getElementsByClassName('slide'));
+      showSlide(slideIndex);
+    }
+
+    window.addEventListener('DOMContentLoaded', async () => {
+      document.querySelector('.prev').addEventListener('click', prevSlide);
+      document.querySelector('.next').addEventListener('click', nextSlide);
+      try {
+        const res = await fetch(serverUrl + 'incidentes');
+        const data = await res.json();
+        initSlideshow(data);
+        setInterval(nextSlide, 5000);
+      } catch (err) {
+        console.error('Error cargando imágenes:', err);
+      }
+    });
+  </script>
+</body>
+</html>
