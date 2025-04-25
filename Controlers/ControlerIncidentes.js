@@ -1,7 +1,9 @@
-import { IncidenteModel } from '../Modelos/IncidenteModel.js'; // modelo de incidentes
+import { IncidenteModel } from '../Modelos/AmazonRDS/IncidenteModel.js'; // modelo de incidentes
 
-import { validarIncidente } from '../Schemas/IncidenteSchema.js'
+import { validarIncidenteZod } from '../Schemas/IncidenteSchema.js'
 import { validarFoto } from '../Schemas/FotoSchema.js';
+
+import { separaUbicacion } from '../utils/functions/separarUbicacion.js';
 
 export class ControlerIncidentes {
 
@@ -52,45 +54,62 @@ export class ControlerIncidentes {
   // agregar un incidente a la base de datos
   static async postIncidente(req, res) {
     // conprobar segun esquema
-    if (!req.body.data) {
-      return res.status(400).json({ message: "faltan campos requeridos"})
+    if (req.body.data== null) {
+      return res.status(400).json({ error: "faltan campos requeridos"})
     }
     
-    let encuesta, foto
+    let reporte, foto
     try {
-      encuesta = req.body.data ? JSONparse(req.body.data) : {};
+      reporte = JSON.parse(req.body.data);
 
       foto = req.file ? req.file : false;
     } catch (error) {
-      res.status(500).json(error)
+      res.status(500).json({error: "error al parsear el json: " + error})
       return
     }
 
     // verificar foto
     if (!validarFoto(foto)){
-      res.status(500).json(error)
+      res.status(500).json({error: "formato de la foto incorrecto"}) 
       return
     }
 
-    // verificar encuesta
-    if (!validarIncidente(encuesta)){
-      res.status(400).json({message: "formato de la encuesta incorrecto"})
+    // separar el campo de banio y eliminar ubicacion
+    const ubicacion = reporte.ubicacion
+    const resultado = separaUbicacion(ubicacion);
+    reporte.nombre = resultado.nombre;
+    reporte.planta = resultado.planta;
+    delete reporte.ubicacion;
+
+    // verificar reporte
+    const resultadoVerificacion = await validarIncidenteZod(reporte)
+    if (!resultadoVerificacion.success){
+      res.status(400).json({error: resultadoVerificacion.error})
       return
     }
 
     // agregar a base de datos
     try {
-      IncidenteModel.crearIncidente(encuesta)
+      await IncidenteModel.generarIncidente(reporte)
     } catch (error) {
       res.status(500).json({message: "no se pudo registar el incidente"})       
     }
     try {
-      IncidenteModel.agregarFoto(foto)      
+      //await IncidenteModel.agregarFoto(foto)      
     } catch (error) {
       res.status(500).json({message: "no se pudo registar la foto"})      
     }
 
+    res.status(200).json({message: "incidente registrado exitosamente"})
   }
 }
-
+// formato de un incidente
+// DESPUES de separar el campo ubicacion
+// const incidente = {
+//   genero_bano: 'hombre',
+//   tipo_incidente: 'Banadalismo',
+//   descripcion: 'agua',
+//   nombre: 'Centro de Información',
+//   planta: 'baja'
+// }
 

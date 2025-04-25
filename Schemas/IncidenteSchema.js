@@ -1,31 +1,50 @@
 import { z } from "zod";
-import { validarBano } from "./BanoSchema"
+import { validarBanoZod } from "./BanoSchema.js"
+import { validarTipoIncidenteZod } from "./TipoIncidenteSchema.js" // esquema de validacion para tipos de incidentes
 
 // consideraciones para los banos en otro esquema
 const schemaIncidente = z.object({
-  descripcion: z.string().max(250),
-  Tipo_incidente: z.string().max(250)
+  descripcion: z.string().max(80),
 })
 
-export function validarIncidente(incidente){
+export async function validarIncidenteZod(incidente){
   // utilizar esquema para verificar datos
-  resultado = schemaIncidente.safeParse(incidente)
-  if (!resultado.succes){
-    return false
+  const resultado = schemaIncidente.safeParse(incidente)
+  if (!resultado.success){
+    return resultado
   }
 
   // verificar datos de bano
-  bano = {
-    ubicacion: incidente.ubicacion,
-    genero: incidente.genero
+  const bano = {
+    nombre: incidente.nombre,
+    planta: incidente.planta,
+    genero_bano: incidente.genero_bano
   }
   
-  if(!validarBano(bano)) {
-    return false
+  // verificar que exista el bano en la base de datos
+  const resultadoBano = await validarBanoZod(bano)
+  if(!resultadoBano.success){ 
+    return resultadoBano
   }
   
-  // verificar que el tipo de incidente este correcto
-  return false
+  // verificar el campo de tipo incidente
+  const tipo_incidente = {tipo_incidente: incidente.tipo_incidente}
+  const resultadoTipoIncidente = await validarTipoIncidenteZod(tipo_incidente)
+  if(!resultadoTipoIncidente.success){
+    return resultadoTipoIncidente
+  }
 
+  // si todo esta bien entonces enviar el original
+  return resultado
 }
 
+
+
+// Formato deseado:
+// const incidente = {
+//   genero_bano: 'hombre',
+//   tipo_incidente: 'Banadalismo',
+//   descripcion: 'agua',
+//   nombre: 'Centro de Información',
+//   planta: 'baja'
+// }

@@ -1,4 +1,4 @@
-import { modelo_tipo_incidente } from "./ModeloReportes.js";
+import { modelo_tipo_incidente } from "./database/ModeloReportes.js";
 
 export class TipoIncidenteModel{
     /**
@@ -29,8 +29,25 @@ export class TipoIncidenteModel{
     }
 
     static async getAllTipoIncidentes(){
-        const incidentes = await modelo_tipo_incidente.findAll({})
-        return JSON.stringify(incidentes, null, 2)
+        const incidentes = await modelo_tipo_incidente.findAll()
+        return incidentes
+    }
+
+    static async getTipoIncidente(tipo_incidente){
+        try{
+            const incidente = await modelo_tipo_incidente.findOne({
+                where: {
+                    nombre: tipo_incidente
+                }
+            })
+            if(!incidente){
+                return null
+            }
+            return incidente.dataValues
+        }
+        catch(error){
+
+        }
     }
 }
 
@@ -40,6 +57,7 @@ export class TipoIncidenteModel{
     console.log(incidente)
 }) */
 
-TipoIncidenteModel.getAllTipoIncidentes().then((incidentes) => {
+/* TipoIncidenteModel.getAllTipoIncidentes().then((incidentes) => {
     console.log(incidentes)
-})
+}) */
+    

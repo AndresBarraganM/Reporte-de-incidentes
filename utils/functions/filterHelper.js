@@ -1,65 +1,87 @@
-// Función principal para aplicar filtros
+// Funciones para Filtros
 function aplicarFiltros(filtros) {
     const filas = document.querySelectorAll('.listado tbody tr');
     
     filas.forEach(fila => {
-        // Extraer datos de cada fila
-        const fechaHora = fila.cells[3].textContent;
-        const fechaIncidente = fechaHora.split(' ')[0]; // Separar fecha y hora
+        const fechaIncidente = fila.cells[3].textContent.split(' ')[0];
         const ubicacion = fila.cells[1].textContent.trim().toLowerCase();
         const estado = fila.cells[4].textContent.trim().toLowerCase();
-        
-        // Obtener prioridad (asumiendo que está en un data-attribute)
-        const prioridad = fila.dataset.prioridad || '';
+        const prioridad = fila.dataset.prioridad;
 
-        // Verificar coincidencia con cada filtro
         const coincideFecha = !filtros.fecha || fechaIncidente === filtros.fecha;
         const coincideUbicacion = !filtros.banio || ubicacion === filtros.banio.toLowerCase();
-        const coincideEstado = !filtros.estado || estado === filtros.estado.toLowerCase();
+        const coincideEstado = !filtros.estado_incidente || estado === filtros.estado_incidente.toLowerCase();
         const coincidePrioridad = !filtros.prioridad || prioridad === filtros.prioridad.toLowerCase();
 
-        // Mostrar/ocultar fila según coincidencia
         fila.style.display = (coincideFecha && coincideUbicacion && coincideEstado && coincidePrioridad) 
             ? '' 
             : 'none';
     });
 }
 
-// Manejador del formulario de filtros
+// Función para manejar el envío del formulario de filtros
 document.getElementById('filtro-incidentes').addEventListener('submit', function(e) {
     e.preventDefault();
     
-    // Recoger valores de los filtros
     const filtros = {
         fecha: this.fecha.value,
         banio: this.banio.value,
-        estado: this.estado.value,
+        estado: this.estado_incidente.value,
         prioridad: this.prioridad.value
     };
     
     aplicarFiltros(filtros);
 });
 
-// Función para limpiar filtros
-function limpiarFiltros() {
-    document.getElementById('filtro-incidentes').reset();
+// Funciones para Acciones de Incidentes
+function cambiarEstado(idIncidente, nuevoEstado) {
+    const fila = document.querySelector(`tr[data-id="${idIncidente}"]`);
+    if (fila) {
+        fila.cells[4].textContent = nuevoEstado;
+        // Aquí iría la llamada API para actualizar el estado en el backend
+        console.log(`Estado cambiado a: ${nuevoEstado} para el incidente ${idIncidente}`);
+    }
+}
+
+// Manejo de clic en las acciones del dropdown
+document.querySelectorAll('.dropdown-content a[data-estado]').forEach(boton => {
+    boton.addEventListener('click', function(e) {
+        e.preventDefault();
+        const idIncidente = this.closest('tr').dataset.id; // Asumiendo que agregas data-id a cada fila
+        const nuevoEstado = this.dataset.estado_incidente;
+        cambiarEstado(idIncidente, nuevoEstado);
+    });
+});
+
+// Función para mostrar detalles del incidente
+function mostrarDetalle(idIncidente) {
+    const modal = document.getElementById('detalle-incidente');
+    // Aquí deberías cargar los datos reales del incidente
+    modal.style.display = 'block';
+}
+
+// Manejo del modal
+document.querySelectorAll('.dropdown-content a[href="#detalle-incidente"]').forEach(boton => {
+    boton.addEventListener('click', function(e) {
+        e.preventDefault();
+        const idIncidente = this.closest('tr').dataset.id;
+        mostrarDetalle(idIncidente);
+    });
+});
+
+// Cerrar modal
+document.querySelector('.cerrar').addEventListener('click', function(e) {
+    e.preventDefault();
+    this.closest('.modal').style.display = 'none';
+});
+
+// Inicialización de eventos
+document.addEventListener('DOMContentLoaded', function() {
+    // Aplicar filtros iniciales
     aplicarFiltros({
         fecha: '',
         banio: '',
         estado: '',
         prioridad: ''
-    });
-}
-
-// Ejemplo de filtrado por prioridad (puedes agregar más funciones específicas)
-function filtrarPorPrioridad(nivelPrioridad) {
-    document.getElementById('prioridad').value = nivelPrioridad;
-    aplicarFiltros({ prioridad: nivelPrioridad });
-}
-
-// Event listener para cambios en tiempo real (opcional)
-document.querySelectorAll('#filtro-incidentes input, #filtro-incidentes select').forEach(elemento => {
-    elemento.addEventListener('change', function() {
-        document.getElementById('filtro-incidentes').dispatchEvent(new Event('submit'));
     });
 });

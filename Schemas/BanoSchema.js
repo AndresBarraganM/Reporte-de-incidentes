@@ -1,23 +1,22 @@
 import {z} from "zod";
-import { BanoModel } from "../Modelos/BanoModel.js"; // modelo de baños
+import { BanoModel } from "../Modelos/AmazonRDS/BanoModel.js"; // modelo de baños
 
 const banoSchema = z.object({
-  edificio: z.string().max(250),
-  genero: z.string().max(250)
-})
-
-export function validarBano(bano) {
-  // Validar el esquema del baño
-  const resultado = banoSchema.safeParse(bano);
-  if (!resultado.success) {
-    return false
+  nombre: z.string().max(250),
+  planta: z.string().max(250),
+  genero_bano: z.enum(['hombre', 'mujer'])
+}).refine(async (bano) => {
+  try {
+    const banoEncontrado = await BanoModel.obtenerBano(bano);
+    return banoEncontrado !== null && banoEncontrado !== undefined;
+  } catch (error) {
+    console.error("Error al validar el baño:", error);
+    return false;
   }
+}, {
+  message: "El baño no existe en la base de datos"
+});
 
-  // Validar que el baño exista dentro de la base de datos
-  existeBano = BanoModel.existeBano(bano.edificio, bano.genero)
-  if (!existeBano) {
-    return false
-  }
-
-  return true
+export async function validarBanoZod(bano) {
+  return await banoSchema.safeParseAsync(bano);
 }

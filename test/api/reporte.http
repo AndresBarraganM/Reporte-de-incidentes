@@ -1,0 +1,69 @@
+### pruebas de llamdas las cuales son relacionadas a las llamadas realizadas para mostrar el reporte y enviar estos a el servidor
+
+### Obtener lista de banios
+GET http://localhost:1234/banos
+
+## Deveria retornar algo similar a esto
+#[
+##  {
+##    "id_bano": 1,
+##    "genero_bano": "hombre",
+##    "nombre": "Centro de Información",
+##    "planta": "baja",
+##    "ubicacion": "Centro de Información planta baja"
+##  },
+##  {
+##    "id_bano": 2,
+##    "genero_bano": "mujer",
+##    "nombre": "100",
+##    "planta": "alta",
+##    "ubicacion": "100 planta alta"
+##  },
+##  {
+##    "id_bano": 3,
+##    "genero_bano": "mujer",
+##    "nombre": "Centro de Información",
+##    "planta": "baja",
+##    "ubicacion": "Centro de Información planta baja"
+##  }
+##]
+
+
+### Recuperar la lista de tipos de incidentes
+GET http://localhost:1234/tipos_incidentes
+## Deveria retornar algo similar a esto
+## [
+##    {
+##        "id": 1,
+##        "tipo": "Falta de jabón"
+##   },
+##   {
+##       "id": 2,
+##       "tipo": "Falta de papel higienico"
+##   },
+##   {
+##       "id": 3,
+##       "tipo": "Fuga de agua"
+##   },
+## ]
+
+### Enviar el incidente a la base de datoss
+POST http://localhost:1234/incidentes
+Content-Type: multipart/form-data; boundary=----MyBoundary
+
+------MyBoundary
+Content-Disposition: form-data; name="data"
+Content-Type: application/json
+
+{
+    "ubicacion": "Centro de Información planta baja",
+    "genero_bano": "hombre",
+    "tipo_incidente": "Falta de jabón",
+    "descripcion": "Falta jabón en ambos dispensadores"
+}
+------MyBoundary
+Content-Disposition: form-data; name="foto"; filename="vandalizmo.jpg"
+Content-Type: image/jpeg
+
+{{foto}}
+------MyBoundary--

@@ -1,6 +1,5 @@
 import { DataTypes, INTEGER, Sequelize } from 'sequelize';
-import { sequelize } from '../../utils/database_connection.js';
-import { modelo_usuarios } from './ModeloLogin.js';
+import { sequelize } from '../../../utils/database_connection.js';
 
 const modelo_edificio = sequelize.define('edificios', {
     id_edificio: {
@@ -35,11 +34,11 @@ const modelo_banos = sequelize.define('banos', {
         type: DataTypes.INTEGER(11),
         allowNull: false,
         references: {
-            model: modelo_edificio,
+            model: 'edificios',
             key: 'id_edificio'
         }
     },
-    tipo_bano: {
+    genero_bano: {
         type: DataTypes.ENUM('hombre','mujer'),
         allowNull: false
     }
@@ -90,14 +89,6 @@ const modelo_incidentes = sequelize.define('reporte_incidente', {
             key: 'id_bano'
         }
     },
-    id_usuario_reporte: {
-        type: DataTypes.INTEGER(11),
-        allowNull: false,
-        references: {
-            model: modelo_usuarios,
-            key: 'id_usuario'
-        }
-    },
     id_incidente: {
         type: DataTypes.INTEGER(11),
         allowNull: false,
@@ -107,13 +98,13 @@ const modelo_incidentes = sequelize.define('reporte_incidente', {
             key: 'id_incidente'
         }
     },
-    descripcion: {
-        type: DataTypes.TEXT,
-        allowNull: false
-    },
     img: {
         type: DataTypes.BLOB('medium'),
         allowNull: true
+    },
+    descripcion: {
+        type: DataTypes.TEXT,
+        allowNull: false
     },
     fecha_reporte: {
         type: DataTypes.DATE,
@@ -126,10 +117,11 @@ const modelo_incidentes = sequelize.define('reporte_incidente', {
     },
     prioridad: {
         type: DataTypes.ENUM('baja', 'media', 'alta'),
-        allowNull: false
+        allowNull: true,
+        defaultValue: 'media'
     }
 }, {
-    tableName: 'incidentes',
+    tableName: 'reporte_incidente',
     timestamps: false,
     createdAt: false,
     updatedAt: false
@@ -138,9 +130,6 @@ const modelo_incidentes = sequelize.define('reporte_incidente', {
 
 modelo_banos.hasMany(modelo_incidentes, { foreignKey: 'id_bano' });
 modelo_incidentes.belongsTo(modelo_banos, { foreignKey: 'id_bano' });
-
-modelo_usuarios.hasMany(modelo_incidentes, {foreignKey: 'id_usuario_reporte'})
-modelo_incidentes.belongsTo(modelo_usuarios, {foreignKey: 'id_usuario_reporte'})
 
 modelo_tipo_incidente.hasMany(modelo_incidentes, {foreignKey: 'id_incidente'})
 modelo_incidentes.belongsTo(modelo_tipo_incidente, {foreignKey: 'id_incidente'})

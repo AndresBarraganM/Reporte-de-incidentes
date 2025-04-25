@@ -29,7 +29,7 @@ const modelo_usuarios = sequelize.define('usuarios',{
         allowNull: false,
         defaultValue: null,
     },
-    contrasenia_hash: {
+    contrasena_hash: {
         type: DataTypes.STRING(255),
         allowNull: false,
         defaultValue: null,

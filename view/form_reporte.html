@@ -6,52 +6,41 @@
     <title>Formulario de Reporte</title>
     <link rel="stylesheet" href="form_reporte.css"> <!-- Enlaza el archivo CSS -->
 </head>
+
+<script>
+    // direccion del servidor
+    const serverUrl = 'http://localhost:1234/';
+</script>
+
 <body>
 
     <div class="contenedor">
         <h2>Formulario de Reporte</h2>
 
-        <form action="#" method="post" enctype="multipart/form-data">
-            <label for="edificio">Edificio:</label>
-            <select id="planta" name="planta" required>
-                <option value="edif_100">100</option>
-                <option value="edif_200">200</option>
-                <option value="edif_200">300</option>
-                <option value="edif_200">400</option>
-                <option value="edif_200">500</option>
-                <option value="edif_200">600</option>
-                <option value="edif_auditorio">Auditorio</option>
-                <option value="edif_gym">Gimnasio</option>
-                <option value="edif_centroinfo">Centro de Informacion</option>
-            </select>
-
-            <!-- Cambiamos el campo de texto a un combobox para la planta -->
-            <label for="planta">Planta:</label>
-            <select id="planta" name="planta" required>
-                <option value="alta">Alta</option>
-                <option value="baja">Baja</option>
+        <form id="reporteForm">
+            <label for="ubicacion">Ubicación:</label>
+            <select id="ubicacion" name="ubicacion" required>
+                <option value="" disabled selected>Seleccione una ubicación</option>
             </select>
 
             <!-- Botón de selección de archivo personalizado -->
             <label for="foto">Subir foto:</label>
             <div class="file-input-container">
-                <input type="file" id="foto" name="foto" accept="image/*" required>
+                <input type="file" id="foto" name="foto" accept="image/*">
                 <label for="foto" class="file-label">Seleccionar archivo</label>
                 <span class="file-name">Ningún archivo seleccionado</span>
             </div>
 
             <label for="baño">Baño:</label>
             <select id="baño" name="baño" required>
+                <option value="" disabled selected>Seleccione un baño</option>
                 <option value="hombre">Baño Hombre</option>
                 <option value="mujer">Baño Mujer</option>
             </select>
 
             <label for="incidente">Tipo de Incidente:</label>
                 <select id="incidente" name="incidente" required>
-                    <option value="limpieza">Limpieza</option>
-                    <option value="averia">Avería</option>
-                    <option value="seguridad">Seguridad</option>
-                    <option value="otros">Otros</option>
+
                 </select>
             <label for="descripcion">Descripción:</label>
             <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
@@ -70,5 +59,131 @@
         });
     </script>
 
+    <script>
+        // JavaScript para cargar los datos de los baños y ubicaciones
+        // y habilitar/deshabilitar genero si existe en la ubicacion seleccionada
+        let datosBanos = [];
+
+        const ubicacionSelect = document.getElementById('ubicacion');
+        const banoSelect = document.getElementById('baño');
+
+        fetch(serverUrl+'banos')
+            .then(response => response.json())
+            .then(data => {
+                datosBanos = data;
+
+                // Rellenar ubicaciones únicas
+                const ubicacionesUnicas = new Set();
+                data.forEach(item => {
+                    if (!ubicacionesUnicas.has(item.ubicacion)) {
+                        ubicacionesUnicas.add(item.ubicacion);
+                        const option = document.createElement('option');
+                        option.value = item.ubicacion;
+                        option.textContent = item.ubicacion;
+                        ubicacionSelect.appendChild(option);
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Error al obtener los baños:', error);
+            });
+
+        ubicacionSelect.addEventListener('change', () => {
+            const ubicacionSeleccionada = ubicacionSelect.value;
+
+            // Verificar qué géneros están disponibles en esta ubicación
+            const generosDisponibles = new Set(
+                datosBanos
+                    .filter(item => item.ubicacion === ubicacionSeleccionada)
+                    .map(item => item.genero_bano)
+            );
+
+            // Habilitar o deshabilitar opciones en el select de baño
+            let seleccionValida = false;
+            for (const option of banoSelect.options) {
+                if (option.value === "") continue; // ignorar el default
+
+                if (generosDisponibles.has(option.value)) {
+                    option.disabled = false;
+                    if (option.selected) seleccionValida = true;
+                } else {
+                    option.disabled = true;
+                }
+            }
+
+            // Si el género actual no es válido, volver al default
+            if (!seleccionValida) {
+                banoSelect.value = "";
+            }
+        });
+    </script>
+
+    <script> 
+        const incidenteSelect = document.getElementById('incidente');
+
+        fetch(serverUrl+'tipos_incidentes')
+            .then(response => response.json())
+            .then(data => {
+                // Rellenar el select con los tipos de incidentes
+                data.forEach(item => {
+                    const option = document.createElement('option');
+                    option.value = item.nombre;
+                    option.textContent = item.nombre;
+                    incidenteSelect.appendChild(option);
+                });
+            }).catch(error => {
+                console.error('Error al obtener los tipos de incidentes:', error);
+            });
+    </script>
+
+    <script>
+    document.getElementById('reporteForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+    
+        const ubicacion = document.getElementById('ubicacion').value;
+        const genero = document.getElementById('baño').value;
+        const tipo = document.getElementById('incidente').value;
+        const descripcion = document.getElementById('descripcion').value;
+        const fotoInput = document.getElementById('foto');
+        const foto = fotoInput.files[0];
+    
+        const formData = new FormData();
+        console.log(formData)
+    
+        // Adjuntar campo "data" como JSON
+        const json = {
+            ubicacion: ubicacion,
+            genero_bano: genero,
+            tipo_incidente: tipo,
+            descripcion: descripcion
+        };
+        //const blob = new Blob([JSON.stringify(json)], { type: 'application/json' });
+        formData.append('data', JSON.stringify(json));
+    
+        // Adjuntar imagen
+        if (foto) {
+        formData.append('foto', foto);
+        }
+    
+        try {
+            const response = await fetch(serverUrl+'incidentes', {
+                method: 'POST',
+                body: formData
+            });
+    
+            if (response.ok) {
+                alert('Reporte enviado con éxito');
+                // Opcional: resetear formulario
+                e.target.reset();
+            } else {
+                const errorText = await response.text();
+                alert('Error al enviar reporte:\n' + errorText);
+            }
+        } catch (err) {
+            console.error('Error:', err);
+            alert('Error al conectar con el servidor');
+        }
+    });
+    </script>
 </body>
 </html>
