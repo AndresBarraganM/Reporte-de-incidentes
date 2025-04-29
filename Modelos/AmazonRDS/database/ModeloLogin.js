@@ -24,11 +24,6 @@ const modelo_usuarios = sequelize.define('usuarios',{
         allowNull: true,
         defaultValue: null,
     },
-    rol: {
-        type: DataTypes.ENUM('administrador','encargado_limpieza'),
-        allowNull: false,
-        defaultValue: null,
-    },
     contrasena_hash: {
         type: DataTypes.STRING(255),
         allowNull: false,

@@ -12,7 +12,6 @@ export class UsuarioModelo{
      * nombre: 'NombreUsuario',
      * email: 'email@example.com',
      * telefono: '6461233445',
-     * rol: 2,
      * contrasenia: 'contraseña123'
      * }
      * @returns {JSON}
@@ -59,7 +58,7 @@ export class UsuarioModelo{
                 where: {
                     email: correo
                 },
-                attributes: ['id_usuario', 'nombre', 'email', 'telefono', 'rol'],
+                attributes: ['id_usuario', 'nombre', 'email', 'telefono'],
             });
             return usuario.dataValues
         }
@@ -69,7 +68,7 @@ export class UsuarioModelo{
                 where: {
                     estado: 'activo'
                 },
-                attributes: ['id_usuario', 'nombre', 'email', 'telefono', 'rol'],
+                attributes: ['id_usuario', 'nombre', 'email', 'telefono'],
                 order: [['nombre', 'ASC']]
             });
             return usuarios.map(usuario => usuario.dataValues)
@@ -147,4 +146,11 @@ export class UsuarioModelo{
     }
 }
 
+UsuarioModelo.agregarUsuario({
+    nombre: "admin123",
+    email: "usuario@ejemplo.com",
+    telefono: "123456789",
+    contrasena_hash: "1234"
 
+
+})
