@@ -1,4 +1,4 @@
-¿
+
 import {modelo_usuarios} from './ModeloLogin.js'
 
 export class UsuarioModelo{
@@ -146,3 +146,4 @@ export class UsuarioModelo{
         
     }
 }
+
