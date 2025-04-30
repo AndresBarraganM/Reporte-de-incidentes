@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt');
 const { DatabaseError, ValidationError } = require('../errors');
 import { verificarUsuarioZod } from '../Schemas/UsuarioSchema.js'
+import { UsuarioModelo } from '../Modelos/AmazonRDS/UsuarioModel.js'
 
 export class ControlerUsuario {
 
@@ -29,8 +30,26 @@ export class ControlerUsuario {
 
   // Crear nuevo usuario
   static async postUsuario(req, res) {
-    this.validateUserData(userData);
+    const data = req.body
+
+    // verificar que los datos son correctos
+    const verificacion = verificarUsuarioZod(data)
+    if (verificacion.success === false) {
+      return res.status(400).json({ error: verificacion.error.errors })
+    }
+
+    // enviar a metodo para crear usuario
+    try{
+      UsuarioModelo.agregarUsuario(datos)
+    } catch(error){
+      return res.status(500).json({ error: error })
+    }
+
+    // retornar mensaje
     
+    res.status(200).json({ message: 'Usuario creado correctamente' })
+    /*
+    Codigo previo
     try {
       const hashedPassword = await bcrypt.hash(userData.contrasena, this.SALT_ROUNDS);
       
@@ -54,9 +73,8 @@ export class ControlerUsuario {
       }
       throw new DatabaseError('Error al crear usuario');
     }
+    */
   }
-
-
 
   // Actualizar usuario
   async updateUser(userId, updateData) {
