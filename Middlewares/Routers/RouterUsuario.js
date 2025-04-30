@@ -2,10 +2,10 @@ import { Router } from 'express'
 
 import { ControlerUsuario } from '../../Controlers/ControlerUsuarios.js'
 
-export const IncidenteRouter= Router()
+export const UsuarioRouter = Router()
 
-IncidenteRouter.get('/',  ControlerUsuario.loginUsuario)
+UsuarioRouter .post('/login',  ControlerUsuario.loginUsuario)
 
-IncidenteRouter.post('/', ControlerUsuario.postUsuario)
+UsuarioRouter .post('/', ControlerUsuario.postUsuario)
 
-IncidenteRouter.delete('/', ControlerUsuario.deleteUsuario)
+UsuarioRouter .delete('/', ControlerUsuario.deleteUsuario)
