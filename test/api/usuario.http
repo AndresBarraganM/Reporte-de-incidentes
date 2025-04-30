@@ -1,0 +1,30 @@
+### En este archivo se muestra las apis que utilizaria un usuario
+## estas son para referencia y puede que requieran utilizar tokens de sesion
+
+
+### Iniciar sesion del usuario
+## Inicio de sesion del usuario base
+## Retorna token de sesion
+GET http://localhost:1234/usuario
+Content-Type: application/json
+
+{
+  "nombre": "admin",
+  "contrasena_hash": "admin1234"
+}
+
+### Crear un usuario
+## Requiere iniciar sesion como un usuario, por lo que ocupan tokens
+POST http://localhost:1234/usuario
+Content-Type: application/json
+
+{
+  "nombre": "joakin",
+  "email": "joakin@ejemplolcom",
+  "contrasena_hash": "soyJoakin"
+}
+
+
+### Borrar usuario propio
+## Ocupa iniciar sesion como dicho usuario y de este token obtiene que usuario es
+DELETE http://localhost:1234/usuario
