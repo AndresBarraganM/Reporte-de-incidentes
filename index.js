@@ -19,6 +19,7 @@ const createApp = () => {
   app.use('/incidentes', IncidenteRouter)
   app.use('/banos', BanoRouter)
   app.use('/tipos_incidentes', TipoIncidenteRouter )
+  app.use('/usuario', UsuarioRouter)
 
   const PORT = process.env.PORT || 1234;
 
