@@ -1,5 +1,5 @@
-const bcrypt = require('bcrypt');
-const { DatabaseError, ValidationError } = require('../errors');
+import bcrypt from 'bcryptjs';
+//import { DatabaseError, ValidationError } from '../errors.js';
 import { verificarUsuarioZod } from '../Schemas/UsuarioSchema.js'
 import { UsuarioModelo } from '../Modelos/AmazonRDS/UsuarioModel.js'
 
@@ -14,7 +14,7 @@ export class ControlerUsuario {
       return res.status(400).json({ error: verificacion.error.errors })
     }
 
-    // verificar que si existe y realizar login
+    // verificar que si existe
     try {
       
     } catch (error) {
@@ -25,7 +25,7 @@ export class ControlerUsuario {
 
 
     // devolver token y datos del usuario
-    return res.status(200).json({ message: 'Login exitoso' })
+    return res.status(200).json({ message: 'Login exitoso', tokken: 'token'})
   }
 
   // Crear nuevo usuario
@@ -131,7 +131,7 @@ export class ControlerUsuario {
   }
 
   // Eliminar usuario
-  async deleteUsuario(req, res) {
+  static async deleteUsuario(req, res) {
     await this.db.execute(
       'DELETE FROM usuarios WHERE id_usuario = ?',
       [userId]

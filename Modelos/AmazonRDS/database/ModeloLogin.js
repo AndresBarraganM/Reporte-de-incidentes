@@ -1,4 +1,4 @@
-import { sequelize } from '../../utils/database_connection.js'
+import { sequelize } from '../../../utils/database_connection.js'
 import { DataTypes } from 'sequelize';
 
 // Instancia de la tabla Usuarios

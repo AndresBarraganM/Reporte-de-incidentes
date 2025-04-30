@@ -1,5 +1,5 @@
 
-import {modelo_usuarios} from './ModeloLogin.js'
+import {modelo_usuarios} from './database/ModeloLogin.js'
 
 export class UsuarioModelo{
     

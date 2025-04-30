@@ -1,6 +1,7 @@
 import { IncidenteRouter } from "./Middlewares/Routers/RouterIncidente.js";
 import { TipoIncidenteRouter } from "./Middlewares/Routers/RouterTipoIncidente.js";
 import { BanoRouter } from "./Middlewares/Routers/RouterBano.js";
+import { UsuarioRouter } from "./Middlewares/Routers/RouterUsuario.js";
 
 import multer from 'multer';
 import  express, { json } from "express";

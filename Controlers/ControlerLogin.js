@@ -1,6 +1,6 @@
-const { modelo_usuarios } = require('./ModeloLogin.js');
+import { modelo_usuarios } from ('./ModeloLogin.js');
 
-class ControllerLogin {
+export class ControllerLogin {
   /**
    * Autenticar usuario sin usar hash
    * @param {string} email
@@ -25,5 +25,3 @@ class ControllerLogin {
     }
   }
 }
-
-module.exports = ControllerLogin;
