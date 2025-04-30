@@ -1,6 +1,6 @@
 import { Router } from 'express'
 
-import { ControlerIncidentes } from '../../controlers/ControlerIncidentes.js'
+import { ControlerIncidentes } from '../../Controlers/ControlerIncidentes.js';
 
 import multer from 'multer';
 const storage = multer.memoryStorage();
