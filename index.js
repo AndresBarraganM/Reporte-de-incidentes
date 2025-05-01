@@ -18,7 +18,7 @@ const createApp = () => {
 
   // Routers
   app.use('/incidentes', IncidenteRouter)
-  app.use('/banos', BanoRouter)
+  app.use('/banios', BanoRouter)
   app.use('/tipos_incidentes', TipoIncidenteRouter )
   app.use('/usuario', UsuarioRouter)
 
