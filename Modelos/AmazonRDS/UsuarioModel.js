@@ -59,17 +59,15 @@ export class UsuarioModelo{
                 where: {
                     email: correo
                 },
-                attributes: ['id_usuario', 'nombre', 'email', 'telefono', 'rol'],
+                attributes: ['id_usuario', 'nombre', 'email', 'telefono', 'contrasena_hash'],
             });
             return usuario ? usuario.dataValues : null;
         }
         // Si no se especifica correo se retornan todos los usuarios
         else if(!correo){
+            console.log(!correo, correo)
             const usuarios = await modelo_usuarios.findAll({
-                where: {
-                    estado: 'activo'
-                },
-                attributes: ['id_usuario', 'nombre', 'email', 'telefono', 'rol'],
+                attributes: ['id_usuario', 'nombre', 'email', 'telefono', 'contrasena_hash'],
                 order: [['nombre', 'ASC']]
             });
             return usuarios.map(usuario => usuario.dataValues)
