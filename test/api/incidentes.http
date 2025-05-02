@@ -27,11 +27,10 @@ Content-Type: application/json
 
 # Con estos campos se crea el reporte de incidente
 {
-    "nombre": "100",
-    "planta": "alta",
+    "ubicacion": "100 planta alta",
     "tipo_incidente": "Falta de jabón",
     "genero_bano": "hombre",
-    "descripcion": "Falta jabón en ambos dispensadores",
+    "descripcion": "Falta jabón en ambos dispensadores"
     
 }
 ------MyBoundary
