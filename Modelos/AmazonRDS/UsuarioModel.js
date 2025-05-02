@@ -65,7 +65,6 @@ export class UsuarioModelo{
         }
         // Si no se especifica correo se retornan todos los usuarios
         else if(!correo){
-            console.log(!correo, correo)
             const usuarios = await modelo_usuarios.findAll({
                 attributes: ['id_usuario', 'nombre', 'email', 'telefono', 'contrasena_hash'],
                 order: [['nombre', 'ASC']]
