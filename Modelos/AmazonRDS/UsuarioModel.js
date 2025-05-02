@@ -146,17 +146,17 @@ export class UsuarioModelo{
     }
 
     /**
-     * Metodo que permite validar si existe un usuario con el correo y la contraseña especificados
-     * @param {string} correo 
+     * Metodo que permite validar si existe un usuario con el nombre y la contraseña especificados
+     * @param {string} nombre 
      * @param {string} contraseña 
      * @returns {JSON | null} retorna un JSON con los datos del usuario o null si no se encuentra
      * @example UsuarioModelo.validarCuenta("corre@example.com", "contraseña123")
      */
-    static async validarCuenta(correo, contrasenia){
+    static async validarCuenta(nombre, contrasenia){
         try{
             const usuario = await modelo_usuarios.findOne({
                 where: {
-                    email: correo,
+                    nombre: nombre,
                     contrasena_hash: contrasenia
                 }
             });
