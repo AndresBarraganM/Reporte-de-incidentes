@@ -14,11 +14,18 @@ export class ControlerUsuario {
       return res.status(400).json({ message: "peticion no valida",error: verificacion.error.errors })
     }
 
+    let usuario = null
     // verificar que si existe
     try {
-      
+      usuario = await UsuarioModelo.validarCuenta(datos.nombre, datos.contrasena_hash)
+
+      console.log(usuario)
+      if (usuario == null) {
+        return res.status(404).json({ message: 'correo o contrasena no validas' })
+      }
     } catch (error) {
-      
+      res.status(500).json({ message: 'Error al buscar usuario:', error: error })
+      return
     }
 
     // generar token
