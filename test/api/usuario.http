@@ -22,7 +22,7 @@ Content-Type: application/json
   "nombre": "joakin",
   "email": "joakin@ejemplol.com",
   "contrasena_hash": "soyJoakin",
-  "telefono": "123456789"
+  "telefono": "6461234567"
 }
 
 
