@@ -40,17 +40,26 @@ export class ControlerUsuario {
     const data = req.body
 
     // verificar que los datos son correctos
-    console.log(data)
     const verificacion = verificarUsuarioZod(data)
     if (verificacion.success === false) {
       return res.status(400).json({ error: verificacion.error.errors })
     }
 
+    // verificar que el correo no existe
+    try {
+      const usuario = await UsuarioModelo.getUsuarios(data.email)
+      if (usuario != null) {
+        return res.status(400).json({ message: 'El correo ya está registrado' })
+      }
+    } catch (error) {
+      return res.status(500).json({ message: 'Error al verificar el correo', error: error })
+    }
+
     // enviar a metodo para crear usuario
     try{
-      UsuarioModelo.agregarUsuario(datos)
+      await UsuarioModelo.agregarUsuario(data)
     } catch(error){
-      return res.status(500).json({ error: error })
+      return res.status(500).json({ message: "error al agregar usuario", error: error })
     }
 
     // retornar mensaje
