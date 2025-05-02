@@ -167,8 +167,3 @@ export class UsuarioModelo{
         }
     }
 }
-
-
-UsuarioModelo.validarCuenta("al22760574@ite.gob.mx","mortadela123").then((usuario)=>{
-    console.log(usuario)
-})
