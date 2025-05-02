@@ -5,7 +5,7 @@
 ### Iniciar sesion del usuario
 ## Inicio de sesion del usuario base
 ## Retorna token de sesion
-POST http://localhost:1234/login
+POST http://localhost:1234/usuario/login
 Content-Type: application/json
 
 {
@@ -20,8 +20,9 @@ Content-Type: application/json
 
 {
   "nombre": "joakin",
-  "email": "joakin@ejemplolcom",
-  "contrasena_hash": "soyJoakin"
+  "email": "joakin@ejemplol.com",
+  "contrasena_hash": "soyJoakin",
+  "telefono": "123456789"
 }
 
 
