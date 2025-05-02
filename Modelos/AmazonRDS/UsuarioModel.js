@@ -140,7 +140,35 @@ export class UsuarioModelo{
         catch(error){
             return {status: 500, error: 'Error al eliminar el registro'}
         }
+
+
         
+    }
+
+    /**
+     * Metodo que permite validar si existe un usuario con el correo y la contraseña especificados
+     * @param {string} correo 
+     * @param {string} contraseña 
+     * @returns {JSON | null} retorna un JSON con los datos del usuario o null si no se encuentra
+     * @example UsuarioModelo.validarCuenta("corre@example.com", "contraseña123")
+     */
+    static async validarCuenta(correo, contrasenia){
+        try{
+            const usuario = await modelo_usuarios.findOne({
+                where: {
+                    email: correo,
+                    contrasena_hash: contrasenia
+                }
+            });
+            return usuario ? usuario.dataValues : null;
+        }catch(error){
+            console.error('Error al validar cuenta', error)
+            throw error; 
+        }
     }
 }
 
+
+UsuarioModelo.validarCuenta("al22760574@ite.gob.mx","mortadela123").then((usuario)=>{
+    console.log(usuario)
+})
