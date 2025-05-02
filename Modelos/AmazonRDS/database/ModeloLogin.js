@@ -29,11 +29,6 @@ const modelo_usuarios = sequelize.define('usuarios',{
         allowNull: false,
         defaultValue: null,
     },
-    estado: {
-        type: DataTypes.ENUM('activo', 'inactivo'),
-        allowNull: false,
-        defaultValue: ('activo')
-    }
 },
 {
     tableName: 'usuarios',
