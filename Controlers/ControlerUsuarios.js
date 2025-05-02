@@ -1,6 +1,6 @@
-import bcrypt from 'bcryptjs';
+//import bcrypt from 'bcryptjs';
 //import { DatabaseError, ValidationError } from '../errors.js';
-import { verificarUsuarioZod } from '../Schemas/UsuarioSchema.js'
+import { verificarUsuarioZod, verificarUsuarioCredencialesZod } from '../Schemas/UsuarioSchema.js'
 import { UsuarioModelo } from '../Modelos/AmazonRDS/UsuarioModel.js'
 
 export class ControlerUsuario {
@@ -9,9 +9,9 @@ export class ControlerUsuario {
     const datos = req.body
 
     // validar datos
-    const verificacion = verificarUsuarioZod(datos)
+    const verificacion = verificarUsuarioCredencialesZod(datos)
     if (verificacion.success === false) {
-      return res.status(400).json({ error: verificacion.error.errors })
+      return res.status(400).json({ message: "peticion no valida",error: verificacion.error.errors })
     }
 
     // verificar que si existe
@@ -22,10 +22,10 @@ export class ControlerUsuario {
     }
 
     // generar token
-
+    const token = 'token'
 
     // devolver token y datos del usuario
-    return res.status(200).json({ message: 'Login exitoso', tokken: 'token'})
+    return res.status(200).json({ message: 'Login exitoso', tokken: token})
   }
 
   // Crear nuevo usuario
@@ -33,6 +33,7 @@ export class ControlerUsuario {
     const data = req.body
 
     // verificar que los datos son correctos
+    console.log(data)
     const verificacion = verificarUsuarioZod(data)
     if (verificacion.success === false) {
       return res.status(400).json({ error: verificacion.error.errors })
@@ -75,7 +76,8 @@ export class ControlerUsuario {
     }
     */
   }
-
+  
+  /* 
   // Actualizar usuario
   async updateUser(userId, updateData) {
     this.validateUpdateData(updateData);
@@ -129,7 +131,8 @@ export class ControlerUsuario {
       throw new DatabaseError('Error al actualizar usuario');
     }
   }
-
+ */
+/* 
   // Eliminar usuario
   static async deleteUsuario(req, res) {
     await this.db.execute(
@@ -139,5 +142,5 @@ export class ControlerUsuario {
     
     return { message: 'Usuario eliminado correctamente' };
   }
-
+ */
 }
