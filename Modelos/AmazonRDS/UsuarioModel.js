@@ -47,7 +47,7 @@ export class UsuarioModelo{
      * Obtiene a todos los usuario de la base de datos, si se pasa un correo como parametro
      * se buscará al usuario especificado
      * @param {string | null} correo
-     * @returns {JSON | Array} retornaun JSON con los datos del usuario o un array de usuarios
+     * @returns {JSON | Array | null} retornaun JSON con los datos del usuario o un array de usuarios
      * @example UsuarioModelo.getUsuarios(correo)
      * 'o bien'
      * UsuarioModelo.getUsuarios()
@@ -61,7 +61,7 @@ export class UsuarioModelo{
                 },
                 attributes: ['id_usuario', 'nombre', 'email', 'telefono', 'rol'],
             });
-            return usuario.dataValues
+            return usuario ? usuario.dataValues : null;
         }
         // Si no se especifica correo se retornan todos los usuarios
         else if(!correo){
