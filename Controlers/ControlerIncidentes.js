@@ -26,7 +26,6 @@ export class ControlerIncidentes {
       }
       
       // recuperar reporte
-      // FILTROS NO IMPLEMENTADOS
       const incidentes = await IncidenteModel.obtenerIncidentes(filtros);
       console.log(filtros)
       
