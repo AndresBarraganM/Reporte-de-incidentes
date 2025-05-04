@@ -101,7 +101,7 @@ const modelo_incidentes = sequelize.define('reporte_incidente', {
     img: {
         type: DataTypes.STRING(255),
         allowNull: true,
-        defaultValue: ""
+        defaultValue: "C:\Users\Usuario\Pictures\proyecto_reportes\default.jpg"
     },
     descripcion: {
         type: DataTypes.TEXT,

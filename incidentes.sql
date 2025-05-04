@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Apr 29, 2025 at 07:05 PM
+-- Generation Time: May 04, 2025 at 04:12 PM
 -- Server version: 11.5.2-MariaDB
 -- PHP Version: 8.2.18
 
@@ -130,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `reporte_incidente` (
   `id_bano` int(11) NOT NULL,
   `id_usuario_reporta` int(11) DEFAULT NULL,
   `id_incidente` int(11) DEFAULT NULL,
-  `img` blob DEFAULT NULL,
+  `img` varchar(255) DEFAULT NULL,
   `descripcion` text NOT NULL,
   `fecha_reporte` datetime DEFAULT NULL,
   `estado` enum('pendiente','en_proceso','resuelto') DEFAULT 'pendiente',
