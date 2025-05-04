@@ -57,7 +57,6 @@ export class ControlerIncidentes {
 
   // agregar un incidente a la base de datos
   static async postIncidente(req, res) {
-    let nombreFoto = null
     let reporte, foto
 
     // conprobar segun esquema
@@ -103,7 +102,9 @@ export class ControlerIncidentes {
        return
       }  
       try {
-        nombreFoto = await almacenarFoto(foto)
+        const nombreFoto = await almacenarFoto(foto)
+
+        reporte.img = nombreFoto
       } catch (error) {
         console.log("error al almacenar la foto: " + error)      
       }

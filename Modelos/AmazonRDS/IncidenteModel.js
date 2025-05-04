@@ -27,6 +27,7 @@ export class IncidenteModel{
             const nuevo_incidente = await modelo_incidentes.create({
                 id_bano: bano.id_bano,
                 id_incidente: tipo_incidente.id_incidente,
+                img: datos.img,  // Campo opcionals
                 descripcion: datos.descripcion,
                 fecha_reporte: new Date()  // Campo obligatorio
             });
