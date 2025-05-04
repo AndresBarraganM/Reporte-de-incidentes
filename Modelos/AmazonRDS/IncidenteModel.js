@@ -43,14 +43,14 @@ export class IncidenteModel{
         // Incialización de las variables del búsqueda
         const  {edificio, banio, planta, estado, prioridad, fecha} = filtros;
 
+        // inicialización de las variables de busqueda (Where)
         const whereEdificio = {};
+        const whereBano = {};
+        const whereIncidente = {};
+
         if (edificio) whereEdificio.nombre = edificio;
         if (planta) whereEdificio.planta = planta;
-
-        const whereBano = {};
         if (banio) whereBano.genero_bano = banio;
-
-        const whereIncidente = {};
         if (estado) whereIncidente.estado = estado;
         if (prioridad) whereIncidente.prioridad = prioridad;
         if (fecha) {
