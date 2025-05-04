@@ -4,6 +4,7 @@ import { validarIncidenteZod } from '../Schemas/IncidenteSchema.js'
 import { validarFoto } from '../Schemas/FotoSchema.js';
 
 import { separaUbicacion } from '../utils/functions/separarUbicacion.js';
+import { almacenarFoto } from '../utils/functions/almacenarFoto.js';
 
 export class ControlerIncidentes {
 
@@ -54,28 +55,31 @@ export class ControlerIncidentes {
 
   // agregar un incidente a la base de datos
   static async postIncidente(req, res) {
+    let nombreFoto = null
+    let reporte, foto
+
     // conprobar segun esquema
     if (req.body.data== null) {
       return res.status(400).json({ error: "faltan campos requeridos"})
     }
     
-    let reporte, foto
+
     try {
       reporte = JSON.parse(req.body.data);
 
-      foto = req.file ? req.file : false;
+      foto = req.files.foto ? req.files.foto[0]  : false;
+
     } catch (error) {
       res.status(500).json({error: "error al parsear el json: " + error})
       return
     }
 
-    // verificar foto
-    if (!validarFoto(foto)){
-      res.status(500).json({error: "formato de la foto incorrecto"}) 
+    // separar el campo de banio y eliminar ubicacion
+    // validar que el campo de ubicacion no este vacio
+    if (!reporte.ubicacion) {
+      res.status(400).json({error: "el campo ubicacion no puede estar vacio"})
       return
     }
-
-    // separar el campo de banio y eliminar ubicacion
     const ubicacion = reporte.ubicacion
     const resultado = separaUbicacion(ubicacion);
     reporte.nombre = resultado.nombre;
@@ -90,15 +94,24 @@ export class ControlerIncidentes {
     }
 
     // agregar a base de datos
+    // manejar foto
+    if(foto){
+      if (!validarFoto(foto)){
+        res.status(400).json({error: "formato de la foto incorrecto"}) 
+       return
+      }  
+      try {
+        nombreFoto = await almacenarFoto(foto)
+      } catch (error) {
+        console.log("error al almacenar la foto: " + error)      
+      }
+    }
+
+    // agregar reportes
     try {
       await IncidenteModel.generarIncidente(reporte)
     } catch (error) {
-      res.status(500).json({message: "no se pudo registar el incidente"})       
-    }
-    try {
-      //await IncidenteModel.agregarFoto(foto)      
-    } catch (error) {
-      res.status(500).json({message: "no se pudo registar la foto"})      
+      res.status(500).json({message: "no se pudo registar el incidente", error: error})       
     }
 
     res.status(200).json({message: "incidente registrado exitosamente"})
