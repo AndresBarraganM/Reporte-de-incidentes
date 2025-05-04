@@ -23,7 +23,7 @@ Content-Type: multipart/form-data; boundary=----MyBoundary
 
 ------MyBoundary
 Content-Disposition: form-data; name="data"
-Content-Type: application/json
+#Content-Type: application/json
 
 # Con estos campos se crea el reporte de incidente
 {
@@ -40,3 +40,18 @@ Content-Type: image/png
 < ./vandalizmo.jpg
 ------MyBoundary--
 
+### Agregar un incidente sin foto
+POST http://localhost:1234/incidentes
+Content-Type: multipart/form-data; boundary=----MyBoundary
+
+------MyBoundary
+Content-Disposition: form-data; name="data"
+
+{
+    "ubicacion": "100 planta alta",
+    "tipo_incidente": "Falta de jabón",
+    "genero_bano": "hombre",
+    "descripcion": "Falta jabón en ambos dispensadores"
+    
+}
+------MyBoundary--
