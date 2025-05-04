@@ -2,6 +2,7 @@ import { modelo_banos, modelo_edificio, modelo_incidentes } from './database/Mod
 import { EdificioModel } from './EdificioModel.js';
 import { TipoIncidenteModel } from './TipoIncidenteModel.js';
 import { BanoModel } from './BanoModel.js';
+import { Op } from 'sequelize';
 
 export class IncidenteModel{
 
@@ -38,9 +39,30 @@ export class IncidenteModel{
         }
     }
 
-    static async obtenerIncidentes() {
+    static async obtenerIncidentes(filtros = {}) {
+        // Incialización de las variables del búsqueda
+        const  {edificio, banio, planta, estado, prioridad, fecha} = filtros;
+
+        const whereEdificio = {};
+        if (edificio) whereEdificio.nombre = edificio;
+        if (planta) whereEdificio.planta = planta;
+
+        const whereBano = {};
+        if (banio) whereBano.genero_bano = banio;
+
+        const whereIncidente = {};
+        if (estado) whereIncidente.estado = estado;
+        if (prioridad) whereIncidente.prioridad = prioridad;
+        if (fecha) {
+            whereIncidente.fecha_reporte = {};
+            if (filtros.fecha.antesDe) whereIncidente.fecha_reporte = { [Op.lt]: filtros.fecha.antesDe };
+            if (filtros.fecha.despuesDe) whereIncidente.fecha_reporte = { [Op.gt]: filtros.fecha.despuesDe };
+        }
+
+        //
         const incidentes = await modelo_incidentes.findAll({
-            attributes: ['id_incidente', 'descripcion', 'estado_incidente', 'prioridad', 'fecha_reporte'],
+            attributes: ['id_incidente', 'descripcion', 'estado', 'prioridad', 'fecha_reporte'],
+            where: whereIncidente,
             include: [
                 {
                     model: modelo_banos,
@@ -48,18 +70,21 @@ export class IncidenteModel{
                     include: [
                         {
                             model: modelo_edificio,
-                            attributes: ['id_edificio','nombre', 'planta']
+                            attributes: ['id_edificio','nombre', 'planta'],
+                            where: whereEdificio
                         }
-                    ]
+                    ],
+                    where: whereBano
                 },
             ],
+            
             order: [['fecha_reporte', 'DESC']],
         });
     
         return incidentes.map(incidente => ({
             id_incidente: incidente.id_incidente,
             descripcion: incidente.descripcion,
-            estado_incidente: incidente.estado_incidente,
+            estado: incidente.estado,
             prioridad: incidente.prioridad,
             fecha_reporte: incidente.fecha_reporte,
             bano: {
@@ -74,9 +99,3 @@ export class IncidenteModel{
         }));
     }
 }
-
-/*
-IncidenteModel.obtenerIncidentes().then((incindente) =>{
-    console.log(JSON.stringify(incindente,null,2))
-})
-*/

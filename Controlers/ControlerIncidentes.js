@@ -17,6 +17,8 @@ export class ControlerIncidentes {
       if (req.query.edificio) filtros.edificio = req.query.edificio;
       if (req.query.banio) filtros.genero = req.query.genero;
       if (req.query.planta) filtros.planta = req.query.planta;
+      if (req.query.estado) filtros.estado = req.query.estado;
+      if (req.query.prioridad) filtros.prioridad = req.query.prioridad;
       if (req.query.fechaAntesDe || req.query.fechaDespuesDe) {
         filtros.fecha = {};
         if (req.query.fechaAntesDe) filtros.fecha.antesDe = new Date(req.query.fechaAntesDe);
@@ -25,7 +27,8 @@ export class ControlerIncidentes {
       
       // recuperar reporte
       // FILTROS NO IMPLEMENTADOS
-      const incidentes = await IncidenteModel.obtenerIncidentes(); 
+      const incidentes = await IncidenteModel.obtenerIncidentes(filtros);
+      console.log(filtros)
       
       res.status(200).json(incidentes);
 

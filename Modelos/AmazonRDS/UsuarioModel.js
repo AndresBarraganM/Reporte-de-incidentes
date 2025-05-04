@@ -97,7 +97,7 @@ export class UsuarioModelo{
                 email: emailOriginal
             }
         })
-
+        
         if (usuario > 0){
             console.log(`se han actualizado ${usuario} filas`)
             return 'Registro actualizado correctamente'
@@ -140,9 +140,6 @@ export class UsuarioModelo{
         catch(error){
             return {status: 500, error: 'Error al eliminar el registro'}
         }
-
-
-        
     }
 
     /**
