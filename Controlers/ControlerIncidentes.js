@@ -5,25 +5,14 @@ import { validarFoto } from '../Schemas/FotoSchema.js';
 
 import { separaUbicacion } from '../utils/functions/separarUbicacion.js';
 import { almacenarFoto } from '../utils/functions/almacenarFoto.js';
+import { extraerFiltros } from '../utils/functions/filtrosDeQuery.js';
 
 export class ControlerIncidentes {
 
   // retornar incidentes
   static async getIncidentes(req, res) {
     try {
-      const filtros = {};
-
-      // Extrae los parámetros de la query y los agrega a los filtros si existen
-      if (req.query.edificio) filtros.edificio = req.query.edificio;
-      if (req.query.banio) filtros.genero = req.query.genero;
-      if (req.query.planta) filtros.planta = req.query.planta;
-      if (req.query.estado) filtros.estado = req.query.estado;
-      if (req.query.prioridad) filtros.prioridad = req.query.prioridad;
-      if (req.query.fechaAntesDe || req.query.fechaDespuesDe) {
-        filtros.fecha = {};
-        if (req.query.fechaAntesDe) filtros.fecha.antesDe = new Date(req.query.fechaAntesDe);
-        if (req.query.fechaDespuesDe) filtros.fecha.despuesDe = new Date(req.query.fechaDespuesDe);
-      }
+      const filtros = extraerFiltros(req.query);
       
       // recuperar reporte
       const incidentes = await IncidenteModel.obtenerIncidentes(filtros);
