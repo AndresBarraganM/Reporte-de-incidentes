@@ -98,10 +98,10 @@ export class IncidenteModel{
         }));
     }
 
-    static async obtenerFotoIncidente(id_incidente) {
+    static async obtenerFotoIncidente(id_reporte) {
         try {
             const incidente = await modelo_incidentes.findOne({
-                where: { id_incidente },
+                where: { id_reporte },
                 attributes: ['img']
             });
     
