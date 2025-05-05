@@ -60,7 +60,7 @@ export class IncidenteModel{
 
         //
         const incidentes = await modelo_incidentes.findAll({
-            attributes: ['id_incidente', 'descripcion', 'estado', 'prioridad', 'fecha_reporte'],
+            attributes: ['id_incidente', 'id_reporte', 'descripcion', 'estado', 'prioridad', 'fecha_reporte'],
             where: whereIncidente,
             include: [
                 {
@@ -82,6 +82,7 @@ export class IncidenteModel{
     
         return incidentes.map(incidente => ({
             id_incidente: incidente.id_incidente,
+            id_reporte: incidente.id_reporte,
             descripcion: incidente.descripcion,
             estado: incidente.estado,
             prioridad: incidente.prioridad,
@@ -116,3 +117,5 @@ export class IncidenteModel{
         }
     }
 }
+
+console.log(await IncidenteModel.obtenerIncidentes())
