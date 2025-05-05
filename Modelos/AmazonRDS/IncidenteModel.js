@@ -118,4 +118,3 @@ export class IncidenteModel{
     }
 }
 
-console.log(await IncidenteModel.obtenerIncidentes())
