@@ -8,8 +8,6 @@ export class IncidenteModel{
 
     static async generarIncidente(datos) {
         try {
-            console.log(JSON.stringify(datos, null, 2));
-            
             // Buscar con await
             const bano = await BanoModel.obtenerBano({
                 nombre: datos.nombre,
@@ -98,5 +96,23 @@ export class IncidenteModel{
                 }
             }
         }));
+    }
+
+    static async obtenerFotoIncidente(id_incidente) {
+        try {
+            const incidente = await modelo_incidentes.findOne({
+                where: { id_incidente },
+                attributes: ['img']
+            });
+    
+            if (!incidente) {
+                throw new Error("Incidente no encontrado");
+            }
+    
+            return incidente.img;
+        } catch (error) {
+            console.error(`Error al obtener la foto del incidente: ${error.message}`);
+            throw error; // Propagar el error para manejo superior
+        }
     }
 }
