@@ -27,35 +27,39 @@ export class ControlerIncidentes {
 
   // obtener foto de un incidente seugn ID
   static async getFotoIncidente(req, res) {
-    const id = req.params.id;
+    let id_reporte = null
     let nombreFoto, recuperar_foto = null
 
-    if (!id){
-      res.status(400).json({ message: 'Se requiere indicar una id' });
+    try {
+      id_reporte = parseInt(req.params.id);
+    } catch (error) {
+      res.status(400).json({ message: 'Error al parsear el id', error: error.message });
       return
     }
 
+
     // recuperar nombre   PENDIENTE
     try {
-      nombreFoto = 1 ;//await IncidenteModel.obtenerNombreFoto(id);
+      nombreFoto = await IncidenteModel.obtenerFotoIncidente(id_reporte);
     } catch (error) {
-      res.status(500).json({ message: 'Error al recuperar la foto', error });
+      res.status(500).json({ message: 'Error al recuperar la foto de la base de datos', error: error.message});
       return
     }
 
     if (nombreFoto == null) {
-      res.status(404).json({ error: 'No se encontro foto relacionada a este reporte' });
+      res.status(404).json({ message: 'No se encontro foto relacionada a este reporte', error: "el reporte no cuenta con una foto relacionada" });
       return
     }
     
     // obtener el archivo de la foto
     try {
-      Path_foto = await recuperarPathFoto(nombreFoto);
-      res.status(200).json({message: "API NO IMPLEMENTADA"}) //res.status(200).sendFile(imagePath)
+      const Path_foto = await recuperarPathFoto(nombreFoto);
+      
+      res.status(200).sendFile(Path_foto)
       
       return
-    }catch{
-      res.status(500).json({ message: 'Error al recuperar la foto', error });
+    }catch(error){
+      res.status(500).json({ message: 'Error al recuperar el archivo de foto', error: error.message });
       return
     }
   }
