@@ -26,3 +26,7 @@ export async function almacenarFoto(foto) {
 
   return nombreArchivo
 }
+
+export async function recuperarPathFoto(nombreArchivo) {
+  return path.join(process.env.PHOTO_PATH, nombreArchivo);
+}

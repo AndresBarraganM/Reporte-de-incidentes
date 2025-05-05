@@ -4,7 +4,7 @@ import { validarIncidenteZod } from '../Schemas/IncidenteSchema.js'
 import { validarFoto } from '../Schemas/FotoSchema.js';
 
 import { separaUbicacion } from '../utils/functions/separarUbicacion.js';
-import { almacenarFoto } from '../utils/functions/almacenarFoto.js';
+import { almacenarFoto, recuperarPathFoto } from '../utils/functions/fotoMethods.js';
 import { extraerFiltros } from '../utils/functions/filtrosDeQuery.js';
 
 export class ControlerIncidentes {
@@ -28,20 +28,36 @@ export class ControlerIncidentes {
   // obtener foto de un incidente seugn ID
   static async getFotoIncidente(req, res) {
     const id = req.params.id;
+    let nombreFoto, recuperar_foto = null
 
     if (!id){
       res.status(400).json({ message: 'Se requiere indicar una id' });
       return
     }
 
-    // recuperar imagenes
-    const imagenes = {message:"NO IMPLEMENTADO"};
-    if (imagenes.length === 0) {
-      res.status(404).json({ message: 'No se encontraron imágenes para el incidente' });
-      return;
+    // recuperar nombre   PENDIENTE
+    try {
+      nombreFoto = 1 ;//await IncidenteModel.obtenerNombreFoto(id);
+    } catch (error) {
+      res.status(500).json({ message: 'Error al recuperar la foto', error });
+      return
     }
 
-    return res.status(200).json(imagenes);
+    if (nombreFoto == null) {
+      res.status(404).json({ error: 'No se encontro foto relacionada a este reporte' });
+      return
+    }
+    
+    // obtener el archivo de la foto
+    try {
+      Path_foto = await recuperarPathFoto(nombreFoto);
+      res.status(200).json({message: "API NO IMPLEMENTADA"}) //res.status(200).sendFile(imagePath)
+      
+      return
+    }catch{
+      res.status(500).json({ message: 'Error al recuperar la foto', error });
+      return
+    }
   }
 
   // agregar un incidente a la base de datos
