@@ -8,4 +8,4 @@ UsuarioRouter .post('/login',  ControlerUsuario.loginUsuario)
 
 UsuarioRouter .post('/', ControlerUsuario.postUsuario)
 
-UsuarioRouter .delete('/', ControlerUsuario.deleteUsuario)
+//UsuarioRouter .delete('/', ControlerUsuario.deleteUsuario)

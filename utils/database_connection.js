@@ -21,3 +21,12 @@ const sequelize = new Sequelize(
 );
 
 export { sequelize };
+
+export async function probarConexion() {
+  try {
+    await sequelize.authenticate();
+    return { exito: true };
+  } catch (error) {
+    return { exito: false, error: error.message };
+  }
+}

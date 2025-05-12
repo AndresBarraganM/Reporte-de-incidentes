@@ -2,13 +2,12 @@ import { modelo_banos, modelo_edificio, modelo_incidentes } from './database/Mod
 import { EdificioModel } from './EdificioModel.js';
 import { TipoIncidenteModel } from './TipoIncidenteModel.js';
 import { BanoModel } from './BanoModel.js';
+import { Op } from 'sequelize';
 
 export class IncidenteModel{
 
     static async generarIncidente(datos) {
         try {
-            console.log(JSON.stringify(datos, null, 2));
-            
             // Buscar con await
             const bano = await BanoModel.obtenerBano({
                 nombre: datos.nombre,
@@ -26,6 +25,7 @@ export class IncidenteModel{
             const nuevo_incidente = await modelo_incidentes.create({
                 id_bano: bano.id_bano,
                 id_incidente: tipo_incidente.id_incidente,
+                img: datos.img ? datos.img : null,  // Campo opcionals
                 descripcion: datos.descripcion,
                 fecha_reporte: new Date()  // Campo obligatorio
             });
@@ -38,9 +38,30 @@ export class IncidenteModel{
         }
     }
 
-    static async obtenerIncidentes() {
+    static async obtenerIncidentes(filtros = {}) {
+        // Incialización de las variables del búsqueda
+        const  {edificio, banio, planta, estado, prioridad, fecha} = filtros;
+
+        // inicialización de las variables de busqueda (Where)
+        const whereEdificio = {};
+        const whereBano = {};
+        const whereIncidente = {};
+
+        if (edificio) whereEdificio.nombre = edificio;
+        if (planta) whereEdificio.planta = planta;
+        if (banio) whereBano.genero_bano = banio;
+        if (estado) whereIncidente.estado = estado;
+        if (prioridad) whereIncidente.prioridad = prioridad;
+        if (fecha) {
+            whereIncidente.fecha_reporte = {};
+            if (filtros.fecha.antesDe) whereIncidente.fecha_reporte = { [Op.lt]: filtros.fecha.antesDe };
+            if (filtros.fecha.despuesDe) whereIncidente.fecha_reporte = { [Op.gt]: filtros.fecha.despuesDe };
+        }
+
+        //
         const incidentes = await modelo_incidentes.findAll({
-            attributes: ['id_incidente', 'descripcion', 'estado_incidente', 'prioridad', 'fecha_reporte'],
+            attributes: ['id_incidente', 'id_reporte', 'descripcion', 'estado', 'prioridad', 'fecha_reporte'],
+            where: whereIncidente,
             include: [
                 {
                     model: modelo_banos,
@@ -48,18 +69,22 @@ export class IncidenteModel{
                     include: [
                         {
                             model: modelo_edificio,
-                            attributes: ['id_edificio','nombre', 'planta']
+                            attributes: ['id_edificio','nombre', 'planta'],
+                            where: whereEdificio
                         }
-                    ]
+                    ],
+                    where: whereBano
                 },
             ],
+            
             order: [['fecha_reporte', 'DESC']],
         });
     
         return incidentes.map(incidente => ({
             id_incidente: incidente.id_incidente,
+            id_reporte: incidente.id_reporte,
             descripcion: incidente.descripcion,
-            estado_incidente: incidente.estado_incidente,
+            estado: incidente.estado,
             prioridad: incidente.prioridad,
             fecha_reporte: incidente.fecha_reporte,
             bano: {
@@ -73,10 +98,23 @@ export class IncidenteModel{
             }
         }));
     }
+
+    static async obtenerFotoIncidente(id_reporte) {
+        try {
+            const incidente = await modelo_incidentes.findOne({
+                where: { id_reporte },
+                attributes: ['img']
+            });
+    
+            if (!incidente) {
+                throw new Error("Incidente no encontrado");
+            }
+    
+            return incidente.img;
+        } catch (error) {
+            console.error(`Error al obtener la foto del incidente: ${error.message}`);
+            throw error; // Propagar el error para manejo superior
+        }
+    }
 }
 
-/*
-IncidenteModel.obtenerIncidentes().then((incindente) =>{
-    console.log(JSON.stringify(incindente,null,2))
-})
-*/

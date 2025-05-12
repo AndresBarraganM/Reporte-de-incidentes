@@ -4,27 +4,19 @@ import { validarIncidenteZod } from '../Schemas/IncidenteSchema.js'
 import { validarFoto } from '../Schemas/FotoSchema.js';
 
 import { separaUbicacion } from '../utils/functions/separarUbicacion.js';
+import { almacenarFoto, recuperarPathFoto } from '../utils/functions/fotoMethods.js';
+import { extraerFiltros } from '../utils/functions/filtrosDeQuery.js';
 
 export class ControlerIncidentes {
 
   // retornar incidentes
   static async getIncidentes(req, res) {
     try {
-      const filtros = {};
-
-      // Extrae los parámetros de la query y los agrega a los filtros si existen
-      if (req.query.edificio) filtros.edificio = req.query.edificio;
-      if (req.query.banio) filtros.genero = req.query.genero;
-      if (req.query.planta) filtros.planta = req.query.planta;
-      if (req.query.fechaAntesDe || req.query.fechaDespuesDe) {
-        filtros.fecha = {};
-        if (req.query.fechaAntesDe) filtros.fecha.antesDe = new Date(req.query.fechaAntesDe);
-        if (req.query.fechaDespuesDe) filtros.fecha.despuesDe = new Date(req.query.fechaDespuesDe);
-      }
+      const filtros = extraerFiltros(req.query);
       
       // recuperar reporte
-      // FILTROS NO IMPLEMENTADOS
-      const incidentes = await IncidenteModel.obtenerIncidentes(); 
+      const incidentes = await IncidenteModel.obtenerIncidentes(filtros);
+      console.log(filtros)
       
       res.status(200).json(incidentes);
 
@@ -35,47 +27,69 @@ export class ControlerIncidentes {
 
   // obtener foto de un incidente seugn ID
   static async getFotoIncidente(req, res) {
-    const id = req.params.id;
+    let id_reporte = null
+    let nombreFoto, recuperar_foto = null
 
-    if (!id){
-      res.status(400).json({ message: 'Se requiere indicar una id' });
+    try {
+      id_reporte = parseInt(req.params.id);
+    } catch (error) {
+      res.status(400).json({ message: 'Error al parsear el id', error: error.message });
       return
     }
 
-    // recuperar imagenes
-    const imagenes = {message:"NO IMPLEMENTADO"};
-    if (imagenes.length === 0) {
-      res.status(404).json({ message: 'No se encontraron imágenes para el incidente' });
-      return;
+
+    // recuperar nombre   PENDIENTE
+    try {
+      nombreFoto = await IncidenteModel.obtenerFotoIncidente(id_reporte);
+    } catch (error) {
+      res.status(500).json({ message: 'Error al recuperar la foto de la base de datos', error: error.message});
+      return
     }
 
-    return res.status(200).json(imagenes);
+    if (nombreFoto == null) {
+      res.status(404).json({ message: 'No se encontro foto relacionada a este reporte', error: "el reporte no cuenta con una foto relacionada" });
+      return
+    }
+    
+    // obtener el archivo de la foto
+    try {
+      const Path_foto = await recuperarPathFoto(nombreFoto);
+      
+      res.status(200).sendFile(Path_foto)
+      
+      return
+    }catch(error){
+      res.status(500).json({ message: 'Error al recuperar el archivo de foto', error: error.message });
+      return
+    }
   }
 
   // agregar un incidente a la base de datos
   static async postIncidente(req, res) {
+    let reporte, foto
+
     // conprobar segun esquema
     if (req.body.data== null) {
       return res.status(400).json({ error: "faltan campos requeridos"})
     }
     
-    let reporte, foto
+
     try {
       reporte = JSON.parse(req.body.data);
 
-      foto = req.file ? req.file : false;
+      foto = req.files.foto ? req.files.foto[0]  : false;
+
     } catch (error) {
       res.status(500).json({error: "error al parsear el json: " + error})
       return
     }
 
-    // verificar foto
-    if (!validarFoto(foto)){
-      res.status(500).json({error: "formato de la foto incorrecto"}) 
+    // separar el campo de banio y eliminar ubicacion
+    // validar que el campo de ubicacion no este vacio
+    if (!reporte.ubicacion) {
+      res.status(400).json({error: "el campo ubicacion no puede estar vacio"})
       return
     }
-
-    // separar el campo de banio y eliminar ubicacion
     const ubicacion = reporte.ubicacion
     const resultado = separaUbicacion(ubicacion);
     reporte.nombre = resultado.nombre;
@@ -90,15 +104,26 @@ export class ControlerIncidentes {
     }
 
     // agregar a base de datos
+    // manejar foto
+    if(foto){
+      if (!validarFoto(foto)){
+        res.status(400).json({error: "formato de la foto incorrecto"}) 
+       return
+      }  
+      try {
+        const nombreFoto = await almacenarFoto(foto)
+
+        reporte.img = nombreFoto
+      } catch (error) {
+        console.log("error al almacenar la foto: " + error)      
+      }
+    }
+
+    // agregar reportes
     try {
       await IncidenteModel.generarIncidente(reporte)
     } catch (error) {
-      res.status(500).json({message: "no se pudo registar el incidente"})       
-    }
-    try {
-      //await IncidenteModel.agregarFoto(foto)      
-    } catch (error) {
-      res.status(500).json({message: "no se pudo registar la foto"})      
+      res.status(500).json({message: "no se pudo registar el incidente", error: error})       
     }
 
     res.status(200).json({message: "incidente registrado exitosamente"})

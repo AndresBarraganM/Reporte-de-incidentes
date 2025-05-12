@@ -99,8 +99,9 @@ const modelo_incidentes = sequelize.define('reporte_incidente', {
         }
     },
     img: {
-        type: DataTypes.BLOB('medium'),
-        allowNull: true
+        type: DataTypes.STRING(255),
+        allowNull: true,
+        defaultValue: "C:\Users\Usuario\Pictures\proyecto_reportes\default.jpg"
     },
     descripcion: {
         type: DataTypes.TEXT,
@@ -110,7 +111,7 @@ const modelo_incidentes = sequelize.define('reporte_incidente', {
         type: DataTypes.DATE,
         allowNull: false
     },
-    estado_incidente: {
+    estado: {
         type: DataTypes.ENUM('pendiente', 'en_proceso', 'resuelto'),
         allowNull: true,
         defaultValue: 'pendiente'

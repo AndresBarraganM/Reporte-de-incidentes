@@ -1,6 +1,8 @@
 import { IncidenteRouter } from "./Middlewares/Routers/RouterIncidente.js";
 import { TipoIncidenteRouter } from "./Middlewares/Routers/RouterTipoIncidente.js";
 import { BanoRouter } from "./Middlewares/Routers/RouterBano.js";
+import { UsuarioRouter } from "./Middlewares/Routers/RouterUsuario.js";
+import { probarConexion } from "./utils/database_connection.js";
 
 import multer from 'multer';
 import  express, { json } from "express";
@@ -17,9 +19,23 @@ const createApp = () => {
 
   // Routers
   app.use('/incidentes', IncidenteRouter)
-  app.use('/banos', BanoRouter)
+  app.use('/banios', BanoRouter)
   app.use('/tipos_incidentes', TipoIncidenteRouter )
   app.use('/usuario', UsuarioRouter)
+
+  // Probar conexión a la base de datos
+  probarConexion()
+    .then((result) => {
+      if (result.exito) {
+        console.log('✅ Conexión establecida correctamente.');
+      } else {
+        console.error('❌ No se pudo conectar a la base de datos:', result.error);
+        process.exit(1) 
+      }
+    })
+    .catch((error) => {
+      console.error('Error inesperado:', error.message);
+    });
 
   const PORT = process.env.PORT || 1234;
 

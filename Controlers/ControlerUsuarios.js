@@ -1,6 +1,7 @@
-const bcrypt = require('bcrypt');
-const { DatabaseError, ValidationError } = require('../errors');
-import { verificarUsuarioZod } from '../Schemas/UsuarioSchema.js'
+//import bcrypt from 'bcryptjs';
+//import { DatabaseError, ValidationError } from '../errors.js';
+import { verificarUsuarioZod, verificarUsuarioCredencialesZod } from '../Schemas/UsuarioSchema.js'
+import { UsuarioModelo } from '../Modelos/AmazonRDS/UsuarioModel.js'
 
 export class ControlerUsuario {
 
@@ -8,29 +9,64 @@ export class ControlerUsuario {
     const datos = req.body
 
     // validar datos
-    const verificacion = verificarUsuarioZod(datos)
+    const verificacion = verificarUsuarioCredencialesZod(datos)
     if (verificacion.success === false) {
-      return res.status(400).json({ error: verificacion.error.errors })
+      return res.status(400).json({ message: "peticion no valida",error: verificacion.error.errors })
     }
 
-    // verificar que si existe y realizar login
+    let usuario = null
+    // verificar que si existe
     try {
-      
+      usuario = await UsuarioModelo.validarCuenta(datos.nombre, datos.contrasena_hash)
+
+      console.log(usuario)
+      if (usuario == null) {
+        return res.status(404).json({ message: 'correo o contrasena no validas' })
+      }
     } catch (error) {
-      
+      res.status(500).json({ message: 'Error al buscar usuario:', error: error })
+      return
     }
 
     // generar token
-
+    const token = 'token'
 
     // devolver token y datos del usuario
-    return res.status(200).json({ message: 'Login exitoso' })
+    return res.status(200).json({ message: 'Login exitoso', tokken: token})
   }
 
   // Crear nuevo usuario
   static async postUsuario(req, res) {
-    this.validateUserData(userData);
+    const data = req.body
+
+    // verificar que los datos son correctos
+    const verificacion = verificarUsuarioZod(data)
+    if (verificacion.success === false) {
+      return res.status(400).json({ error: verificacion.error.errors })
+    }
+
+    // verificar que el correo no existe
+    try {
+      const usuario = await UsuarioModelo.getUsuarios(data.email)
+      if (usuario != null) {
+        return res.status(400).json({ message: 'El correo ya está registrado' })
+      }
+    } catch (error) {
+      return res.status(500).json({ message: 'Error al verificar el correo', error: error })
+    }
+
+    // enviar a metodo para crear usuario
+    try{
+      await UsuarioModelo.agregarUsuario(data)
+    } catch(error){
+      return res.status(500).json({ message: "error al agregar usuario", error: error })
+    }
+
+    // retornar mensaje
     
+    res.status(200).json({ message: 'Usuario creado correctamente' })
+    /*
+    Codigo previo
     try {
       const hashedPassword = await bcrypt.hash(userData.contrasena, this.SALT_ROUNDS);
       
@@ -54,10 +90,10 @@ export class ControlerUsuario {
       }
       throw new DatabaseError('Error al crear usuario');
     }
+    */
   }
-
-
-
+  
+  /* 
   // Actualizar usuario
   async updateUser(userId, updateData) {
     this.validateUpdateData(updateData);
@@ -111,9 +147,10 @@ export class ControlerUsuario {
       throw new DatabaseError('Error al actualizar usuario');
     }
   }
-
+ */
+/* 
   // Eliminar usuario
-  async deleteUsuario(req, res) {
+  static async deleteUsuario(req, res) {
     await this.db.execute(
       'DELETE FROM usuarios WHERE id_usuario = ?',
       [userId]
@@ -121,5 +158,5 @@ export class ControlerUsuario {
     
     return { message: 'Usuario eliminado correctamente' };
   }
-
+ */
 }

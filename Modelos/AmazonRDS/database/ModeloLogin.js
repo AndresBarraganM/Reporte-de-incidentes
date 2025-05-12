@@ -1,4 +1,4 @@
-import { sequelize } from '../../utils/database_connection.js'
+import { sequelize } from '../../../utils/database_connection.js'
 import { DataTypes } from 'sequelize';
 
 // Instancia de la tabla Usuarios
@@ -29,11 +29,6 @@ const modelo_usuarios = sequelize.define('usuarios',{
         allowNull: false,
         defaultValue: null,
     },
-    estado: {
-        type: DataTypes.ENUM('activo', 'inactivo'),
-        allowNull: false,
-        defaultValue: ('activo')
-    }
 },
 {
     tableName: 'usuarios',

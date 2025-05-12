@@ -7,10 +7,10 @@ GET http://localhost:1234/incidentes
 
 
 ### Peticionar todos los incidentes de cierto edificio sin fotos
-GET http://localhost:1234/incidentes/?edificio=100
+GET http://localhost:1234/incidentes/?fechaDespuesDe=2025-07T17:29:09
 
 ### Peticionar todos los incidentes de el edificio 100 y de banio de hombres en la planta alta
-GET http://localhost:1234/incidentes/?edificio=100&banio=hombre&planta=alta
+    GET http://localhost:1234/incidentes/?edificio=100&banio=hombre&planta=alta
 
 ### Peticionar cierta foto de incidente segun id 
 GET http://localhost:1234/incidentes/foto/1/
@@ -23,15 +23,14 @@ Content-Type: multipart/form-data; boundary=----MyBoundary
 
 ------MyBoundary
 Content-Disposition: form-data; name="data"
-Content-Type: application/json
+#Content-Type: application/json
 
 # Con estos campos se crea el reporte de incidente
 {
-    "nombre": "100",
-    "planta": "alta",
+    "ubicacion": "100 planta alta",
     "tipo_incidente": "Falta de jabón",
     "genero_bano": "hombre",
-    "descripcion": "Falta jabón en ambos dispensadores",
+    "descripcion": "Falta jabón en ambos dispensadores"
     
 }
 ------MyBoundary
@@ -41,3 +40,18 @@ Content-Type: image/png
 < ./vandalizmo.jpg
 ------MyBoundary--
 
+### Agregar un incidente sin foto
+POST http://localhost:1234/incidentes
+Content-Type: multipart/form-data; boundary=----MyBoundary
+
+------MyBoundary
+Content-Disposition: form-data; name="data"
+
+{
+    "ubicacion": "100 planta alta",
+    "tipo_incidente": "Falta de jabón",
+    "genero_bano": "hombre",
+    "descripcion": "Falta jabón en ambos dispensadores"
+    
+}
+------MyBoundary--
