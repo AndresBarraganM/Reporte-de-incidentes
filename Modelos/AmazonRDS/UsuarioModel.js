@@ -1,5 +1,5 @@
 
-import {modelo_usuarios} from './ModeloLogin.js'
+import {modelo_usuarios} from './database/ModeloLogin.js'
 
 export class UsuarioModelo{
     
@@ -47,7 +47,7 @@ export class UsuarioModelo{
      * Obtiene a todos los usuario de la base de datos, si se pasa un correo como parametro
      * se buscará al usuario especificado
      * @param {string | null} correo
-     * @returns {JSON | Array} retornaun JSON con los datos del usuario o un array de usuarios
+     * @returns {JSON | Array | null} retornaun JSON con los datos del usuario o un array de usuarios
      * @example UsuarioModelo.getUsuarios(correo)
      * 'o bien'
      * UsuarioModelo.getUsuarios()
@@ -59,17 +59,14 @@ export class UsuarioModelo{
                 where: {
                     email: correo
                 },
-                attributes: ['id_usuario', 'nombre', 'email', 'telefono', 'rol'],
+                attributes: ['id_usuario', 'nombre', 'email', 'telefono', 'contrasena_hash'],
             });
-            return usuario.dataValues
+            return usuario ? usuario.dataValues : null;
         }
         // Si no se especifica correo se retornan todos los usuarios
         else if(!correo){
             const usuarios = await modelo_usuarios.findAll({
-                where: {
-                    estado: 'activo'
-                },
-                attributes: ['id_usuario', 'nombre', 'email', 'telefono', 'rol'],
+                attributes: ['id_usuario', 'nombre', 'email', 'telefono', 'contrasena_hash'],
                 order: [['nombre', 'ASC']]
             });
             return usuarios.map(usuario => usuario.dataValues)
@@ -100,7 +97,7 @@ export class UsuarioModelo{
                 email: emailOriginal
             }
         })
-
+        
         if (usuario > 0){
             console.log(`se han actualizado ${usuario} filas`)
             return 'Registro actualizado correctamente'
@@ -143,7 +140,27 @@ export class UsuarioModelo{
         catch(error){
             return {status: 500, error: 'Error al eliminar el registro'}
         }
-        
+    }
+
+    /**
+     * Metodo que permite validar si existe un usuario con el nombre y la contraseña especificados
+     * @param {string} nombre 
+     * @param {string} contraseña 
+     * @returns {JSON | null} retorna un JSON con los datos del usuario o null si no se encuentra
+     * @example UsuarioModelo.validarCuenta("corre@example.com", "contraseña123")
+     */
+    static async validarCuenta(nombre, contrasenia){
+        try{
+            const usuario = await modelo_usuarios.findOne({
+                where: {
+                    nombre: nombre,
+                    contrasena_hash: contrasenia
+                }
+            });
+            return usuario ? usuario.dataValues : null;
+        }catch(error){
+            console.error('Error al validar cuenta', error)
+            throw error; 
+        }
     }
 }
-
