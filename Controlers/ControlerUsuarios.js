@@ -18,7 +18,7 @@ export class ControlerUsuario {
       let usuario = null
       // verificar que si existe
       try {
-        usuario = await UsuarioModelo.validarCuenta(datos.nombre, datos.contrasena_hash)
+        usuario = await UsuarioModelo.validarCuenta(datos.nombre, datos.contrasenia)
 
         console.log(usuario)
         if (usuario == null) {
