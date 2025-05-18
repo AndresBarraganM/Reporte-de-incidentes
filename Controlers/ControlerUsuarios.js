@@ -2,38 +2,42 @@
 //import { DatabaseError, ValidationError } from '../errors.js';
 import { verificarUsuarioZod, verificarUsuarioCredencialesZod } from '../Schemas/UsuarioSchema.js'
 import { UsuarioModelo } from '../Modelos/AmazonRDS/UsuarioModel.js'
+import { generarToken } from '../utils/functions/jwt.js'
 
 export class ControlerUsuario {
 
-  static async loginUsuario(req, res){
-    const datos = req.body
+    static async loginUsuario(req, res){
+      const datos = req.body
 
-    // validar datos
-    const verificacion = verificarUsuarioCredencialesZod(datos)
-    if (verificacion.success === false) {
-      return res.status(400).json({ message: "peticion no valida",error: verificacion.error.errors })
-    }
-
-    let usuario = null
-    // verificar que si existe
-    try {
-      usuario = await UsuarioModelo.validarCuenta(datos.nombre, datos.contrasena_hash)
-
-      console.log(usuario)
-      if (usuario == null) {
-        return res.status(404).json({ message: 'correo o contrasena no validas' })
+      // validar datos
+      const verificacion = verificarUsuarioCredencialesZod(datos)
+      if (verificacion.success === false) {
+        return res.status(400).json({ message: "peticion no valida",error: verificacion.error.errors })
       }
-    } catch (error) {
-      res.status(500).json({ message: 'Error al buscar usuario:', error: error })
-      return
+
+      let usuario = null
+      // verificar que si existe
+      try {
+        usuario = await UsuarioModelo.validarCuenta(datos.nombre, datos.contrasena_hash)
+
+        console.log(usuario)
+        if (usuario == null) {
+          return res.status(404).json({ message: 'correo o contrasena no validas' })
+        }
+      } catch (error) {
+        res.status(500).json({ message: 'Error al buscar usuario:', error: error })
+        return
+      }
+
+      // generar token
+      const token = generarToken({
+          id_usuario: usuario.id_usuario,
+          nombre: usuario.nombre
+      });
+
+      // devolver token y datos del usuario
+      return res.status(200).json({ message: 'Login exitoso', token: token})
     }
-
-    // generar token
-    const token = 'token'
-
-    // devolver token y datos del usuario
-    return res.status(200).json({ message: 'Login exitoso', tokken: token})
-  }
 
   // Crear nuevo usuario
   static async postUsuario(req, res) {
