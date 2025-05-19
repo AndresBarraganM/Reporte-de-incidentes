@@ -100,7 +100,7 @@
             <p>Inicie sesión con sus credenciales</p>
         </div>
         
-        <form class="login-form" action="procesar_login.php" method="POST">
+        <form class="login-form" id="login-form">
             <div class="campo">
                 <label for="username">Usuario:</label>
                 <input type="text" id="username" name="username" required>
@@ -111,9 +111,11 @@
                 <input type="password" id="password" name="password" required>
             </div>
             
-            <button type="submit" class="btn-login">Ingresar al Sistema</button>
+            <button type="submit" id="iniciar-sesion" class="btn-login">Ingresar al Sistema</button>
         </form>
         
     </div>
+
+    <script src="js/login.js"></script>
 </body>
 </html>

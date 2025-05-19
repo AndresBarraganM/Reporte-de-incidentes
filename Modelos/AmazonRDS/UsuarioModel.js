@@ -12,7 +12,6 @@ export class UsuarioModelo{
      * nombre: 'NombreUsuario',
      * email: 'email@example.com',
      * telefono: '6461233445',
-     * rol: 2,
      * contrasenia: 'contraseña123'
      * }
      * @returns {JSON}
@@ -32,8 +31,7 @@ export class UsuarioModelo{
                 return nuevoUsuario.dataValues
             }
             else{
-                console.log("el correo ya existe en la base de datos")
-                return false
+                return null
             }
         }
         catch(error){
@@ -149,12 +147,11 @@ export class UsuarioModelo{
      * @returns {JSON | null} retorna un JSON con los datos del usuario o null si no se encuentra
      * @example UsuarioModelo.validarCuenta("corre@example.com", "contraseña123")
      */
-    static async validarCuenta(nombre, contrasenia){
+    static async validarCuenta(nombre){
         try{
             const usuario = await modelo_usuarios.findOne({
                 where: {
-                    nombre: nombre,
-                    contrasena_hash: contrasenia
+                    nombre: nombre
                 }
             });
             return usuario ? usuario.dataValues : null;
