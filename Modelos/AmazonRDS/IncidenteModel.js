@@ -1,6 +1,5 @@
-import { modelo_banos, modelo_edificio, modelo_incidentes } from './database/ModeloReportes.js'
+import { modelo_banos, modelo_edificio, modelo_incidentes, modelo_tipo_incidente } from './database/ModeloReportes.js'
 import { EdificioModel } from './EdificioModel.js';
-import { TipoIncidenteModel } from './TipoIncidenteModel.js';
 import { BanoModel } from './BanoModel.js';
 import { Op } from 'sequelize';
 
@@ -64,6 +63,10 @@ export class IncidenteModel{
             where: whereIncidente,
             include: [
                 {
+                    model: modelo_tipo_incidente,
+                    attributes: ['id_incidente', 'nombre'],
+                },
+                {
                     model: modelo_banos,
                     attributes: ['id_bano', 'genero_bano'],
                     include: [
@@ -81,8 +84,11 @@ export class IncidenteModel{
         });
     
         return incidentes.map(incidente => ({
-            id_incidente: incidente.id_incidente,
             id_reporte: incidente.id_reporte,
+            incidente: {
+                id_incidente: incidente.id_incidente,
+                nombre: incidente.tipo_incidente.nombre
+            },
             descripcion: incidente.descripcion,
             estado: incidente.estado,
             prioridad: incidente.prioridad,
@@ -118,3 +124,7 @@ export class IncidenteModel{
     }
 }
 
+
+IncidenteModel.obtenerIncidentes({}).then((result) => {
+    console.log(result);
+})
