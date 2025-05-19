@@ -1,4 +1,4 @@
-//import bcrypt from 'bcryptjs';
+import bcrypt from 'bcryptjs';
 //import { DatabaseError, ValidationError } from '../errors.js';
 import { verificarUsuarioZod, verificarUsuarioCredencialesZod } from '../Schemas/UsuarioSchema.js'
 import { UsuarioModelo } from '../Modelos/AmazonRDS/UsuarioModel.js'
@@ -18,11 +18,20 @@ export class ControlerUsuario {
       let usuario = null
       // verificar que si existe
       try {
-        usuario = await UsuarioModelo.validarCuenta(datos.nombre, datos.contrasenia)
+        usuario = await UsuarioModelo.validarCuenta(datos.nombre);
+        if (!usuario) {
+            return res.status(404).json({ message: 'correo o contraseña no validas' });
+          }
 
-        console.log(usuario)
-        if (usuario == null) {
-          return res.status(404).json({ message: 'correo o contrasena no validas' })
+        const passwordValida = await bcrypt.compare(datos.contrasena_hash, usuario.contrasena_hash)
+
+        if (!passwordValida) {
+          return res.status(401).json({
+          error: "Contraseña incorrecta"
+      });
+        }
+        if (usuario === null) {
+          return res.status(404).json({ message: 'correo o contraseña no validas' })
         }
       } catch (error) {
         res.status(500).json({ message: 'Error al buscar usuario:', error: error })
@@ -36,7 +45,7 @@ export class ControlerUsuario {
       });
 
       // devolver token y datos del usuario
-      return res.status(200).json({ message: 'Login exitoso', token: token})
+      return res.status(200).json({ success: true, message: 'Login exitoso', token: token})
     }
 
   // Crear nuevo usuario

@@ -6,7 +6,7 @@ import bcryptjs from "bcryptjs";
 
 export const registrarUsuario = async (req, res) => {
   try {
-    const { nombre, email, telefono, rol, contrasenia} = req.body;
+    const { nombre, email, telefono, contrasena_hash} = req.body;
     
     // realizar validaciones
     const validacion = verificarUsuarioCredencialesZod(req.body);
@@ -17,13 +17,11 @@ export const registrarUsuario = async (req, res) => {
       });
     }
 
-
-    const nuevoUsuario = UsuarioModelo.agregarUsuario({
+    const nuevoUsuario = await UsuarioModelo.agregarUsuario({
       nombre,
       email,
       telefono,
-      rol,
-      contrasenia
+      contrasena_hash: await bcryptjs.hash(contrasena_hash, 10)
     });
 
     if (!nuevoUsuario) {
@@ -32,16 +30,9 @@ export const registrarUsuario = async (req, res) => {
       });
     }
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
-      alumno: {
-        id: nuevoUsuario.id,
-        nombre: nuevoUsuario.nombre,
-        email: nuevoUsuario.email,
-        telefono: nuevoUsuario.telefono,
-        rol: nuevoUsuario.rol,
-        contrasenia: nuevoUsuario.contrasenia
-      }
+      message: "Alumno creado correctamente"
     });
 
   } catch (error) {
@@ -84,7 +75,6 @@ export const loginUsuario = async (req, res) => {
         nombre: user.nombre,
         email: user.email,
         telefono: user.telefono,
-        rol: user.rol,
         contrasenia: user.contrasenia
       }
     });

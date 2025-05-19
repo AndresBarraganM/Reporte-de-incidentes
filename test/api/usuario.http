@@ -5,26 +5,29 @@
 ### Iniciar sesion del usuario
 ## Inicio de sesion del usuario base
 ## Retorna token de sesion
+
+##USUARIO ADMIN: admin
+## CONTRASEÑA ADMIN: admin123
 POST http://localhost:1234/usuario/login
 Content-Type: application/json
 
 {
-  "nombre": "admin",
-  "contrasenia": "admin123"
+  "nombre": "joakin",
+  "contrasena_hash": "soyJoakin"
 }
 
 ### Crear un usuario
 ## Requiere iniciar sesion como un usuario, por lo que ocupan tokens
-POST http://localhost:1234/usuario
+POST http://localhost:1234/usuario/usuario
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c3VhcmlvIjoxLCJub21icmUiOiJhZG1pbiIsImlhdCI6MTc0NzYwNTYxMSwiZXhwIjoxNzQ3NjEyODExfQ.k0p1MqVqzlpWKCjt08ybTOSwAUxZ5y0Tbx1FoIDeQLI
 Content-Type: application/json
 
 {
   "nombre": "joakin",
   "email": "joakin@ejemplol.com",
-  "contrasena_hash": "soyJoakin",
-  "telefono": "6461234567"
+  "telefono": "6461234567",
+  "contrasena_hash": "soyJoakin"
 }
-
 
 ### Borrar usuario propio
 ## Ocupa iniciar sesion como dicho usuario y de este token obtiene que usuario es
