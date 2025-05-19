@@ -26,7 +26,7 @@
     <main class="contenido-principal">
       <header>
         <h1>Bienvenido al Panel de Control</h1>
-            <h3>Aquí puedes gestionar reportes, incidentes, usuarios y configurar el sistema.</h3>
+        <h3>Aquí puedes gestionar reportes, incidentes, usuarios y configurar el sistema.</h3>
       </header>
 
       <!-- Sección de Vista General / Resumen -->
@@ -40,10 +40,6 @@
           <div class="card">
             <h3>Incidentes Pendientes</h3>
             <p>5</p>
-          </div>
-          <div class="card">
-            <h3>Tiempo Promedio de Resolución</h3>
-            <p>30 min</p>
           </div>
         </div>
       </section>
@@ -64,7 +60,6 @@
             </tr>
           </thead>
           <tbody>
-            <!-- Ejemplo de fila -->
             <tr>
               <td>001</td>
               <td>Baño 1</td>
@@ -76,7 +71,6 @@
                 <button>Marcar como Resuelto</button>
               </td>
             </tr>
-            <!-- Más filas dinámicas -->
           </tbody>
         </table>
       </section>
@@ -85,62 +79,28 @@
       <section class="estadisticas">
         <h2>Estadísticas</h2>
         <p>Visualiza la frecuencia de incidentes por ubicación y horario.</p>
-        <!-- Área para gráficos: puedes integrar librerías como Chart.js -->
-        <div class="grafico" id="grafico-incidentes">
-          <!-- Gráfico de barras o pastel -->
-        </div>
+        <div class="grafico" id="grafico-incidentes"></div>
       </section>
 
-      <!-- Sección de Gestión de Usuarios y Configuración (Opcional) -->
+      <!-- Sección de Gestión de Usuarios y Configuración -->
       <section class="gestion-usuarios">
-        <h2>Gestión de Usuarios y Roles</h2>
+        <h2>Gestión de Usuarios</h2>
         <p>Administra los usuarios, asigna roles y consulta el historial de actividad.</p>
         <button>Ver Usuarios</button>
-        <button>Historial de Actividades</button>
       </section>
 
-      <!-- Sección de Notificaciones -->
-      <section class="notificaciones">
-        <h2>Notificaciones</h2>
-        <p>Aquí se muestran las alertas recientes y notificaciones en tiempo real.</p>
-        <ul>
-          <li>08:20 - Nuevo incidente registrado en Baño 2</li>
-          <li>08:45 - Incidente 001 marcado como en proceso</li>
-          <!-- Más notificaciones -->
-        </ul>
-      </section>
-
-      <!-- Sección de Soporte y Ayuda -->
-      <section class="soporte">
-        <h2>Centro de Ayuda</h2>
-        <p>Consulta documentación y tutoriales para el uso del sistema.</p>
-        <button>Ver Ayuda</button>
-      </section>
-
-      
-      <section class = "Telegram"> 
-        
-        <h2> Para recibir notificiones personalizadas, 
-        interactua con nuestro bot de Telegram <br></h2>
-        
-        <p>Puede escanear el codigo QR que aparece debajo para hacerlo desde su movil
-          o puede hacer click en el siguiente boton. Solo necesita decirle la palabra "Hola"
-        a nuestro bot </p> <br>
-        
+      <section class="Telegram">
+        <h2>Para recibir notificiones personalizadas, interactua con nuestro bot de Telegram</h2>
+        <p>Puede escanear el codigo QR que aparece debajo para hacerlo desde su movil o puede hacer click en el siguiente boton. Solo necesita decirle la palabra "Hola" a nuestro bot.</p>
         <img src="../BOT_QR2.jpeg" alt="QR_BOT_IMG" width="300" height="300">
-          
         <a href="https://t.me/SGIschoolproject_bot" target="_blank">
-          <button>Recibir notificaciones </button>
-      </a>
-
-      <p> NOTA: Para ordenadores, primero debe tener su sesion de Telegram
-          iniciada en su ordenador</p>
+          <button>Recibir notificaciones</button>
+        </a>
+        <p>NOTA: Para ordenadores, primero debe tener su sesion de Telegram iniciada en su ordenador.</p>
       </section>
-      
+
     </main>
   </div>
 
-
-    
 </body>
 </html>
