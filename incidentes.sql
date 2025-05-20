@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3306
--- Generation Time: May 04, 2025 at 04:12 PM
--- Server version: 11.5.2-MariaDB
--- PHP Version: 8.2.18
+-- Servidor: 127.0.0.1:3307
+-- Tiempo de generación: 20-05-2025 a las 20:43:50
+-- Versión del servidor: 11.5.2-MariaDB
+-- Versión de PHP: 8.2.18
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `incidentes`
+-- Base de datos: `incidentes`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `banos`
+-- Estructura de tabla para la tabla `banos`
 --
 
 DROP TABLE IF EXISTS `banos`;
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `banos` (
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 --
--- Dumping data for table `banos`
+-- Volcado de datos para la tabla `banos`
 --
 
 INSERT INTO `banos` (`id_bano`, `id_edificio`, `genero_bano`) VALUES
@@ -50,7 +50,7 @@ INSERT INTO `banos` (`id_bano`, `id_edificio`, `genero_bano`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `edificios`
+-- Estructura de tabla para la tabla `edificios`
 --
 
 DROP TABLE IF EXISTS `edificios`;
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `edificios` (
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 --
--- Dumping data for table `edificios`
+-- Volcado de datos para la tabla `edificios`
 --
 
 INSERT INTO `edificios` (`id_edificio`, `nombre`, `planta`) VALUES
@@ -82,7 +82,7 @@ INSERT INTO `edificios` (`id_edificio`, `nombre`, `planta`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `historial_incidentes`
+-- Estructura de tabla para la tabla `historial_incidentes`
 --
 
 DROP TABLE IF EXISTS `historial_incidentes`;
@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `historial_incidentes` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `notificaciones`
+-- Estructura de tabla para la tabla `notificaciones`
 --
 
 DROP TABLE IF EXISTS `notificaciones`;
@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `notificaciones` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `reporte_incidente`
+-- Estructura de tabla para la tabla `reporte_incidente`
 --
 
 DROP TABLE IF EXISTS `reporte_incidente`;
@@ -142,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `reporte_incidente` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 --
--- Dumping data for table `reporte_incidente`
+-- Volcado de datos para la tabla `reporte_incidente`
 --
 
 INSERT INTO `reporte_incidente` (`id_reporte`, `id_bano`, `id_usuario_reporta`, `id_incidente`, `img`, `descripcion`, `fecha_reporte`, `estado`, `prioridad`) VALUES
@@ -152,7 +152,7 @@ INSERT INTO `reporte_incidente` (`id_reporte`, `id_bano`, `id_usuario_reporta`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tipo_incidente`
+-- Estructura de tabla para la tabla `tipo_incidente`
 --
 
 DROP TABLE IF EXISTS `tipo_incidente`;
@@ -163,7 +163,7 @@ CREATE TABLE IF NOT EXISTS `tipo_incidente` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 --
--- Dumping data for table `tipo_incidente`
+-- Volcado de datos para la tabla `tipo_incidente`
 --
 
 INSERT INTO `tipo_incidente` (`id_incidente`, `nombre`) VALUES
@@ -173,7 +173,7 @@ INSERT INTO `tipo_incidente` (`id_incidente`, `nombre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `usuarios`
+-- Estructura de tabla para la tabla `usuarios`
 --
 
 DROP TABLE IF EXISTS `usuarios`;
@@ -185,41 +185,42 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `contrasena_hash` varchar(255) NOT NULL,
   PRIMARY KEY (`id_usuario`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 --
--- Dumping data for table `usuarios`
+-- Volcado de datos para la tabla `usuarios`
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `nombre`, `email`, `telefono`, `contrasena_hash`) VALUES
-(1, 'admin', 'admin@ejemplo.com', '123456789', 'admin123');
+(1, 'admin', 'admin@ejemplo.com', '123456789', '$2b$10$rneWdL8Ax0MOc5GJOmFQSelm3/1t5A27G0jWpmrAYXSYoLoIJNS9a'),
+(2, 'salva123', 'salva@ejemplo.com', '6461234567', '$2b$10$MUqDtGwdIe/q.spMopxPT.MNkXqzsj.g3R4nV3RiT1hU1QcjHRUwu');
 
 --
--- Constraints for dumped tables
+-- Restricciones para tablas volcadas
 --
 
 --
--- Constraints for table `banos`
+-- Filtros para la tabla `banos`
 --
 ALTER TABLE `banos`
   ADD CONSTRAINT `banos_ibfk_1` FOREIGN KEY (`id_edificio`) REFERENCES `edificios` (`id_edificio`);
 
 --
--- Constraints for table `historial_incidentes`
+-- Filtros para la tabla `historial_incidentes`
 --
 ALTER TABLE `historial_incidentes`
   ADD CONSTRAINT `historial_incidentes_ibfk_1` FOREIGN KEY (`id_incidente`) REFERENCES `reporte_incidente` (`id_reporte`) ON DELETE CASCADE,
   ADD CONSTRAINT `historial_incidentes_ibfk_2` FOREIGN KEY (`id_usuario_responsable`) REFERENCES `usuarios` (`id_usuario`) ON DELETE SET NULL;
 
 --
--- Constraints for table `notificaciones`
+-- Filtros para la tabla `notificaciones`
 --
 ALTER TABLE `notificaciones`
   ADD CONSTRAINT `notificaciones_ibfk_1` FOREIGN KEY (`id_incidente`) REFERENCES `reporte_incidente` (`id_reporte`) ON DELETE CASCADE,
   ADD CONSTRAINT `notificaciones_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON DELETE CASCADE;
 
 --
--- Constraints for table `reporte_incidente`
+-- Filtros para la tabla `reporte_incidente`
 --
 ALTER TABLE `reporte_incidente`
   ADD CONSTRAINT `reporte_incidente_ibfk_1` FOREIGN KEY (`id_bano`) REFERENCES `banos` (`id_bano`),
