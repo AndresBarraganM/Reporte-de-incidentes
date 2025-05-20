@@ -230,21 +230,15 @@ header h1 {
 
 /* Modal para Detalle del Incidente */
 .modal {
+  display: none; /* Oculto por defecto */
   position: fixed;
-  top: 0;
+  z-index: 1000;
   left: 0;
+  top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.5);
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease;
-  z-index: 1000;
-}
-
-.modal:target {
-  opacity: 1;
-  visibility: visible;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5); /* Fondo semi-transparente */
 }
 
 .modal-contenido {
