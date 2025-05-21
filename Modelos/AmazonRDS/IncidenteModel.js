@@ -122,8 +122,20 @@ export class IncidenteModel{
             throw error; // Propagar el error para manejo superior
         }
     }
+
+    static async actualizarEstado(id_reporte, nuevoEstado) {
+    try {
+        const resultado = await modelo_incidentes.update(
+            { estado: nuevoEstado },
+            { where: { id_reporte } }
+        );
+        return resultado;
+    } catch (error) {
+        throw new Error("Error al actualizar el estado del incidente: " + error.message);
+    }
 }
 
+}
 
 IncidenteModel.obtenerIncidentes({}).then((result) => {
     console.log(result);

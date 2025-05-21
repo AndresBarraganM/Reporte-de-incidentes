@@ -65,5 +65,5 @@ Content-Type: application/json
 Content-Disposition: form-data; name="foto"; filename="vandalizmo.jpg"
 Content-Type: image/jpeg
 
-{{foto}}
+###{{foto}}
 ------MyBoundary--

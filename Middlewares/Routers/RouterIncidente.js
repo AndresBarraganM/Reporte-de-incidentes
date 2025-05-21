@@ -20,3 +20,5 @@ IncidenteRouter.post(
   ]),
   ControlerIncidentes.postIncidente
 )
+
+IncidenteRouter.put('/:id', ControlerIncidentes.actualizarEstadoIncidente);

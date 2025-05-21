@@ -128,6 +128,23 @@ export class ControlerIncidentes {
 
     res.status(200).json({message: "incidente registrado exitosamente"})
   }
+
+   static async actualizarEstadoIncidente(req, res) {
+    const { id } = req.params;
+    const { estado } = req.body;
+
+    try {
+      const resultado = await IncidenteModel.actualizarEstado(id, estado);
+      if (resultado[0] === 0) {
+        return res.status(404).json({ error: 'Incidente no encontrado' });
+      }
+
+      res.json({ mensaje: 'Estado actualizado correctamente' });
+    } catch (error) {
+      console.error('Error al actualizar el estado del incidente:', error);
+      res.status(500).json({ error: 'Error al actualizar estado' });
+    }
+  }
 }
 // formato de un incidente
 // DESPUES de separar el campo ubicacion
@@ -138,4 +155,5 @@ export class ControlerIncidentes {
 //   nombre: 'Centro de Información',
 //   planta: 'baja'
 // }
+
 

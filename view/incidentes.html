@@ -136,7 +136,7 @@
             <button class="dropbtn">Acciones</button>
             <div class="dropdown-content">
               <a href="#" class="ver-detalle" data-detalle="${detalleString}">Ver Detalle</a>
-              <a href="#" data-estado="en-proceso">Marcar como En Proceso</a>
+              <a href="#" data-estado="en_proceso">Marcar como En Proceso</a>
               <a href="#" data-estado="resuelto">Marcar como Resuelto</a>
               <a href="#" data-estado="pendiente">Marcar como Pendiente</a>
             </div>
@@ -196,9 +196,37 @@ document.getElementById('cerrar-modal').addEventListener('click', () => {
   document.getElementById('modal-detalle').style.display = 'none';
 });
 
+// Delegar evento para botones de cambio de estado en la tabla
+document.getElementById('tabla-incidentes-body').addEventListener('click', async (e) => {
+  if (e.target.tagName === 'A' && e.target.dataset.estado) {
+    e.preventDefault();
+
+    const nuevoEstado = e.target.dataset.estado;
+    const fila = e.target.closest('tr');
+    const idIncidente = fila.children[0].textContent; // El ID está en la primera columna
+    console.log('Actualizando estado a:', nuevoEstado, 'para incidente', idIncidente);
+
+    try {
+      const response = await fetch(`http://localhost:1234/incidentes/${idIncidente}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ estado: nuevoEstado })
+      });
+
+      if (!response.ok) throw new Error('Error al actualizar');
+
+      alert('Estado actualizado con éxito');
+      fila.children[5].textContent = nuevoEstado; // Actualiza el texto del estado en la tabla
+    } catch (error) {
+      console.error(error);
+      alert('Error al actualizar el estado');
+    }
+  }
+});
+
+
 
 </script>
-
 
 </body>
 </html>
