@@ -1,8 +1,8 @@
 async function cargarIncidentes(filtros = {}) {
   const params = new URLSearchParams();
 
-  if (filtros.fecha) params.append('fechaDespuesDe', filtros.fecha);
-  if (filtros.banio) params.append('banio', filtros.banio);
+  if (filtros.fechaInicio) params.append('fechaInicio', filtros.fechaInicio);
+  if (filtros.fechaFin) params.append('fechaFin', filtros.fechaFin);
   if (filtros.estado) params.append('estado', filtros.estado);
   if (filtros.prioridad) params.append('prioridad', filtros.prioridad);
 
@@ -10,7 +10,8 @@ async function cargarIncidentes(filtros = {}) {
     const response = await fetch(`http://localhost:1234/incidentes?${params.toString()}`);
     if (!response.ok) throw new Error('Error al obtener incidentes');
 
-    const incidentes = await response.json();
+    const data = await response.json();
+    const incidentes = data.datos;
     const tbody = document.getElementById('tabla-incidentes-body');
     tbody.innerHTML = '';
 
@@ -30,7 +31,7 @@ async function cargarIncidentes(filtros = {}) {
             <button class="dropbtn">Acciones</button>
             <div class="dropdown-content">
               <a href="#" class="ver-detalle" data-detalle="${detalleString}">Ver Detalle</a>
-              <a href="#" data-estado="en-proceso">Marcar como En Proceso</a>
+              <a href="#" data-estado="en_proceso">Marcar como En Proceso</a>
               <a href="#" data-estado="resuelto">Marcar como Resuelto</a>
               <a href="#" data-estado="pendiente">Marcar como Pendiente</a>
             </div>
@@ -41,7 +42,7 @@ async function cargarIncidentes(filtros = {}) {
       tbody.appendChild(tr);
     });
 
-    // ←↓↓ SE AGREGA ESTE EVENTO DESPUÉS DE LLENAR LA TABLA
+    // ↓↓ SE AGREGA ESTE EVENTO DESPUÉS DE LLENAR LA TABLA
     tbody.querySelectorAll('.ver-detalle').forEach(btn => {
       btn.addEventListener('click', e => {
         e.preventDefault();
@@ -60,6 +61,42 @@ async function cargarIncidentes(filtros = {}) {
       });
     });
 
+    tbody.querySelectorAll('.dropdown-content a[data-estado]').forEach(btn => {
+  btn.addEventListener('click', async (e) => {
+    e.preventDefault();
+
+    const tr = btn.closest('tr');
+    const id = tr.querySelector('td').textContent.trim(); // ID del incidente
+    const nuevoEstado = btn.dataset.estado;
+
+    try {
+      const response = await fetch(`http://localhost:1234/incidentes/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ estado: nuevoEstado })
+      });
+
+      if (!response.ok) throw new Error('Error al actualizar el estado');
+
+      Swal.fire({
+      icon: 'success',
+      title: 'Estado actualizado',
+      text: `El incidente se marcó como "${nuevoEstado}"`,
+      timer: 2000,
+      showConfirmButton: false
+});
+
+      cargarIncidentes(); // refresca la tabla automáticamente
+
+    } catch (error) {
+      console.error(error);
+      alert('No se pudo actualizar el estado');
+    }
+  });
+});
+
   } catch (error) {
     console.error(error);
     alert('Error cargando los incidentes');
@@ -75,12 +112,14 @@ async function cargarIncidentes(filtros = {}) {
     document.getElementById('filtro-incidentes').addEventListener('submit', (e) => {
       e.preventDefault();
 
-      const filtros = {
-        fecha: document.getElementById('fecha').value,
-        banio: document.getElementById('banio').value,
-        estado: document.getElementById('estado').value,
-        prioridad: document.getElementById('prioridad').value,
-      };
+     const filtros = {
+      fechaFin: document.getElementById('fecha-fin').value,
+      estado: document.getElementById('estado').value,
+      prioridad: document.getElementById('prioridad').value,
+      fechaInicio: document.getElementById('fecha-inicio').value,
+};
+
+
 
       cargarIncidentes(filtros);
     });
