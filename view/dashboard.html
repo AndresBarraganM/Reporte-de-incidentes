@@ -4,16 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Panel de Control</title>
-  <link rel="stylesheet" href="dashboard.css"> <!-- Enlaza el archivo CSS -->
+  <link rel="stylesheet" href="dashboard.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Asegura SweetAlert2 -->
 </head>
 <body>
   <div class="dashboard-container">
-    <!-- Menú lateral -->
     <aside class="menu-lateral">
-      <h2>Menus</h2>
+      <h2>Menú</h2>
       <nav>
         <ul>
-         <li><a href="dashboard.html" class="active"><span>🏠</span> Inicio</a></li>
+          <li><a href="dashboard.html" class="active"><span>🏠</span> Inicio</a></li>
           <li><a href="reporte.html"><span>📄</span> Reportes</a></li>
           <li><a href="incidentes.html"><span>🚨</span> Incidentes</a></li>
           <li><a href="usuarios.html"><span>👥</span> Usuarios</a></li>
@@ -22,60 +22,62 @@
       </nav>
     </aside>
 
-    <!-- Contenido principal -->
     <main class="contenido-principal">
       <header>
         <h1>Bienvenido al Panel de Control</h1>
         <h3>Aquí puedes gestionar reportes, incidentes, usuarios y configurar el sistema.</h3>
       </header>
 
-      <!-- Sección de Vista General / Resumen -->
       <section class="vista-general">
         <h2>Resumen en Tiempo Real</h2>
         <div class="resumen">
           <div class="card">
             <h3>Total Incidentes</h3>
-            <p id="total-incidentes"></p>
+            <p id="total-incidentes">0</p>
           </div>
           <div class="card">
             <h3>Incidentes Pendientes</h3>
-            <p id="pendientes-incidentes"></p>
+            <p id="pendientes-incidentes">0</p>
           </div>
         </div>
       </section>
 
-      <!-- Sección de Incidentes -->
       <section class="incidentes">
         <h2>Gestión de Incidentes</h2>
-        <p>Aquí se listan los reportes de incidentes. Usa los filtros para buscar por fecha, ubicación o estado.</p>
-        <table>
+        <table id="tabla-incidentes">
           <thead>
             <tr>
               <th>ID</th>
               <th>Ubicación</th>
               <th>Descripción</th>
               <th>Hora</th>
+              <th>Prioridad</th>
               <th>Estado</th>
               <th>Acciones</th>
             </tr>
           </thead>
-          <tbody>
-            <tr>
-              <td>001</td>
-              <td>Baño 1</td>
-              <td>Fuga de agua</td>
-              <td>08:15</td>
-              <td>Pendiente</td>
-              <td>
-                <button>Ver Detalle</button>
-                <button>Marcar como Resuelto</button>
-              </td>
-            </tr>
-          </tbody>
+          <tbody></tbody>
         </table>
       </section>
 
-      <!-- Sección de Estadísticas y Gráficos -->
+      <!-- MODAL -->
+      <div id="modal-detalle" class="modal">
+  <div class="modal-contenido">
+    <span class="cerrar" id="cerrar-modal">&times;</span>
+    <h2>Detalle del Incidente</h2>
+    <p><strong>ID:</strong> <span id="detalle-id"></span></p>
+    <p><strong>Ubicación:</strong> <span id="detalle-ubicacion"></span></p>
+    <p><strong>Tipo de Incidente:</strong> <span id="detalle-tipo"></span></p>
+    <p><strong>Descripción:</strong> <span id="detalle-descripcion"></span></p>
+    <p><strong>Fecha/Hora:</strong> <span id="detalle-fecha"></span></p>
+    <p><strong>Prioridad:</strong> <span id="detalle-prioridad"></span></p>
+    <p><strong>Estado:</strong> <span id="detalle-estado"></span></p>
+  </div>
+</div>
+
+
+
+        <!-- Sección de Estadísticas y Gráficos -->
       <section class="estadisticas">
         <h2>Estadísticas</h2>
         <p>Visualiza la frecuencia de incidentes por ubicación y horario.</p>
@@ -102,6 +104,6 @@
     </main>
   </div>
 
-  <script src="js/incidentes.js"></script>
+  <script src="js/dashboard.js"></script>
 </body>
 </html>

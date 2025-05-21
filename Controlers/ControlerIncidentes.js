@@ -16,7 +16,6 @@ export class ControlerIncidentes {
       
       // recuperar reporte
       const incidentes = await IncidenteModel.obtenerIncidentes(filtros);
-      console.log(filtros)
       
       res.status(200).json({success:true ,datos:incidentes,});
 

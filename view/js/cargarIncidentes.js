@@ -43,7 +43,7 @@ async function cargarIncidentes(filtros = {}) {
       tbody.appendChild(tr);
     });
 
-    // ↓↓ SE AGREGA ESTE EVENTO DESPUÉS DE LLENAR LA TABLA
+    // SE AGREGA ESTE EVENTO DESPUÉS DE LLENAR LA TABLA
     tbody.querySelectorAll('.ver-detalle').forEach(btn => {
       btn.addEventListener('click', e => {
         e.preventDefault();
