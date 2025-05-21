@@ -17,6 +17,7 @@ async function cargarIncidentes(filtros = {}) {
 
     incidentes.forEach(incidente => {
       const tr = document.createElement('tr');
+      tr.setAttribute('data-estado-actual', incidente.estado);
       const detalleString = encodeURIComponent(JSON.stringify(incidente));
 
       tr.innerHTML = `
@@ -68,6 +69,19 @@ async function cargarIncidentes(filtros = {}) {
     const tr = btn.closest('tr');
     const id = tr.querySelector('td').textContent.trim(); // ID del incidente
     const nuevoEstado = btn.dataset.estado;
+    const estadoActual = tr.getAttribute('data-estado-actual');
+
+    if (estadoActual === nuevoEstado) {
+      Swal.fire({
+        icon: 'info',
+        title: 'Sin cambios',
+        text: `El incidente ya está marcado como "${nuevoEstado}"`,
+        timer: 2000,
+        showConfirmButton: false
+      });
+      return;  // Salir y no hacer la petición al servidor
+    }
+
 
     try {
       const response = await fetch(`http://localhost:1234/incidentes/${id}`, {
