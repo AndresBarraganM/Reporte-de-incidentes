@@ -1,5 +1,4 @@
 import { modelo_banos, modelo_edificio, modelo_incidentes, modelo_tipo_incidente } from './database/ModeloReportes.js'
-import { EdificioModel } from './EdificioModel.js';
 import { BanoModel } from './BanoModel.js';
 import { Op } from 'sequelize';
 
@@ -13,7 +12,7 @@ export class IncidenteModel{
                 planta: datos.planta,
                 genero_bano: datos.genero_bano
             });
-            const tipo_incidente = await TipoIncidenteModel.getTipoIncidente(datos.tipo_incidente);
+            const tipo_incidente = await modelo_tipo_incidente.getTipoIncidente(datos.tipo_incidente);
     
             // Validar existencia
             if (!bano || !tipo_incidente) {

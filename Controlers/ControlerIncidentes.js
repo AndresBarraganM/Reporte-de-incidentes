@@ -18,7 +18,7 @@ export class ControlerIncidentes {
       const incidentes = await IncidenteModel.obtenerIncidentes(filtros);
       console.log(filtros)
       
-      res.status(200).json(incidentes);
+      res.status(200).json({success:true ,datos:incidentes,});
 
     }catch(error){
       res.status(500).json({ error: 'Error al recuperar los incidentes', error });

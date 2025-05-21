@@ -32,7 +32,7 @@ export const registrarUsuario = async (req, res) => {
 
     return res.status(201).json({
       success: true,
-      message: "Alumno creado correctamente"
+      message: "Usuario creado correctamente"
     });
 
   } catch (error) {

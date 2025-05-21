@@ -1,7 +1,7 @@
 import { sequelize } from '../../../utils/database_connection.js'
 import { DataTypes } from 'sequelize'
-import { modelo_incidentes } from './ModeloIncidentes.js';
-import { modelo_usuarios } from './ModeloUsuarios.js';
+import { modelo_incidentes } from './ModeloReportes.js'; 
+import { modelo_usuarios } from './ModeloLogin.js';
 
 const modelo_notificaciones = sequelize.define('notificaciones',{
     id_notificacion: {
