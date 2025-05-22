@@ -109,6 +109,8 @@ async function register() {
       alert('Usuario registrado exitosamente');
       // Opcional: cerrar el formulario y refrescar la tabla
       document.getElementById('register-form').remove();
+
+
     } else {
       alert(data.message || 'Error al registrar el usuario');
     }
@@ -118,3 +120,5 @@ async function register() {
     alert(error.message || 'Error al conectar con el servidor');
   }
 }
+
+
