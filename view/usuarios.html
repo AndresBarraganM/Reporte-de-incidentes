@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gestión de Usuarios</title>
   <link rel="stylesheet" href="usuarios.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 <body>
   <aside class="menu-lateral">
@@ -16,6 +18,7 @@
         <li><a href="incidentes.html"><span>🚨</span> Incidentes</a></li>
         <li><a href="usuarios.html" class="active"><span>👥</span> Usuarios</a></li>
         <li><a href="configuracion.html"><span>⚙️</span> Configuración</a></li>
+        <li><a href="#" id="cerrar-sesion"><span>🔒</span> Cerrar sesión</a></li>
       </ul>
     </nav>
   </aside>
@@ -48,12 +51,8 @@
 
   <!-- Script externo -->
   <script src="js/usuarios.js"></script>
-    <script src="js/formulario.js"></script>
-    <script>
-    if(!localStorage.getItem('authToken')){
-      window.location.href = "login.html"
-    }
-  </script>
+  <script src="js/formulario.js"></script>
+  <script src="js/cerrarSesion.js"></script>
 
 </body>
 </html>

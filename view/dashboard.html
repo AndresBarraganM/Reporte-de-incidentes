@@ -18,7 +18,10 @@
           <li><a href="incidentes.html"><span>🚨</span> Incidentes</a></li>
           <li><a href="usuarios.html"><span>👥</span> Usuarios</a></li>
           <li><a href="configuracion.html"><span>⚙️</span> Configuración</a></li>
+          <li><a href="#" id="cerrar-sesion"><span>🔒</span> Cerrar sesión</a></li>
+
         </ul>
+
       </nav>
     </aside>
 
@@ -107,11 +110,6 @@
     </main>
   </div>
 
-  <script src="js/dashboard.js"></script>
-  <script>
-    if(!localStorage.getItem('authToken')){
-      window.location.href = "login.html"
-    }
-  </script>
+  <script src="js/cerrarSesion.js"></script>
 </body>
 </html>

@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="reporte.css">
   <!-- Incluimos Chart.js desde CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 <body>
   <aside class="menu-lateral">
@@ -14,10 +16,12 @@
     <nav>
       <ul>
         <li><a href="dashboard.html" ><span>🏠</span> Inicio</a></li>
-        <li><a href="incidentes.html"><span>🚨</span> Incidentes</a></li>
         <li><a href="reporte.html"  class="active"><span>📄</span> Reportes</a></li>
+        <li><a href="incidentes.html"><span>🚨</span> Incidentes</a></li>
         <li><a href="usuarios.html"><span>👥</span> Usuarios</a></li>
         <li><a href="configuracion.html"><span>⚙️</span> Configuración</a></li>
+        <li><a href="#" id="cerrar-sesion"><span>🔒</span> Cerrar sesión</a></li>
+        
       </ul>
     </nav>
   </aside>
@@ -157,5 +161,7 @@
       alert('Función de exportación a PDF no implementada.');
     }
   </script>
+
+  <script src="js/cerrarSesion.js"></script>
 </body>
 </html>
