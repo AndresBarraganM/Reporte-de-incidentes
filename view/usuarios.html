@@ -12,13 +12,14 @@
     <nav>
       <ul>
         <li><a href="dashboard.html"><span>🏠</span> Inicio</a></li>
-          <li><a href="reporte.html"><span>📄</span> Reportes</a></li>
-          <li><a href="incidentes.html"><span>🚨</span> Incidentes</a></li>
-          <li><a href="usuarios.html" class="active"><span>👥</span> Usuarios</a></li>
-          <li><a href="configuracion.html"><span>⚙️</span> Configuración</a></li>
+        <li><a href="reporte.html"><span>📄</span> Reportes</a></li>
+        <li><a href="incidentes.html"><span>🚨</span> Incidentes</a></li>
+        <li><a href="usuarios.html" class="active"><span>👥</span> Usuarios</a></li>
+        <li><a href="configuracion.html"><span>⚙️</span> Configuración</a></li>
       </ul>
     </nav>
   </aside>
+
   <div class="container">
     <header>
       <h1>Gestión de Usuarios</h1>
@@ -28,7 +29,7 @@
     <!-- Sección Control de Acceso -->
     <section class="control-acceso">
       <h2>Control de Acceso</h2>
-      <button class="btn agregar">Agregar Nuevo Usuario</button>
+      <button class="btn agregar" >Agregar Nuevo Usuario</button>
       <table>
         <thead>
           <tr>
@@ -38,31 +39,16 @@
             <th>Acciones</th>
           </tr>
         </thead>
-        <tbody>
-          <!-- Ejemplo de fila -->
-          <tr>
-            <td>001</td>
-            <td>Juan Pérez</td>
-            <td>juan.perez@ejemplo.com</td>
-            <td>
-              <button class="btn editar">Editar</button>
-              <button class="btn eliminar">Eliminar</button>
-            </td>
-          </tr>
-          <tr>
-            <td>002</td>
-            <td>María López</td>
-            <td>maria.lopez@ejemplo.com</td>
-            <td>
-              <button class="btn editar">Editar</button>
-              <button class="btn eliminar">Eliminar</button>
-            </td>
-          </tr>
-          <!-- Más filas dinámicas -->
+        <tbody id="listaUsuarios">
+          <!-- Aquí se llenarán dinámicamente los usuarios -->
         </tbody>
       </table>
     </section>
-
   </div>
+
+  <!-- Script externo -->
+  <script src="js/usuarios.js"></script>
+    <script src="js/formulario.js"></script>
+
 </body>
 </html>

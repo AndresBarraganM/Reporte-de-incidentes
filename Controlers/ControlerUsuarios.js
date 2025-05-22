@@ -172,4 +172,16 @@ export class ControlerUsuario {
     return { message: 'Usuario eliminado correctamente' };
   }
  */
+
+
+  // Obtener usuarios basicos (id, nombre, email)
+static async getUsuariosBasico(req, res) {
+  try {
+    const usuarios = await UsuarioModelo.getUsuariosBasico()
+    return res.status(200).json(usuarios)
+  } catch (error) {
+    console.error('Error al obtener usuarios basicos:', error)
+    return res.status(500).json({ message: 'Error al obtener los usuarios basicos', error })
+  }
+}
 }

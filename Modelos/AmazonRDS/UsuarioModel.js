@@ -40,6 +40,27 @@ export class UsuarioModelo{
         }
     }
 
+        /**
+     * Metodo que retorna solo el id, nombre y email de todos los usuarios activos
+     * @returns {Array} Array de usuarios con solo id, nombre y email
+     */
+    static async getUsuariosBasico() {
+        try {
+            const usuarios = await modelo_usuarios.findAll({
+                attributes: ['id_usuario', 'nombre', 'email'],
+                /* where: {
+                    estado: 1 // Solo usuarios activos (opcional si usas lógica de eliminación)
+                }, */
+                order: [['nombre', 'ASC']]
+            });
+            return usuarios.map(usuario => usuario.dataValues);
+        } catch (error) {
+            console.error('Error al obtener usuarios basicos:', error);
+            throw error;
+        }
+    }
+
+
     // metodo para obtener a todos los usuarios
     /**
      * Obtiene a todos los usuario de la base de datos, si se pasa un correo como parametro

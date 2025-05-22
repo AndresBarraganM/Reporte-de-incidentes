@@ -10,4 +10,8 @@ UsuarioRouter.post('/login', ControlerUsuario.loginUsuario)
 
 UsuarioRouter.post('/usuario', authMiddleware, registrarUsuario)
 
+// Nueva ruta para obtener usuarios basicos
+UsuarioRouter.get('/usuarios/basico', /*authMiddleware,*/ ControlerUsuario.getUsuariosBasico)
+
+
 //UsuarioRouter .delete('/', ControlerUsuario.deleteUsuario)
