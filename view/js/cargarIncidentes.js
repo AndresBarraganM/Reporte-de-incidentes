@@ -43,7 +43,7 @@ async function cargarIncidentes(filtros = {}) {
       tbody.appendChild(tr);
     });
 
-    // ↓↓ SE AGREGA ESTE EVENTO DESPUÉS DE LLENAR LA TABLA
+    // Evento para mostrar detalle en modal
     tbody.querySelectorAll('.ver-detalle').forEach(btn => {
       btn.addEventListener('click', e => {
         e.preventDefault();
@@ -62,54 +62,51 @@ async function cargarIncidentes(filtros = {}) {
       });
     });
 
+    // Evento para cambiar estado del incidente
     tbody.querySelectorAll('.dropdown-content a[data-estado]').forEach(btn => {
-  btn.addEventListener('click', async (e) => {
-    e.preventDefault();
+      btn.addEventListener('click', async (e) => {
+        e.preventDefault();
 
-    const tr = btn.closest('tr');
-    const id = tr.querySelector('td').textContent.trim(); // ID del incidente
-    const nuevoEstado = btn.dataset.estado;
-    const estadoActual = tr.getAttribute('data-estado-actual');
+        const tr = btn.closest('tr');
+        const id = tr.querySelector('td').textContent.trim();
+        const nuevoEstado = btn.dataset.estado;
+        const estadoActual = tr.getAttribute('data-estado-actual');
 
-    if (estadoActual === nuevoEstado) {
-      Swal.fire({
-        icon: 'info',
-        title: 'Sin cambios',
-        text: `El incidente ya está marcado como "${nuevoEstado}"`,
-        timer: 2000,
-        showConfirmButton: false
+        if (estadoActual === nuevoEstado) {
+          Swal.fire({
+            icon: 'info',
+            title: 'Sin cambios',
+            text: `El incidente ya está marcado como "${nuevoEstado}"`,
+            timer: 2000,
+            showConfirmButton: false
+          });
+          return;
+        }
+
+        try {
+          const response = await fetch(`http://localhost:1234/incidentes/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ estado: nuevoEstado })
+          });
+
+          if (!response.ok) throw new Error('Error al actualizar el estado');
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Estado actualizado',
+            text: `El incidente se marcó como "${nuevoEstado}"`,
+            timer: 2000,
+            showConfirmButton: false
+          });
+
+          cargarIncidentes(filtros); // refrescar manteniendo filtros
+        } catch (error) {
+          console.error(error);
+          alert('No se pudo actualizar el estado');
+        }
       });
-      return;  // Salir y no hacer la petición al servidor
-    }
-
-
-    try {
-      const response = await fetch(`http://localhost:1234/incidentes/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ estado: nuevoEstado })
-      });
-
-      if (!response.ok) throw new Error('Error al actualizar el estado');
-
-      Swal.fire({
-      icon: 'success',
-      title: 'Estado actualizado',
-      text: `El incidente se marcó como "${nuevoEstado}"`,
-      timer: 2000,
-      showConfirmButton: false
-});
-
-      cargarIncidentes(); // refresca la tabla automáticamente
-
-    } catch (error) {
-      console.error(error);
-      alert('No se pudo actualizar el estado');
-    }
-  });
-});
+    });
 
   } catch (error) {
     console.error(error);
@@ -117,28 +114,25 @@ async function cargarIncidentes(filtros = {}) {
   }
 }
 
+// Inicialización al cargar la página
+document.addEventListener('DOMContentLoaded', () => {
+  cargarIncidentes();
 
-  // Cargar incidentes al cargar la página
-  document.addEventListener('DOMContentLoaded', () => {
-    cargarIncidentes();
+  document.getElementById('filtro-incidentes').addEventListener('submit', (e) => {
+    e.preventDefault();
 
-    // Agregar evento al formulario de filtro
-    document.getElementById('filtro-incidentes').addEventListener('submit', (e) => {
-      e.preventDefault();
-
-     const filtros = {
+    const filtros = {
+      fechaInicio: document.getElementById('fecha-inicio').value,
       fechaFin: document.getElementById('fecha-fin').value,
       estado: document.getElementById('estado').value,
       prioridad: document.getElementById('prioridad').value,
-      fechaInicio: document.getElementById('fecha-inicio').value,
-};
+    };
 
-
-
-      cargarIncidentes(filtros);
-    });
+    cargarIncidentes(filtros);
   });
+});
 
+// Cerrar modal detalle
 document.getElementById('cerrar-modal').addEventListener('click', () => {
   document.getElementById('modal-detalle').style.display = 'none';
 });
