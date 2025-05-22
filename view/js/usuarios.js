@@ -1,46 +1,4 @@
-/* document.addEventListener('DOMContentLoaded', async () => {
-  const tablaUsuarios = document.querySelector('tbody');
 
-  try {
-    const respuesta = await fetch('http://localhost:1234/usuario/usuarios/basico', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        // Si usas autenticacion, descomenta esta línea:
-        // 'Authorization': 'Bearer ' + localStorage.getItem('token')
-      }
-    });
-
-    const data = await respuesta.json();
-
-    if (!respuesta.ok) {
-      console.error('Error al obtener usuarios:', data.message || data);
-      return;
-    }
-
-    // Limpiar tabla antes de llenar
-    tablaUsuarios.innerHTML = '';
-
-    // Insertar cada usuario en una fila
-    data.usuarios.forEach(usuario => {
-      const fila = document.createElement('tr');
-      fila.innerHTML = `
-        <td>${usuario.id_usuario}</td>
-        <td>${usuario.nombre}</td>
-        <td>${usuario.email}</td>
-        <td>
-          <button class="btn editar">Editar</button>
-          <button class="btn eliminar">Eliminar</button>
-        </td>
-      `;
-      tablaUsuarios.appendChild(fila);
-    });
-
-  } catch (error) {
-    console.error('Error en la solicitud:', error);
-  }
-});
- */
 document.addEventListener('DOMContentLoaded', () => {
   const tablaUsuarios = document.getElementById('listaUsuarios');
 
@@ -61,6 +19,28 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
 
         tablaUsuarios.appendChild(fila);
+
+        const btnEliminar = fila.querySelector('.eliminar');
+        btnEliminar.addEventListener('click', () => {
+          if (confirm(`¿Seguro que quieres eliminar a ${usuario.nombre}?`)) {
+            fetch(`http://localhost:1234/usuario/eliminar/${usuario.id_usuario}`, {
+              method: 'DELETE'
+            })
+            .then(res => {
+              if (res.ok) {
+                fila.remove();
+                alert('Usuario eliminado correctamente');
+              } else {
+                alert('Error al eliminar el usuario');
+              }
+            })
+            .catch(err => {
+              console.error('Error en la eliminación:', err);
+              alert('No se pudo eliminar el usuario');
+            });
+          }
+        });
+
       });
     })
     .catch(error => {
