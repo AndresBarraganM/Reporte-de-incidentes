@@ -85,6 +85,11 @@
   </div>
   <script src="js/configuracion.js"></script>
   <script src="js/cerrarSesion.js"></script>
+  <script>
+    if(!localStorage.getItem('authToken')){
+      window.location.href = "login.html"
+    }
+  </script>
   
 
 </body>
