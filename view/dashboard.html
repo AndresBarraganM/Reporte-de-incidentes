@@ -108,5 +108,10 @@
   </div>
 
   <script src="js/dashboard.js"></script>
+  <script>
+    if(!localStorage.getItem('authToken')){
+      window.location.href = "login.html"
+    }
+  </script>
 </body>
 </html>

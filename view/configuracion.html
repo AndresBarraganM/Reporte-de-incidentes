@@ -79,5 +79,10 @@
       </form>
     </section>
   </div>
+  <script>
+    if(!localStorage.getItem('authToken')){
+      window.location.href = "login.html"
+    }
+  </script>
 </body>
 </html>

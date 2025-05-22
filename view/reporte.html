@@ -87,6 +87,11 @@
       </div>
     </section>
   </div>
+  <script>
+    if(!localStorage.getItem('authToken')){
+      window.location.href = "login.html"
+    }
+  </script>
 
   <!-- Script para generar la gráfica con Chart.js -->
   <script>

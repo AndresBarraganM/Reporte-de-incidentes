@@ -139,5 +139,10 @@
         </div>
     </div>
     <script src="js/register.js"></script>
+    <script>
+    if(!localStorage.getItem('authToken')){
+      window.location.href = "login.html"
+    }
+  </script>
 </body>
 </html>

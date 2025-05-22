@@ -49,6 +49,11 @@
   <!-- Script externo -->
   <script src="js/usuarios.js"></script>
     <script src="js/formulario.js"></script>
+    <script>
+    if(!localStorage.getItem('authToken')){
+      window.location.href = "login.html"
+    }
+  </script>
 
 </body>
 </html>
