@@ -23,10 +23,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c3VhcmlvIjoxL
 Content-Type: application/json
 
 {
-  "nombre": "joakin",
-  "email": "joakin@ejemplol.com",
+  "nombre": "alexia",
+  "email": "alexia@ejemplo.com",
   "telefono": "6461234567",
-  "contrasena_hash": "soyJoakin"
+  "contrasena_hash": "123"
 }
 
 ### Borrar usuario propio

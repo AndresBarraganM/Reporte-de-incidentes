@@ -15,6 +15,7 @@ async function cargarIncidentes(filtros = {}) {
     const tbody = document.getElementById('tabla-incidentes-body');
     tbody.innerHTML = '';
 
+    console.log("Datos recibidos:", incidentes);
     incidentes.forEach(incidente => {
       const tr = document.createElement('tr');
       tr.setAttribute('data-estado-actual', incidente.estado);

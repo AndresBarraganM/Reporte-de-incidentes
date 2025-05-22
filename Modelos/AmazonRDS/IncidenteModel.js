@@ -51,10 +51,18 @@ export class IncidenteModel{
         if (estado) whereIncidente.estado = estado;
         if (prioridad) whereIncidente.prioridad = prioridad;
         if (fecha) {
-            whereIncidente.fecha_reporte = {};
-            if (filtros.fecha.antesDe) whereIncidente.fecha_reporte = { [Op.lt]: filtros.fecha.antesDe };
-            if (filtros.fecha.despuesDe) whereIncidente.fecha_reporte = { [Op.gt]: filtros.fecha.despuesDe };
+        whereIncidente.fecha_reporte = {};
+        if (fecha.antesDe) {
+            whereIncidente.fecha_reporte[Op.lt] = new Date(fecha.antesDe);
         }
+        if (fecha.despuesDe) {
+            whereIncidente.fecha_reporte[Op.gt] = new Date(fecha.despuesDe);
+        }
+
+        if (Object.keys(whereIncidente.fecha_reporte).length === 0) {
+        delete whereIncidente.fecha_reporte;
+        }
+}
 
         //
         const incidentes = await modelo_incidentes.findAll({

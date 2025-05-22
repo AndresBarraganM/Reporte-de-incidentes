@@ -13,16 +13,19 @@ export class ControlerIncidentes {
   static async getIncidentes(req, res) {
     try {
       const filtros = extraerFiltros(req.query);
-      
+     
       // recuperar reporte
       const incidentes = await IncidenteModel.obtenerIncidentes(filtros);
-      
+     
       res.status(200).json({success:true ,datos:incidentes,});
+
 
     }catch(error){
       res.status(500).json({ error: 'Error al recuperar los incidentes', error });
     }
   }
+
+
 
   // obtener foto de un incidente seugn ID
   static async getFotoIncidente(req, res) {

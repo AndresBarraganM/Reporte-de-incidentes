@@ -107,6 +107,84 @@
   </div>
 </div>
   <script src="js/cargarIncidentes.js"></script>
+
+  <script>
+document.getElementById("filtro-incidentes").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const fechaInicio = document.getElementById("fecha-inicio").value;
+    const fechaFin = document.getElementById("fecha-fin").value;
+    const estado = document.getElementById("estado").value;
+    const prioridad = document.getElementById("prioridad").value;
+    const banio = document.getElementById("banio").value;
+
+    // Construimos los filtros
+    const filtros = new URLSearchParams();
+
+    if (fechaInicio) filtros.append("fecha.despuesDe", fechaInicio);
+    if (fechaFin) filtros.append("fecha.antesDe", fechaFin);
+    if (estado) filtros.append("estado", estado);
+    if (prioridad) filtros.append("prioridad", prioridad);
+    if (banio) filtros.append("banio", banio); // El backend debe entender "banio"
+
+    try {
+    const response = await fetch(`http://localhost:1234/incidentes?${filtros.toString()}`);
+    if (!response.ok) throw new Error("Error al cargar incidentes");
+    const datos = await response.json();
+    mostrarIncidentes(datos);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+});
+
+// Mostrar los resultados en una tabla
+function mostrarIncidentes(incidentes) {
+    const tbody = document.getElementById("tabla-incidentes-body");
+    tbody.innerHTML = ""; // Limpiar la tabla
+
+    incidentes.forEach((inc) => {
+        const fila = document.createElement("tr");
+        fila.innerHTML = `
+            <td>${inc.id_reporte}</td>
+            <td>${inc.bano.edificio.nombre} - ${inc.bano.genero} - ${inc.bano.planta}</td>
+            <td>${inc.incidente.nombre}</td>
+            <td>${new Date(inc.fecha_reporte).toLocaleString()}</td>
+            <td>${inc.prioridad}</td>
+            <td>${inc.estado}</td>
+            <td>
+                <button onclick="verDetalle(${inc.id_reporte})">Ver</button>
+            </td>
+        `;
+        tbody.appendChild(fila);
+    });
+}
+
+async function cargarBanios() {
+  try {
+    const response = await fetch('http://localhost:1234/banios');
+    if (!response.ok) throw new Error('Error al obtener baños');
+    const banios = await response.json();
+
+    const selectBanio = document.getElementById('banio');
+    // Elimina las opciones que no sean "Todos"
+    selectBanio.querySelectorAll('option:not([value=""])').forEach(opt => opt.remove());
+
+    banios.forEach(banio => {
+      const option = document.createElement('option');
+      option.value = banio.id_bano;              // id para filtro
+      option.textContent = banio.ubicacion;      // texto que verá el usuario
+      selectBanio.appendChild(option);
+    });
+  } catch (error) {
+    console.error('Error al cargar baños:', error);
+  }
+}
+
+window.addEventListener('DOMContentLoaded', cargarBanios);
+
+</script>
+
+
 </body>
 </html>
 
