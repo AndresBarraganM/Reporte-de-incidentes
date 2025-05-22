@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Configuración y Personalización</title>
   <link rel="stylesheet" href="configuracion.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
 </head>
 <body>
     <div class="dashboard-container">
@@ -18,6 +21,7 @@
           <li><a href="incidentes.html"><span>🚨</span> Incidentes</a></li>
           <li><a href="usuarios.html"><span>👥</span> Usuarios</a></li>
           <li><a href="configuracion.html" class="active"><span>⚙️</span> Configuración</a></li>
+          <li><a href="#" id="cerrar-sesion"><span>🔒</span> Cerrar sesión</a></li>
         </ul>
       </nav>
     </aside>
@@ -64,9 +68,9 @@
           <input type="text" id="nombre" name="nombre" placeholder="Ingresa tu nombre">
         </div>
         <div class="campo">
-          <label for="cargo">Cargo:</label>
-          <input type="text" id="cargo" name="cargo" placeholder="Ingresa tu cargo">
-        </div>
+      <label for="contrasena">Contraseña:</label>
+      <input type="password" id="contrasena" name="contrasena" placeholder="Ingresa tu contraseña">
+    </div>
         <div class="campo">
           <label for="correo">Correo:</label>
           <input type="email" id="correo" name="correo" placeholder="Ingresa tu correo">
@@ -79,5 +83,9 @@
       </form>
     </section>
   </div>
+  <script src="js/configuracion.js"></script>
+  <script src="js/cerrarSesion.js"></script>
+  
+
 </body>
 </html>

@@ -3,7 +3,10 @@ import bcrypt from 'bcryptjs';
 import { verificarUsuarioZod, verificarUsuarioCredencialesZod } from '../Schemas/UsuarioSchema.js'
 import { UsuarioModelo } from '../Modelos/AmazonRDS/UsuarioModel.js'
 import { generarToken } from '../utils/functions/jwt.js'
+import { verificarToken } from '../utils/functions/jwt.js';
 
+
+  
 export class ControlerUsuario {
 
     static async loginUsuario(req, res){
@@ -184,4 +187,29 @@ static async getUsuariosBasico(req, res) {
     return res.status(500).json({ message: 'Error al obtener los usuarios basicos', error })
   }
 }
+
+static async getPerfilUsuario(req, res) {
+  try {
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) return res.status(401).json({ message: 'Token no proporcionado' });
+
+    const decoded = verificarToken(token);
+
+    if (!decoded.id_usuario) {
+      return res.status(400).json({ message: 'Token inválido' });
+    }
+
+    const usuario = await UsuarioModelo.getUsuarioPorId(decoded.id_usuario);
+
+    if (!usuario) return res.status(404).json({ message: 'Usuario no encontrado' });
+
+    res.json(usuario); // Devuelve nombre, email, telefono, etc.
+  } catch (error) {
+    console.error('Error al obtener perfil', error);
+    res.status(500).json({ message: 'Error interno del servidor' });
+  }
+}
+
+
+
 }
