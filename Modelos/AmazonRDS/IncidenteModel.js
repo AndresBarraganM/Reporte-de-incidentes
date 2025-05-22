@@ -135,7 +135,3 @@ export class IncidenteModel{
 }
 
 }
-
-IncidenteModel.obtenerIncidentes({}).then((result) => {
-    console.log(result);
-})
