@@ -181,4 +181,11 @@ export class UsuarioModelo{
             throw error; 
         }
     }
+
+    // En UsuarioModelo.js
+static async getUsuarioPorId(id_usuario) {
+  const [rows] = await this.db.execute('SELECT nombre, email, telefono FROM usuarios WHERE id_usuario = ?', [id_usuario]);
+  return rows[0];
+}
+
 }

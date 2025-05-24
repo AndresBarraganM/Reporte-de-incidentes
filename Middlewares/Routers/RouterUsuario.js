@@ -14,4 +14,9 @@ UsuarioRouter.post('/usuario', authMiddleware, registrarUsuario)
 UsuarioRouter.get('/usuarios/basico', /*authMiddleware,*/ ControlerUsuario.getUsuariosBasico)
 
 
+// Por esta:
+UsuarioRouter.get('/perfil', authMiddleware, ControlerUsuario.getPerfilUsuario);
+
+
+
 //UsuarioRouter .delete('/', ControlerUsuario.deleteUsuario)
