@@ -147,7 +147,7 @@ export class UsuarioModelo{
             // Si encuentra el correo retorna mensaje de éxito
             console.log(usuario)
             if(usuario > 0){
-                console.log(`se han actualizado ${usuario} filas`)
+                console.log(`se han eliminado ${usuario} filas`)
                 return 'Registro eliminado correctamente'
             }
             // retorna Null si no se encontró el campo que se desea eliminar
