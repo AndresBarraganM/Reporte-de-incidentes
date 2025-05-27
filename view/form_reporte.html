@@ -73,7 +73,7 @@
         const ubicacionSelect = document.getElementById('ubicacion');
         const banoSelect = document.getElementById('baño');
 
-        fetch(serverUrl+'banos')
+        fetch(serverUrl+'banios')
             .then(response => response.json())
             .then(data => {
                 datosBanos = data;

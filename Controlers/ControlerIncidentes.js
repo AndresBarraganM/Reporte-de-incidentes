@@ -125,7 +125,8 @@ export class ControlerIncidentes {
     try {
       await IncidenteModel.generarIncidente(reporte)
     } catch (error) {
-      res.status(500).json({message: "no se pudo registar el incidente", error: error})       
+      res.status(500).json({message: "no se pudo registar el incidente", error: "error interno en el servidor"})       
+      return
     }
 
     res.status(200).json({message: "incidente registrado exitosamente"})
