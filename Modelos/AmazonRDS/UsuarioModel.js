@@ -136,7 +136,7 @@ export class UsuarioModelo{
      * @param {string} correo 
      * @returns 
      */
-    static async deleteUsuario(correo){
+    /* static async deleteUsuario(correo){
         try{
             const [usuario] = await modelo_usuarios.update({estado: 2},{
                 where: {
@@ -159,7 +159,7 @@ export class UsuarioModelo{
         catch(error){
             return {status: 500, error: 'Error al eliminar el registro'}
         }
-    }
+    } */
 
     /**
      * Metodo que permite validar si existe un usuario con el nombre y la contraseña especificados
@@ -183,9 +183,30 @@ export class UsuarioModelo{
     }
 
     // En UsuarioModelo.js
-static async getUsuarioPorId(id_usuario) {
+/* static async getUsuarioPorId(id_usuario) {
   const [rows] = await this.db.execute('SELECT nombre, email, telefono FROM usuarios WHERE id_usuario = ?', [id_usuario]);
   return rows[0];
+} */
+
+/* static async eliminarUsuario(id) {
+  const query = 'DELETE FROM usuarios WHERE id_usuario = ?';
+  const [resultado] = await connection.query(query, [id]);
+  return resultado;
+} */
+
+ // Eliminar usuario por ID (físicamente)
+    static async eliminarUsuario(id) {
+        try {
+            const eliminados = await modelo_usuarios.destroy({
+                where: {
+                    id_usuario: id
+                }
+            });
+            return eliminados;
+        } catch (error) {
+            console.error('Error al eliminar usuario por ID:', error);
+            throw error;
+        }
+    }
 }
 
-}

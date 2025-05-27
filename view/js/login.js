@@ -95,6 +95,8 @@ async function loginUser() {
         if (data.success) {
             // Guardar el token
             localStorage.setItem('authToken', data.token);
+                console.log('Token guardado:', data.token);  // <-- aquí
+
             window.location.href = "dashboard.html";
         } else {
             showAlertModal(data.message || 'Credenciales incorrectas');

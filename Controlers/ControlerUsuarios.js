@@ -212,4 +212,23 @@ static async getPerfilUsuario(req, res) {
 
 
 
+//CONTROLER PARA BORRAR UN USUARIO
+static async deleteUsuario(req, res) {
+  const id = req.params.id;
+
+  try {
+    const resultado = await UsuarioModelo.eliminarUsuario(id);
+
+    if (resultado.affectedRows === 0) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    return res.status(200).json({ message: 'Usuario eliminado correctamente' });
+  } catch (error) {
+    console.error('Error al eliminar usuario:', error);
+    return res.status(500).json({ message: 'Error al eliminar usuario', error });
+  }
+}
+
+
 }

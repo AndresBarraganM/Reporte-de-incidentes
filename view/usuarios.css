@@ -271,8 +271,7 @@ header p {
 /*ESTOS ESTILOS SON PARA EL FORMULARIO DE AGREGAR USUARIO DEL JS*/
 /* Estilo general para el formulario generado dinámicamente */
 .formulario-usuario {
-margin: auto;
-  
+  margin: auto;
   justify-content: center;
   background: #fff;
   padding: 30px 40px;
@@ -280,6 +279,7 @@ margin: auto;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   width: 350px;
   margin-top: 50px;
+  margin-bottom: 50px;
   font-family: Arial, sans-serif;
   border: 5px solid #4d5fdb; /* Esta linea hace todo en una sola: color, grosor y estilo */
 

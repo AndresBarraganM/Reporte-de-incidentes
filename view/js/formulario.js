@@ -30,7 +30,11 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     `;
 
-    contenedor.appendChild(formulario);
+    //contenedor.appendChild(formulario);
+    //contenedor.insertBefore(formulario, contenedor.firstChild);
+    btnAgregar.parentNode.insertBefore(formulario, btnAgregar.nextSibling);
+
+
     formularioVisible = true;
 
     formulario.addEventListener('submit', async (e) => {
@@ -109,6 +113,7 @@ async function register() {
       alert('Usuario registrado exitosamente');
       // Opcional: cerrar el formulario y refrescar la tabla
       document.getElementById('register-form').remove();
+      location.reload();
 
 
     } else {

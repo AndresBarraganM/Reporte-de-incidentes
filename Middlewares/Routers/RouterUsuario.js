@@ -11,11 +11,14 @@ UsuarioRouter.post('/login', ControlerUsuario.loginUsuario)
 UsuarioRouter.post('/usuario', authMiddleware, registrarUsuario)
 
 // Nueva ruta para obtener usuarios basicos
-UsuarioRouter.get('/usuarios/basico', /*authMiddleware,*/ ControlerUsuario.getUsuariosBasico)
+UsuarioRouter.get('/usuarios/basico',   authMiddleware,  ControlerUsuario.getUsuariosBasico)
 
 
 // Por esta:
 UsuarioRouter.get('/perfil', authMiddleware, ControlerUsuario.getPerfilUsuario);
+
+//RUTA PARA BORRAR UN USUARIO
+UsuarioRouter.delete('/eliminar/:id', authMiddleware, ControlerUsuario.deleteUsuario);
 
 
 

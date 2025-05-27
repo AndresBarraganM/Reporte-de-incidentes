@@ -22,7 +22,11 @@
       </ul>
     </nav>
   </aside>
-
+<script>
+    if(!localStorage.getItem('authToken')){
+      window.location.href = "login.html"
+    }
+  </script>
   <div class="container">
     <header>
       <h1>Gestión de Usuarios</h1>
