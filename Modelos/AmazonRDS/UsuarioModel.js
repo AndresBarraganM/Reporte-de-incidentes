@@ -92,6 +92,21 @@ export class UsuarioModelo{
         }
     }
 
+    static async getUsuarioPorId(id_usuario) {
+        try {
+            const usuario = await modelo_usuarios.findOne({
+                where: {
+                    id_usuario: id_usuario
+                },
+                attributes: ['id_usuario', 'nombre', 'email', 'telefono']
+            });
+            return usuario ? usuario.dataValues : null;
+        } catch (error) {
+            console.error('Error al obtener usuario por ID:', error);
+            throw error;
+        }
+    }
+
     // Cambio de datos
     /**
      * 
