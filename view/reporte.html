@@ -47,8 +47,6 @@
           <label for="ubicacion">Ubicación:</label>
           <select id="ubicacion" name="ubicacion">
             <option value="">Todas</option>
-            <option value="banio1">Baño 1</option>
-            <option value="banio2">Baño 2</option>
             <!-- Más opciones según necesidad -->
           </select>
         </div>
@@ -94,16 +92,16 @@
       </div>
     </section>
   </div>
+
   <script>
     if(!localStorage.getItem('authToken')){
       window.location.href = "login.html"
     }
   </script>
 
-  <!-- Script para generar la gráfica con Chart.js -->
+  <!-- Scripts para inicializar la paguina y graficas-->
   <script>
 
-    
     async function inicializarPaguina(){
       // Obtener datos de la API o de un array estático
       let datosAPI;
@@ -132,12 +130,12 @@
           text: 'No se pudieron generar las gráficas. Por favor, inténtalo de nuevo más tarde.'
         });
       }
-
     }
 
     async function obtenerIncidentesAPI(filtros = {}){
       const queryParams = new URLSearchParams(filtros).toString();
       const url = `http://localhost:1234/incidentes${queryParams ? '?' + queryParams : ''}`;
+      console.log('URL de la API:', url);
       try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -225,12 +223,75 @@
       inicializarPaguina();
     });
 
+    // Agregar ubicaciones de banos a la lista de filtros
+    document.addEventListener('DOMContentLoaded', function () {
+    const select = document.getElementById('ubicacion');
+
+    fetch('http://localhost:1234/banios')
+      .then(response => response.json())
+      .then(data => {
+        const ubicacionesUnicas = new Set();
+
+        data.forEach(banio => {
+          if (banio.ubicacion) {
+            ubicacionesUnicas.add(`${banio.ubicacion} - ${banio.genero_bano}`);
+          }
+        });
+
+        // Agregar cada ubicación como opción
+        ubicacionesUnicas.forEach(ubicacion => {
+          const option = document.createElement('option');
+          option.value = ubicacion;
+          option.textContent = ubicacion;
+          select.appendChild(option);
+        });
+      })
+      .catch(error => {
+        console.error('Error al obtener las ubicaciones:', error);
+      });
+  });
+
+  </script>
+
+  <!-- Script para el filtro-->
+  <script> 
+    document.getElementById('form-filtros').addEventListener('submit', async function(event) {
+      event.preventDefault(); // Evita el envío del formulario
+
+      // Obtener los valores de los filtros
+      const fechaInicio = document.getElementById('fecha-inicio').value;
+      const fechaFin = document.getElementById('fecha-fin').value;
+      const ubicacion = document.getElementById('ubicacion').value;
+      const estado = document.getElementById('estado').value;
+
+      // Crear un objeto con los filtros
+      const filtros = {
+        'fecha_inicio': fechaInicio,
+        'fecha_fin': fechaFin,
+        'ubicacion': ubicacion,
+        'estado': estado
+      };
+
+      // Obtener los datos filtrados de la API
+      const datos = await obtenerIncidentesAPI(filtros)
+
+      console.log('Datos filtrados:', datos, filtros);
+    });
+  </script>
+
+  <!-- Scripts para exportar a CSV y PDF -->
+  <script >
+    document.getElementById('export-pdf').addEventListener('click', exportarPDF);
+
     // Funcion para exportar a PDF
     function exportarPDF() {
       // Aquí iría la lógica para exportar a PDF
       alert('Función de exportación a PDF no implementada.');
     }
+    
   </script>
+
+  
 
   <script src="js/cerrarSesion.js"></script>
 </body>
