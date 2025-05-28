@@ -102,7 +102,6 @@
 
   <!-- Script para generar la gráfica con Chart.js -->
   <script>
-    inicializarPaguina();
 
     
     async function inicializarPaguina(){
@@ -124,7 +123,7 @@
 
       // Generar graficas
       try {
-        //generarGraficas(datosAPI);
+        generarGraficas(datosAPI);
       } catch (error) {
         console.error('Error al generar las gráficas:', error);
         Swal.fire({
@@ -162,9 +161,66 @@
       }
     }
     
+    async function generarGraficas(datosAPI){
+      // crear datos que utilizaremos para graficas
+      const { porBano, porFecha, porIncidente } = procesarDatosParaGraficas(datosAPI);
+
+      generarGrafica('porBano', Object.keys(porBano), Object.values(porBano), 'Incidentes por Baño');
+      generarGrafica('porFecha', Object.keys(porFecha), Object.values(porFecha), 'Incidentes por Fecha');
+      generarGrafica('porIncidente', Object.keys(porIncidente), Object.values(porIncidente), 'Incidentes por Tipo');
+
+    }
+
+    function generarGrafica(canvasId, etiquetas, valores, titulo) {
+      const ctx = document.getElementById(canvasId).getContext('2d');
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: etiquetas,
+          datasets: [{
+            label: titulo,
+            data: valores,
+            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    }
+
+    function procesarDatosParaGraficas(datos){
+      const porBano = {};
+      const porFecha = {};
+      const porIncidente = {};
+
+      datos.forEach(reporte => {
+        // Contar por baño
+        const idBano = reporte.bano.id_bano;
+        porBano[idBano] = (porBano[idBano] || 0) + 1;
+
+        // Contar por fecha (solo fecha sin hora)
+        const fecha = reporte.fecha_reporte.split(' ')[0];
+        porFecha[fecha] = (porFecha[fecha] || 0) + 1;
+
+        // Contar por tipo de incidente
+        const tipoIncidente = reporte.incidente.nombre;
+        porIncidente[tipoIncidente] = (porIncidente[tipoIncidente] || 0) + 1;
+      });
+
+      return { porBano, porFecha, porIncidente };
+    }
+
     // Al cargar la página, generamos la gráfica
     window.addEventListener('DOMContentLoaded', () => {
-      //generarGraficaDanios('graficaDanios', tipos, cantidades);
+      inicializarPaguina();
     });
 
     // Funcion para exportar a PDF
