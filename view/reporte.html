@@ -275,8 +275,18 @@
 
       // Obtener los datos filtrados de la API
       const datos = await obtenerIncidentesAPI(filtros)
+      if (Object.keys(datos).length === 0) {
+        Swal.fire({
+          icon: 'info',
+          title: 'No hay datos disponibles',
+          text: 'No se encontraron incidentes con los filtros aplicados.'
+        });
+        return;
+      }
 
-      console.log('Datos filtrados:', datos, filtros);
+      // realizar wl resto con estos datos
+      await generarGraficas(datos);
+
     });
   </script>
 
