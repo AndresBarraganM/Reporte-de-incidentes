@@ -268,7 +268,8 @@
       const filtros = {
         'fecha_inicio': fechaInicio,
         'fecha_fin': fechaFin,
-        'ubicacion': ubicacion,
+        'edificio': ubicacion.split(' planta ')[0], 
+        'planta': ubicacion.split(' planta ')[1] || '',
         'estado': estado
       };
 
