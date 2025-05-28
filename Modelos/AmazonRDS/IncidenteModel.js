@@ -52,20 +52,19 @@ export class IncidenteModel{
         if (estado) whereIncidente.estado = estado;
         if (prioridad) whereIncidente.prioridad = prioridad;
         if (fecha) {
-        whereIncidente.fecha_reporte = {};
-        if (fecha.antesDe) {
-            whereIncidente.fecha_reporte[Op.lt] = new Date(fecha.antesDe);
-        }
-        if (fecha.despuesDe) {
-            whereIncidente.fecha_reporte[Op.gt] = new Date(fecha.despuesDe);
+            whereIncidente.fecha_reporte = {};
+            if (fecha.antesDe) {
+                whereIncidente.fecha_reporte[Op.lt] = new Date(fecha.antesDe);
+            }
+            if (fecha.despuesDe) {
+                whereIncidente.fecha_reporte[Op.gt] = new Date(fecha.despuesDe);
+            }
+            
+            /* if (Object.keys(whereIncidente.fecha_reporte).length === 0) {
+                delete whereIncidente.fecha_reporte;
+            } Este coeliminaba los filtros de fecha y causaba problemas*/ 
         }
 
-        if (Object.keys(whereIncidente.fecha_reporte).length === 0) {
-        delete whereIncidente.fecha_reporte;
-        }
-}
-
-        //
         const incidentes = await modelo_incidentes.findAll({
             attributes: ['id_incidente', 'id_reporte', 'descripcion', 'estado', 'prioridad', 'fecha_reporte'],
             where: whereIncidente,
