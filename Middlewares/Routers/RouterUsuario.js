@@ -20,6 +20,9 @@ UsuarioRouter.get('/perfil', authMiddleware, ControlerUsuario.getPerfilUsuario);
 //RUTA PARA BORRAR UN USUARIO
 UsuarioRouter.delete('/eliminar/:id', authMiddleware, ControlerUsuario.deleteUsuario);
 
+// Ruta para actualizar un usuario
+UsuarioRouter.patch('/actualizar', authMiddleware, ControlerUsuario.updateUsuario);
+
 
 
 //UsuarioRouter .delete('/', ControlerUsuario.deleteUsuario)

@@ -1,7 +1,7 @@
-
+import { hashPassword } from '../../utils/security.js';
 import {modelo_usuarios} from './database/ModeloLogin.js'
 
-export class UsuarioModelo{
+export class UsuarioModelo {
     
     // Metodo para agregar usuario
     /**
@@ -114,37 +114,42 @@ export class UsuarioModelo{
      * @param {*} emailOriginal 
      * @returns 
      */
-    static async updateUsuario(datos, emailOriginal){
-        try{
-        const usuarioExistente = await modelo_usuarios.findOne({
-            where: {
-                email: datos.email
-            },
-        });
-        // Si el usuario no existe, se retorna false
-        if(usuarioExistente && usuarioExistente.email !== emailOriginal) {
-            console.log('El correo ya existe en la base de datos')
-            return null
-        }
-        const [usuario] = await modelo_usuarios.update(datos,{
-            where: {
-                email: emailOriginal
+    static async updateUsuario(datos, id_usuario){ 
+        try {
+            console.log("Datos a actualizar:", datos); // 👁️ Verifica los datos recibidos
+            console.log("id original:", id_usuario); // 👁️ Verifica el id original
+            // Buscar usuario por id
+            const usuario = await modelo_usuarios.findOne({
+            where: { id_usuario: id_usuario }
+            });
+
+
+            if (!usuario) {
+            return null;
             }
-        })
-        
-        if (usuario > 0){
-            console.log(`se han actualizado ${usuario} filas`)
-            return 'Registro actualizado correctamente'
-        }
-        else {
-            console.log(`No se encontró usuario con el email ${datos.email} o no se han realizado los cambios`)
-            return null
-        }
-    }
-    catch(error){
-        return {status: 500, error: 'Error al actualizar el registro'}
-    }
-    }
+
+            // Extraer password y el resto de datos
+            const { contrasena_hash, ...otrosDatos } = datos;
+
+            // Si se envió un nuevo password, se hashea
+            if (contrasena_hash) {
+            otrosDatos.contrasena_hash = await hashPassword(contrasena_hash, 10);
+            }
+
+            // Actualizar asesor con los datos restantes (incluyendo password si se actualizó)
+            await modelo_usuarios.update(otrosDatos,{
+                where: { id_usuario: id_usuario }
+            });
+
+            // Eliminar password antes de retornar los datos actualizados
+            const { contrasena_hash: _, ...datosSeguros } = usuario.dataValues;
+
+            return datosSeguros;
+  } catch (error) {
+    console.error("Error en updateAlumno:", error);
+    return null;
+  }
+}
 
     /**
      * Elimina de la tabla el registro con el correo seleccionado

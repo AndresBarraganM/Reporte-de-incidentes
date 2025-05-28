@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 //import { DatabaseError, ValidationError } from '../errors.js';
-import { verificarUsuarioZod, verificarUsuarioCredencialesZod } from '../Schemas/UsuarioSchema.js'
+import { obtenerIdDeReq } from '../utils/functions/request.js';
+import { verificarUsuarioZod, verificarUsuarioCredencialesZod, validarParcialUsuario } from '../Schemas/UsuarioSchema.js'
 import { UsuarioModelo } from '../Modelos/AmazonRDS/UsuarioModel.js'
 import { generarToken } from '../utils/functions/jwt.js'
 import { verificarToken } from '../utils/functions/jwt.js';
@@ -108,6 +109,65 @@ export class ControlerUsuario {
     }
     */
   }
+
+/**
+   * Actualiza los datos de un usuario identificado por el id en el token.
+   * 
+   * Pasos:
+   * 1. Valida los datos del cuerpo de la petición usando validación parcial.
+   * 2. Obtiene el id del usuario desde el token.
+   * 3. Si se incluye una contraseña, se encripta antes de guardar.
+   * 4. Llama al modelo para actualizar al usuario.
+   * 5. Retorna el resultado de la operación o errores si los hay.
+   *
+   * @static
+   * @async
+   * @function updateUsuario
+   * @param {Request} req - Objeto de solicitud HTTP con los datos nuevos del usuario.
+   * @param {Response} res - Objeto de respuesta HTTP.
+   * @returns {Promise<Response>} - Respuesta con el estado de la operación.
+   */
+  static async updateUsuario(req, res) {
+    try {
+        // obtener y verificacion de usuario
+        const datos = req.body;
+        console.log(datos)
+        if (!validarParcialUsuario(datos)) {
+            return res.status(400).json({ error: "Datos en la petición incorrectos" });
+        }
+
+        const id = obtenerIdDeReq(req);
+        if (!id) {
+            return res.status(400).json({ error: "id no encontrado en el token" });
+        }
+
+        // Actualizar el usuario
+        const resultado = await UsuarioModelo.updateUsuario(datos, id);
+        
+        // Verificar si la actualización fue exitosa
+        if (!resultado) {
+            return res.status(404).json({ error: "Usuario no encontrado" });
+        }
+
+        // No enviar contrase;a porsupuesto
+        delete resultado.password;
+
+        // retornar mensaje
+        res.status(200).json({
+            success: true,
+            message: "Datos actualizados correctamente",
+            datos: resultado
+        });
+
+    } catch (error) {
+        console.error("Error en updateUsuario:", error);
+        res.status(500).json({ 
+            error: "Error interno del servidor",
+            detalles: process.env.NODE_ENV === 'development' ? error.message : undefined
+        });
+    }
+  }
+
   
   /* 
   // Actualizar usuario
