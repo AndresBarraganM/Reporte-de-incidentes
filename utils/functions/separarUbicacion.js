@@ -1,6 +1,4 @@
-
-
-export function separaUbicacion(ubicacion) {
+export function separarUbicacion(ubicacion) {
   let nombre, planta;
   
   const partes = ubicacion.split("planta");
@@ -9,3 +7,5 @@ export function separaUbicacion(ubicacion) {
 
   return { nombre, planta }; // Devuelve un objeto con ambas propiedades
 }
+
+

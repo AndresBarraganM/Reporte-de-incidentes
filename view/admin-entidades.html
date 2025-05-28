@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Administrar Entidades</title>
+  <link rel="stylesheet" href="admin-entidades.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+  <aside class="menu-lateral">
+    <h2>Menú</h2>
+    <nav>
+      <ul>
+        <li><a href="dashboard.html"><span>🏠</span> Inicio</a></li>
+        <li><a href="reporte.html"><span>📄</span> Reportes</a></li>
+        <li><a href="incidentes.html"><span>🚨</span> Incidentes</a></li>
+        <li><a href="usuarios.html"><span>👥</span> Usuarios</a></li>
+        <li><a href="admin-entidades.html" class="active"><span>🏢</span> Agregar</a></li> 
+        <li><a href="configuracion.html"><span>⚙️</span> Configuración</a></li>
+        <li><a href="#" id="cerrar-sesion"><span>🔒</span> Cerrar sesión</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <script>
+    if (!localStorage.getItem('authToken')) {
+      window.location.href = "login.html";
+    }
+  </script>
+
+  <div class="container">
+    <header>
+      <h1>Administrar Entidades</h1>
+      <p>Agrega edificios, baños y tipos de incidente.</p>
+    </header>
+
+    <section class="control-acceso">
+      <h2>Agregar Edificio</h2>
+      <form class="formulario-usuario">
+        <label>
+          ID Edificio:
+          <input type="text" name="id_edificio" required />
+        </label>
+        <label>
+          Nombre:
+          <input type="text" name="nombre" required />
+        </label>
+        <label>
+          Planta:
+          <input type="text" name="planta" required />
+        </label>
+        <div class="form-buttons">
+          <button type="submit">Enviar</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="control-acceso">
+      <h2>Agregar Baño</h2>
+      <form class="formulario-usuario">
+        <label>
+          ID Baño:
+          <input type="text" name="id_bano" required />
+        </label>
+        <label>
+          ID Edificio:
+          <input type="text" name="id_edificio" required />
+        </label>
+        <label>
+          Género del Baño:
+          <input type="text" name="genero_bano" required />
+        </label>
+        <div class="form-buttons">
+          <button type="submit">Enviar</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="control-acceso">
+      <h2>Agregar Tipo de Incidente</h2>
+      <form class="formulario-usuario">
+        <label>
+          ID Incidente:
+          <input type="text" name="id_incidente" required />
+        </label>
+        <label>
+          Nombre:
+          <input type="text" name="nombre" required />
+        </label>
+        <div class="form-buttons">
+          <button type="submit">Enviar</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <!-- Scripts externos -->
+  <script src="js/cerrarSesion.js"></script>
+</body>
+</html>
