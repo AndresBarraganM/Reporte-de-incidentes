@@ -9,6 +9,12 @@ const usuarioSchema = z.object({
   }),
 });
 
+export function validarParcialUsuario(usuario){
+  const resultado = usuarioSchema.partial().safeParse(usuario)
+  console.log(resultado)
+  return resultado.success;
+}
+
 export function verificarUsuarioZod(usuario) {
   return usuarioSchema.safeParse(usuario);
 }

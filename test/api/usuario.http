@@ -13,21 +13,35 @@ Content-Type: application/json
 
 {
   "nombre": "admin",
-  "contrasena_hash": "admin123"
+  "contrasena_hash": "admin123456"
+}
+
+###
+
+## Actualizar perfil del usuario
+PATCH http://localhost:1234/usuario/actualizar
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c3VhcmlvIjoxLCJub21icmUiOiJhZG1pbiIsImlhdCI6MTc0ODQxMzM0NCwiZXhwIjoxNzQ4NDIwNTQ0fQ.U5X4pO5BfCfAKQffr33Y4jDtU7ejgX37s8ce-J10ukk
+Content-Type: application/json
+
+{
+  "nombre": "admin",
+  "contrasena_hash": "admin123456"
 }
 
 ### Crear un usuario
 ## Requiere iniciar sesion como un usuario, por lo que ocupan tokens
-POST http://localhost:1234/usuario/usuario
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c3VhcmlvIjoxLCJub21icmUiOiJhZG1pbiIsImlhdCI6MTc0NzgxNTUxNSwiZXhwIjoxNzQ3ODIyNzE1fQ.yP8mcyVzrWvza8DxqGF4doB7AI57QQJ4yiniZCrvixs
+GET http://localhost:1234/usuario/perfil
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c3VhcmlvIjoxLCJub21icmUiOiJhZG1pbiIsImlhdCI6MTc0ODQxNTMxMiwiZXhwIjoxNzQ4NDIyNTEyfQ._G_zNQeZTwNOvUOcph4xbWlRX_8_G4x-xlWAjDJm5UA
 Content-Type: application/json
 
-{
-  "nombre": "alexia",
-  "email": "alexia@ejemplo.com",
-  "telefono": "6461234567",
-  "contrasena_hash": "123"
-}
+###
+
+GET http://localhost:1234/usuario/perfil
+Authorization: : Bearer 
+
+
+
+### Actualizar perfil del usuario
 
 ### Borrar usuario propio
 ## Ocupa iniciar sesion como dicho usuario y de este token obtiene que usuario es
