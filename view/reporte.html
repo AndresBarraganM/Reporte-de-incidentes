@@ -203,8 +203,10 @@
 
       datos.forEach(reporte => {
         // Contar por baño
-        const idBano = reporte.bano.id_bano;
-        porBano[idBano] = (porBano[idBano] || 0) + 1;
+        const edificio = reporte.bano.edificio.nombre;
+        const genero = reporte.bano.genero;
+        const clave = `Edificio ${edificio} - ${genero}`;
+        porBano[clave] = (porBano[clave] || 0) + 1;
 
         // Contar por fecha (solo fecha sin hora)
         const fecha = reporte.fecha_reporte.split(' ')[0];
