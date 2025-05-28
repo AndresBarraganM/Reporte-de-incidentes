@@ -1,7 +1,7 @@
 ### pruebas de llamdas las cuales son relacionadas a las llamadas realizadas para mostrar el reporte y enviar estos a el servidor
 
 ### Obtener lista de banios
-GET http://localhost:1234/banos
+GET http://localhost:1234/banios
 
 ## Deveria retornar algo similar a esto
 #[

@@ -1,7 +1,6 @@
 ### Llamadas relacionadas a los banios
 ## llamada para obtener la lista de bainos
 GET http://localhost:1234/banios
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c3VhcmlvIjoxLCJub21icmUiOiJhZG1pbiIsImlhdCI6MTc0ODQ2MzczMywiZXhwIjoxNzQ4NDcwOTMzfQ.5J0YzBT0jjKNTGPTqw-yu9TKdmryk1LT0W3qklN0ABQ
 
 ### Llamada para crear un nuevo banio
 POST http://localhost:1234/banios/agregar
