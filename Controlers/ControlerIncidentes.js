@@ -3,7 +3,7 @@ import { IncidenteModel } from '../Modelos/AmazonRDS/IncidenteModel.js'; // mode
 import { validarIncidenteZod } from '../Schemas/IncidenteSchema.js'
 import { validarFoto } from '../Schemas/FotoSchema.js';
 
-import { separaUbicacion } from '../utils/functions/separarUbicacion.js';
+import { separarUbicacion } from '../utils/functions/separarUbicacion.js';
 import { almacenarFoto, recuperarPathFoto } from '../utils/functions/fotoMethods.js';
 import { extraerFiltros } from '../utils/functions/filtrosDeQuery.js';
 
@@ -93,7 +93,7 @@ export class ControlerIncidentes {
       return
     }
     const ubicacion = reporte.ubicacion
-    const resultado = separaUbicacion(ubicacion);
+    const resultado = separarUbicacion(ubicacion);
     reporte.nombre = resultado.nombre;
     reporte.planta = resultado.planta;
     delete reporte.ubicacion;

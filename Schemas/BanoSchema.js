@@ -8,7 +8,7 @@ const banoSchema = z.object({
 }).refine(async (bano) => {
   try {
     const banoEncontrado = await BanoModel.obtenerBano(bano);
-    return banoEncontrado !== null && banoEncontrado !== undefined;
+    return banoEncontrado !== null || banoEncontrado !== undefined ? true : false;
   } catch (error) {
     console.error("Error al validar el baño:", error);
     return false;

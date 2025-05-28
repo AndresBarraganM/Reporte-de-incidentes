@@ -14,10 +14,10 @@ export class BanoModel{
      */
     static async agregarBano(datos){
         try {
-            console.log(datos.nombre_edificio, datos.planta, datos.genero_bano)
+            console.log(datos.nombre, datos.planta, datos.genero_bano)
             const edificio = await modelo_edificio.findOne({
                 where: {
-                    nombre: datos.nombre_edificio,
+                    nombre: datos.nombre,
                     planta: datos.planta
                 }
             })
@@ -41,7 +41,7 @@ export class BanoModel{
                 return nuevo_bano
             }
             console.log("Este baño ya está registrado")
-            return false
+            return res.status(400).json({ message: "Este baño ya está registrado" })
         
         }
         catch(error){
