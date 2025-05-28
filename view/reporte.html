@@ -99,6 +99,8 @@
 
   <!-- Script para generar la gráfica con Chart.js -->
   <script>
+    inicializarPaguina();
+
     /**
      * Genera una gráfica de barras de reportes por tipo de daño.
      * @param {string} canvasId   — Id del elemento <canvas>.
@@ -146,6 +148,63 @@
       });
     }
 
+    async function inicializarPaguina(){
+      // Obtener datos de la API o de un array estático
+      let datosAPI;
+      try {
+        datosAPI = await obtenerIncidentesAPI({});
+        if (datosAPI == {}) {
+          return
+        }
+      } catch (error) {
+        console.error('Error al obtener los datos de la API:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al cargar los datos',
+          text: 'No se pudieron obtener los incidentes. Por favor, inténtalo de nuevo más tarde.'
+        }); 
+      }
+
+      // Generar graficas
+      try {
+        //generarGraficas(datosAPI);
+      } catch (error) {
+        console.error('Error al generar las gráficas:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al generar las gráficas',
+          text: 'No se pudieron generar las gráficas. Por favor, inténtalo de nuevo más tarde.'
+        });
+      }
+
+    }
+
+    async function obtenerIncidentesAPI(filtros = {}){
+      const queryParams = new URLSearchParams(filtros).toString();
+      const url = `http://localhost:1234/incidentes${queryParams ? '?' + queryParams : ''}`;
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error('Error en la solicitud: ' + response.status);
+        }
+        const temp = await response.json();
+        const data = temp.datos
+        if (data.length === 0) {
+          Swal.fire({
+            icon: 'info',
+            title: 'No hay datos disponibles',
+            text: 'No se encontraron incidentes con los filtros aplicados.'
+          });
+          return {};
+        }
+        incidentesAPI = data; // Variable global
+        return incidentesAPI;
+      } catch (error) {
+        console.error('Error al obtener los datos:', error);
+        throw error;
+      }
+    }
+    
     // EJEMPLO: datos estáticos. Cámbialos por tu array real o por datos que obtengas vía fetch.
     const tipos = ['Obstrucción', 'Fugas', 'Vandalismo', 'Mantenimiento'];
     const cantidades = [12, 7, 5, 3];
