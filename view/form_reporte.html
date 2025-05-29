@@ -154,15 +154,17 @@
         const foto = fotoInput.files[0];
     
         const formData = new FormData();
-        console.log(formData)
     
         // Adjuntar campo "data" como JSON
         const json = {
+            nombre: ubicacion.split(' planta ')[0],
+            planta: ubicacion.split(' planta ')[1],
             ubicacion: ubicacion,
             genero_bano: genero,
             tipo_incidente: tipo,
             descripcion: descripcion
         };
+        console.log('Datos del reporte:', json);
         //const blob = new Blob([JSON.stringify(json)], { type: 'application/json' });
         formData.append('data', JSON.stringify(json));
     
