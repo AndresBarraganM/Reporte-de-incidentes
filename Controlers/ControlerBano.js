@@ -1,5 +1,6 @@
 import { BanoModel } from "../Modelos/AmazonRDS/BanoModel.js"; 
 import { validarBanoZod } from "../Schemas/BanoSchema.js"; // esquema de validacion para banios
+import { separarUbicacion } from "../utils/functions/separarUbicacion.js"; // utilidades para separar ubicacion
 
 
 export class ControlerBano {
@@ -22,9 +23,11 @@ export class ControlerBano {
   static async postBano(req, res) {
     try {
       const banio = req.body;
+      // se separa la ubicación del edificio
+      const { nombre, planta } = separarUbicacion(banio.ubicacion);
 
       // Validar el esquema de la encuesta
-      const resultado = validarBanoZod(banio);
+      const resultado = await validarBanoZod({nombre: nombre, planta: planta, genero_bano: banio.genero_bano});   
 
       try{
         if (!resultado.success) {
@@ -37,7 +40,7 @@ export class ControlerBano {
       
 
       // crear en la base de datos
-      BanoModel.agregarBano(banio)
+      BanoModel.agregarBano({nombre: nombre, planta: planta, genero_bano: banio.genero_bano})
         .then((banio) => {
           res.status(200).json({ message: "Banio creado", banio });
         })

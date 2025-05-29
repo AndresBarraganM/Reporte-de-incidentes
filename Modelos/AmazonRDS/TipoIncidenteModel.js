@@ -8,6 +8,7 @@ export class TipoIncidenteModel{
      * @returns {JSON} deveuelve el resultado agregado
      */
     static async agregarTipoIncidente(nombre_incidente){
+        console.log(nombre_incidente)
         try {
             const incidente = await modelo_tipo_incidente.findAll({
                 where: {
@@ -16,11 +17,11 @@ export class TipoIncidenteModel{
             })
             if(incidente.length === 0){
                 const nuevoIncidente = await modelo_tipo_incidente.create(nombre_incidente)
-                return JSON.stringify(nuevoIncidente,null,2)
+                return nuevoIncidente
             }
             else{
                 console.log("Ya existe este incidente")
-                return false
+                return null
             }
         }
         catch(error){

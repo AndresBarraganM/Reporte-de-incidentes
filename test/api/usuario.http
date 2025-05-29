@@ -13,7 +13,7 @@ Content-Type: application/json
 
 {
   "nombre": "admin",
-  "contrasena_hash": "admin123456"
+  "contrasena_hash": "admin123"
 }
 
 ###
@@ -25,7 +25,7 @@ Content-Type: application/json
 
 {
   "nombre": "admin",
-  "contrasena_hash": "admin123456"
+  "contrasena_hash": "admin123"
 }
 
 ### Crear un usuario

@@ -3,12 +3,13 @@
 GET http://localhost:1234/banios
 
 ### Llamada para crear un nuevo banio
-POST http://localhost:1234/banios
+POST http://localhost:1234/banios/agregar
 Content-Type: application/json
+Authorization: Beaerer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c3VhcmlvIjoxLCJub21icmUiOiJhZG1pbiIsImlhdCI6MTc0ODQ2MzczMywiZXhwIjoxNzQ4NDcwOTMzfQ.5J0YzBT0jjKNTGPTqw-yu9TKdmryk1LT0W3qklN0ABQ
 
 {
-  "ubicacion": "700 planta baja",
-  "genero": "hombre"
+  "ubicacion": "400 planta baja",
+  "genero_bano": "hombre"
 }
 
 ### Llamada para borrar un banio Segun su ID.
