@@ -4,6 +4,8 @@ import { BanoRouter } from "./Middlewares/Routers/RouterBano.js";
 import { UsuarioRouter } from "./Middlewares/Routers/RouterUsuario.js";
 import { probarConexion } from "./utils/database_connection.js";
 
+import { escucharBot } from "./services/botTelegram.js"; // <- NUEVO IMPORT
+
 import multer from 'multer';
 import  express, { json } from "express";
 import cors from 'cors';
@@ -41,6 +43,7 @@ const createApp = () => {
 
   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
+    escucharBot();
   });
 
 }
