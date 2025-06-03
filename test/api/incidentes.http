@@ -67,9 +67,9 @@ Content-Type: application/json
 
 ### Actualiza la prioridad de un incidente
 ## prioridad('baja', 'media', 'alta')
-PUT http://localhost:1234/incidentes/prioridad/2
+PUT http://localhost:1234/incidentes/prioridad/6
 Content-Type: application/json
 
 {
-    "prioridad": "media"
+    "prioridad": "alta"
 }

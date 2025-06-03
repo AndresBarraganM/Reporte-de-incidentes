@@ -36,6 +36,9 @@ async function cargarIncidentes(filtros = {}) {
               <a href="#" data-estado="en_proceso">Marcar como En Proceso</a>
               <a href="#" data-estado="resuelto">Marcar como Resuelto</a>
               <a href="#" data-estado="pendiente">Marcar como Pendiente</a>
+              <a href="#" data-prioridad="alta">Cambiar a Prioridad Alta</a>
+              <a href="#" data-prioridad="media">Cambiar a Prioridad Media</a>
+              <a href="#" data-prioridad="baja">Cambiar a Prioridad Baja</a>
             </div>
           </div>
         </td>
@@ -62,6 +65,41 @@ async function cargarIncidentes(filtros = {}) {
         document.getElementById('modal-detalle').style.display = 'block';
       });
     });
+
+// Evento para cambiar prioridad del incidente
+tbody.querySelectorAll('.dropdown-content a[data-prioridad]').forEach(btn => {
+  btn.addEventListener('click', async (e) => {
+    e.preventDefault();
+
+    const tr = btn.closest('tr');
+    const id = tr.querySelector('td').textContent.trim();
+    const nuevaPrioridad = btn.dataset.prioridad;
+
+    try {
+      const response = await fetch(`http://localhost:1234/incidentes/prioridad/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prioridad: nuevaPrioridad })
+      });
+
+      if (!response.ok) throw new Error('Error al actualizar la prioridad');
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Prioridad actualizada',
+        text: `El incidente se cambió a prioridad "${nuevaPrioridad}"`,
+        timer: 2000,
+        showConfirmButton: false
+      });
+
+      cargarIncidentes(filtros); // refrescar la tabla
+    } catch (error) {
+      console.error(error);
+      alert('No se pudo actualizar la prioridad');
+    }
+  });
+});
+
 
     // Evento para cambiar estado del incidente
     tbody.querySelectorAll('.dropdown-content a[data-estado]').forEach(btn => {
