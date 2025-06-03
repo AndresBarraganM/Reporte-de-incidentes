@@ -230,6 +230,7 @@
     });
 
   document.getElementById('export-pdf').addEventListener('click', exportarPDF);
+  document.getElementById('export-csv').addEventListener('click', exportarCSV);
 
   // Funcion para exportar a PDF
   async function exportarPDF() {
@@ -293,6 +294,44 @@
       // 5. Guardar PDF
       doc.save("reporte.pdf");
   }, 200);
+  }
+  
+  async function exportarCSV() {
+    const datosBrutos = await ejecutarObtencionFiltrada();
+
+    if (!datosBrutos || datosBrutos.length === 0) {
+      alert("No hay datos para exportar.");
+      return;
+    }
+
+    // 1. Transformar los datos igual que en PDF
+    const datos = datosBrutos.map(dato => ({
+      ID: dato.id_reporte,
+      Incidente: dato.incidente?.nombre || "",
+      Descripción: dato.descripcion,
+      Estado: dato.estado,
+      Prioridad: dato.prioridad,
+      "Fecha Reporte": dato.fecha_reporte,
+      Baño: `Edificio ${dato.bano?.edificio?.nombre || ""} - Planta ${dato.bano?.edificio?.planta || ""} - ${dato.bano?.genero || ""}`
+    }));
+
+    // 2. Crear contenido CSV
+    const columnas = Object.keys(datos[0]);
+    const encabezados = columnas.join(",");
+    const filas = datos.map(fila => 
+      columnas.map(col => `"${(fila[col] || "").toString().replace(/"/g, '""')}"`).join(",")
+    );
+    const contenido = [encabezados, ...filas].join("\n");
+
+    // 3. Descargar CSV
+    const blob = new Blob([contenido], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", "reporte.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
   </script>
