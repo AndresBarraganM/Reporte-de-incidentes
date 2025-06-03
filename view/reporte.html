@@ -9,6 +9,11 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+  <!-- Scripts para exportar a CSV y PDF -->
+  <!-- Bibliotecas para esto-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
 </head>
 <body>
   <aside class="menu-lateral">
@@ -106,7 +111,7 @@
 
       // Generar graficas
       try {
-        generarGraficas(datosAPI);
+        await generarGraficas(datosAPI);
       } catch (error) {
         console.error('Error al generar las gráficas:', error);
         Swal.fire({
@@ -125,20 +130,20 @@
       if (!window.charts) {
         window.charts = {};
       }
-      window.charts['porBano']?.destroy();
-      window.charts['porFecha']?.destroy();
-      window.charts['porIncidente']?.destroy();
-
+      
       // Generar gráficas
-      window.charts['porBano'] = generarGrafica('porBano', Object.keys(porBano), Object.values(porBano), 'Incidentes por Baño');
+      window.charts['porBano']?.destroy();
+      window.charts['porBano'] = await generarGrafica('porBano', Object.keys(porBano), Object.values(porBano), 'Incidentes por Baño');
 
-      window.charts['porFecha'] = generarGrafica('porFecha', Object.keys(porFecha), Object.values(porFecha), 'Incidentes por Fecha');
+      window.charts['porFecha']?.destroy();
+      window.charts['porFecha'] = await generarGrafica('porFecha', Object.keys(porFecha), Object.values(porFecha), 'Incidentes por Fecha');
 
-      window.charts['porIncidente'] = generarGrafica('porIncidente', Object.keys(porIncidente), Object.values(porIncidente), 'Incidentes por Tipo');
+      window.charts['porIncidente']?.destroy();
+      window.charts['porIncidente'] = await generarGrafica('porIncidente', Object.keys(porIncidente), Object.values(porIncidente), 'Incidentes por Tipo');
 
     }
 
-    function generarGrafica(canvasId, etiquetas, valores, titulo) {
+    async function generarGrafica(canvasId, etiquetas, valores, titulo) {
       const ctx = document.getElementById(canvasId).getContext('2d');
       return new Chart(ctx, {
         type: 'bar',
@@ -215,6 +220,8 @@
 
       // realizar el resto con estos datos
       await generarGraficas(datos);
+
+      return datos;
     };
 
     // Al cargar la página, generamos la gráfica
@@ -222,20 +229,73 @@
       inicializarPaguina();
     });
 
+  document.getElementById('export-pdf').addEventListener('click', exportarPDF);
 
-  </script>
-  <!-- Scripts para exportar a CSV y PDF -->
-  <script >
-    document.getElementById('export-pdf').addEventListener('click', exportarPDF);
+  // Funcion para exportar a PDF
+  async function exportarPDF() {
+    const { jsPDF } = window.jspdf;
+    // obtener los datos filtrados
+    //const datosBrutos = await filtrar()
+    const datosBrutos = await ejecutarObtencionFiltrada();
 
-    // Funcion para exportar a PDF
-    function exportarPDF() {
-      // Aquí iría la lógica para exportar a PDF
-      alert('Función de exportación a PDF no implementada.');
+    await generarGraficas(datosBrutos);
+    // Verifica que hay datos
+    if (!datosBrutos || datosBrutos.length === 0) {
+      alert("No hay datos para exportar.");
+      return;
     }
-    
-  </script>
 
+    // transformar los datos a un formato adecuado para la tabla
+    const datos = datosBrutos.map(dato => ({
+      ID: dato.id_reporte,
+      Incidente: dato.incidente?.nombre || "",
+      Descripción: dato.descripcion,
+      Estado: dato.estado,
+      Prioridad: dato.prioridad,
+      "Fecha Reporte": dato.fecha_reporte,
+      Baño: `Edificio ${dato.bano?.edificio?.nombre || ""} - Planta ${dato.bano?.edificio?.planta || ""} - ${dato.bano?.genero || ""}`
+    }));
+
+    // Crear una instancia de jsPDF
+    const doc = new jsPDF();
+
+    // Generar la tabla con autoTable
+    const columnas = Object.keys(datos[0]).map(key => ({ header: key, dataKey: key }));
+    doc.autoTable({
+      head: [columnas.map(col => col.header)],
+      body: datos.map(fila => columnas.map(col => fila[col.dataKey])),
+      startY: 10,
+      styles: { fontSize: 8 },
+      headStyles: { fillColor: [22, 160, 133] },
+    });
+
+    let posY = doc.autoTable.previous.finalY + 10;
+
+    // Agregar gráficos
+    // Timeout por que las gráficas necesitan tiempo para renderizarse, si no estan vacias
+    setTimeout(() => {
+      const canvasIds = ["porBano", "porFecha", "porIncidente"];
+      for (const id of canvasIds) {
+        const canvas = document.getElementById(id);
+        if (canvas) {
+          const imgData = canvas.toDataURL("image/png", 1.0);
+          doc.addImage(imgData, "PNG", 10, posY, 180, 80);
+          posY += 90;
+
+          // Si se pasa del límite de página, crear una nueva
+          if (posY + 90 > doc.internal.pageSize.getHeight()) {
+            doc.addPage();
+            posY = 10;
+          }
+        }
+      }
+      
+      // 5. Guardar PDF
+      doc.save("reporte.pdf");
+  }, 200);
+  }
+
+  </script>
   
 
   <script src="js/cerrarSesion.js"></script>
