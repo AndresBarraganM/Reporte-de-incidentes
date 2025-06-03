@@ -7,6 +7,8 @@ import { separarUbicacion } from '../utils/functions/separarUbicacion.js';
 import { almacenarFoto, recuperarPathFoto } from '../utils/functions/fotoMethods.js';
 import { extraerFiltros } from '../utils/functions/filtrosDeQuery.js';
 
+// Importar función para notificar administradores en Telegram
+import { notificarAdmins } from '../utils/notificacionesTelegram.js';
 export class ControlerIncidentes {
 
   // retornar incidentes
@@ -123,7 +125,17 @@ export class ControlerIncidentes {
 
     // agregar reportes
     try {
-      await IncidenteModel.generarIncidente(reporte)
+      await IncidenteModel.generarIncidente(reporte);
+
+      // NOTIFICAR ADMINISTRADORES POR TELEGRAM
+      const fechaHora = new Date().toLocaleString();
+      const lugar = `${reporte.nombre} - planta: ${reporte.planta}`;
+      const tipo = reporte.tipo_incidente;
+      const mensaje = `📢 *Nuevo incidente registrado*\nFecha y hora: ${fechaHora}\nLugar: ${lugar}\nTipo: ${tipo}`;
+
+      await notificarAdmins(mensaje);
+
+
     } catch (error) {
       res.status(500).json({message: "no se pudo registar el incidente", error: "error interno en el servidor"})       
       return
