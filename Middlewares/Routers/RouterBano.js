@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { authMiddleware } from '../authMiddleware.js'
-import { ControlerBano } from '../../controlers/ControlerBano.js'
+import { ControlerBano } from '../../Controlers/ControlerBano.js'
 
 export const BanoRouter= Router()
 

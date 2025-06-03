@@ -1,0 +1,16 @@
+### Metodo para obtener los edificios
+
+GET http://localhost:1234/edificio/
+Content-Type: application/json
+
+
+### Metodo para agregar un edificio
+POST http://localhost:1234/edificio/agregar
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c3VhcmlvIjoxLCJub21icmUiOiJhZG1pbiIsImlhdCI6MTc0ODkyMjI0OCwiZXhwIjoxNzQ4OTI5NDQ4fQ.Un98GgNdFgDkmljNQqnJDNkhmFphDL3d1yoyjzFLunU
+Content-Type: application/json
+
+{
+    "nombre": "Auditorio",
+    "planta": "baja"
+}
+

@@ -1,6 +1,7 @@
 import { IncidenteRouter } from "./Middlewares/Routers/RouterIncidente.js";
 import { TipoIncidenteRouter } from "./Middlewares/Routers/RouterTipoIncidente.js";
 import { BanoRouter } from "./Middlewares/Routers/RouterBano.js";
+import { EdificioRouter } from "./Middlewares/Routers/RouterEdificio.js";
 import { UsuarioRouter } from "./Middlewares/Routers/RouterUsuario.js";
 import { probarConexion } from "./utils/database_connection.js";
 
@@ -24,6 +25,7 @@ const createApp = () => {
   app.use('/banios', BanoRouter)
   app.use('/tipos_incidentes', TipoIncidenteRouter )
   app.use('/usuario', UsuarioRouter)
+  app.use('/edificio', EdificioRouter)
 
   // Probar conexión a la base de datos
   probarConexion()
