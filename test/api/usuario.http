@@ -13,7 +13,7 @@ Content-Type: application/json
 
 {
   "nombre": "admin",
-  "contrasena_hash": "admin123"
+  "contrasena_hash": "admin1234"
 }
 
 ###

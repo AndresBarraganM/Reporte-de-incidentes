@@ -35,7 +35,7 @@ export class ControlerEdificio {
           res.status(200).json({ message: "Edificio creado", edificio });
         })
         .catch((error) => {
-          res.status(500).json({ message: "Error al crear el banio", error });
+          res.status(500).json({ message: "Error al crear el Edificio", error });
         });
       
     } catch (error) {
