@@ -55,3 +55,21 @@ Content-Disposition: form-data; name="data"
     
 }
 ------MyBoundary--
+
+### Actualiza el estado de un incidente
+## Estado('pendiente', 'en_proceso', 'resuelto')
+PUT http://localhost:1234/incidentes/2
+Content-Type: application/json
+
+{
+    "estado": "en_proceso"
+}
+
+### Actualiza la prioridad de un incidente
+## prioridad('baja', 'media', 'alta')
+PUT http://localhost:1234/incidentes/prioridad/2
+Content-Type: application/json
+
+{
+    "prioridad": "media"
+}

@@ -1,7 +1,8 @@
 import { modelo_banos, modelo_edificio, modelo_incidentes, modelo_tipo_incidente } from './database/ModeloReportes.js'
 import { TipoIncidenteModel } from './TipoIncidenteModel.js';
 import { BanoModel } from './BanoModel.js';
-import { Op } from 'sequelize';
+import { Op, where } from 'sequelize';
+import e from 'express';
 
 export class IncidenteModel{
 
@@ -140,6 +141,19 @@ export class IncidenteModel{
     } catch (error) {
         throw new Error("Error al actualizar el estado del incidente: " + error.message);
     }
+
 }
+    static async actualizarPrioridad(id_reporte, prioridad){
+        try{
+            const incidente = await modelo_incidentes.update(
+                { prioridad: prioridad },
+                { where: { id_reporte: id_reporte}}
+            )
+            return incidente
+        }
+        catch(error){
+            return new Error("Error al actualizar la prioridad del incidente" + error.message)
+        }
+    }
 
 }

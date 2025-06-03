@@ -20,4 +20,8 @@ IncidenteRouter.post(
   ControlerIncidentes.postIncidente
 )
 
+// Actualiza el estado del incidente
 IncidenteRouter.put('/:id', ControlerIncidentes.actualizarEstadoIncidente);
+
+// Actualiza el estado del incidente
+IncidenteRouter.put('/prioridad/:id', ControlerIncidentes.actualizarPrioridadIncidente);

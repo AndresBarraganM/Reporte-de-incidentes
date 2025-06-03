@@ -148,16 +148,35 @@ export class ControlerIncidentes {
     const { id } = req.params;
     const { estado } = req.body;
 
+    console.log(id, estado)
+
     try {
       const resultado = await IncidenteModel.actualizarEstado(id, estado);
       if (resultado[0] === 0) {
         return res.status(404).json({ error: 'Incidente no encontrado' });
       }
 
-      res.json({ mensaje: 'Estado actualizado correctamente' });
+      res.status(200).json({ mensaje: 'Estado actualizado correctamente' });
     } catch (error) {
       console.error('Error al actualizar el estado del incidente:', error);
       res.status(500).json({ error: 'Error al actualizar estado' });
+    }
+  }
+
+  static async actualizarPrioridadIncidente(req, res){
+    const { id } = req.params;
+    const { prioridad } = req.body;
+
+    try {
+      const resultado = await IncidenteModel.actualizarPrioridad(id, prioridad);
+      if (resultado[0] === 0) {
+        return res.status(404).json({ error: 'Incidente no encontrado' });
+      }
+
+      res.status(200).json({ message: 'prioridad actualizada correctamente' });
+    } catch (error) {
+      console.error('Error al actualizar la prioridad del incidente:', error);
+      res.status(500).json({ error: 'Error al actualizar la prioridad' });
     }
   }
 }
