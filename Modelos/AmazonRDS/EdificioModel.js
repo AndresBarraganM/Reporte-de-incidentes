@@ -18,7 +18,7 @@ export class EdificioModel{
             if(!edificio){
                 const nuevo_edificio = await modelo_edificio.create(datos)
                 console.log("Edificio Agregado Correctamente")
-                return JSON.stringify(nuevo_edificio, null, 2)
+                return nuevo_edificio
             }
             else{
                 console.log("Ya existe este edificio")
@@ -56,10 +56,14 @@ export class EdificioModel{
         try{
             const edificios = await modelo_edificio.findAll({
                 order: [
-                    ['nombre', 'ASC']
+                    ['nombre', 'DESC']
                 ]
             })
-            return JSON.stringify(edificios,null,1)
+            return edificios.map(edificio => ({
+                    id: edificio["id_edificio"],
+                    nombre: edificio["nombre"],
+                    planta: edificio["planta"]
+            }))
         }
         catch(error){
             console.error(`Error al obtener los edificios ${error}`)

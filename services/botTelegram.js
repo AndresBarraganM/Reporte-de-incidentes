@@ -20,7 +20,7 @@ async function obtenerMensajes() {
     });
     return res.data.result;
   } catch (err) {
-    console.error("Error al obtener mensajes:", err.message);
+    /* console.error("Error al obtener mensajes:", err.message); */
     return [];
   }
 }

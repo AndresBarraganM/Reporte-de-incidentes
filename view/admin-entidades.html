@@ -37,18 +37,14 @@
 
     <section class="control-acceso">
       <h2>Agregar Edificio</h2>
-      <form class="formulario-usuario">
-        <label>
-          ID Edificio:
-          <input type="text" name="id_edificio" required />
-        </label>
+      <form class="formulario-usuario" id="formEdificio">
         <label>
           Nombre:
-          <input type="text" name="nombre" required />
+          <input id="nombreEdificio" type="text" name="nombre" placeholder="Ej. 200, Biblioteca" required />
         </label>
         <label>
           Planta:
-          <input type="text" name="planta" required />
+          <input id="plantaEdificio" type="text" name="planta" placeholder="Ej. alta, baja" required />
         </label>
         <div class="form-buttons">
           <button type="submit">Enviar</button>
@@ -58,18 +54,15 @@
 
     <section class="control-acceso">
       <h2>Agregar Baño</h2>
-      <form class="formulario-usuario">
+      <form class="formulario-usuario" id="formBano">
         <label>
-          ID Baño:
-          <input type="text" name="id_bano" required />
-        </label>
-        <label>
-          ID Edificio:
-          <input type="text" name="id_edificio" required />
+          Edificio:
+          <select id="idEdificio"> </select>
+         
         </label>
         <label>
           Género del Baño:
-          <input type="text" name="genero_bano" required />
+          <select name="genero-bao" id="generoBano"> </select>
         </label>
         <div class="form-buttons">
           <button type="submit">Enviar</button>
@@ -79,14 +72,10 @@
 
     <section class="control-acceso">
       <h2>Agregar Tipo de Incidente</h2>
-      <form class="formulario-usuario">
-        <label>
-          ID Incidente:
-          <input type="text" name="id_incidente" required />
-        </label>
+      <form class="formulario-usuario" id="formIncidente">
         <label>
           Nombre:
-          <input type="text" name="nombre" required />
+          <input type="text" id="nombreIncidente" name="nombre" placeholder="Ej. Fuga de agua" required />
         </label>
         <div class="form-buttons">
           <button type="submit">Enviar</button>
@@ -97,5 +86,6 @@
 
   <!-- Scripts externos -->
   <script src="js/cerrarSesion.js"></script>
+  <script src="js/agregar.js"></script>
 </body>
 </html>
