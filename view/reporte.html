@@ -160,19 +160,30 @@
       }
     }
     
-    async function generarGraficas(datosAPI){
+    async function generarGraficas(datosAPI, filtros = {}) {
       // crear datos que utilizaremos para graficas
       const { porBano, porFecha, porIncidente } = procesarDatosParaGraficas(datosAPI);
 
-      generarGrafica('porBano', Object.keys(porBano), Object.values(porBano), 'Incidentes por Baño');
-      generarGrafica('porFecha', Object.keys(porFecha), Object.values(porFecha), 'Incidentes por Fecha');
-      generarGrafica('porIncidente', Object.keys(porIncidente), Object.values(porIncidente), 'Incidentes por Tipo');
+      // Limpiar canvas antes de generar nuevas gráficas
+      if (!window.charts) {
+        window.charts = {};
+      }
+      window.charts['porBano']?.destroy();
+      window.charts['porFecha']?.destroy();
+      window.charts['porIncidente']?.destroy();
+
+      // Generar gráficas
+      window.charts['porBano'] = generarGrafica('porBano', Object.keys(porBano), Object.values(porBano), 'Incidentes por Baño');
+
+      window.charts['porFecha'] = generarGrafica('porFecha', Object.keys(porFecha), Object.values(porFecha), 'Incidentes por Fecha');
+
+      window.charts['porIncidente'] = generarGrafica('porIncidente', Object.keys(porIncidente), Object.values(porIncidente), 'Incidentes por Tipo');
 
     }
 
     function generarGrafica(canvasId, etiquetas, valores, titulo) {
       const ctx = document.getElementById(canvasId).getContext('2d');
-      new Chart(ctx, {
+      return new Chart(ctx, {
         type: 'bar',
         data: {
           labels: etiquetas,
@@ -188,7 +199,10 @@
           responsive: true,
           scales: {
             y: {
-              beginAtZero: true
+              beginAtZero: true,
+              ticks: {
+                precision: 0
+              }
             }
           }
         }
@@ -285,8 +299,8 @@
         return;
       }
 
-      // realizar wl resto con estos datos
-      await generarGraficas(datos);
+      // realizar el resto con estos datos
+      await generarGraficas(datos, filtros);
 
     });
   </script>
