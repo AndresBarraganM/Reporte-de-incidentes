@@ -1,9 +1,9 @@
 ### Agregar Tipo  de Incidente
 
 POST http://localhost:1234/tipos_incidentes/agregar
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c3VhcmlvIjoxLCJub21icmUiOiJhZG1pbiIsImlhdCI6MTc0ODQ2ODM3MiwiZXhwIjoxNzQ4NDc1NTcyfQ.Lxm1c5y0RvAR3iOE1z4IXjrtmrQocQbLNkSA7n5Y3q0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c3VhcmlvIjoxLCJub21icmUiOiJhZG1pbiIsImlhdCI6MTc0ODkzMDU1NywiZXhwIjoxNzQ4OTM3NzU3fQ.Z9pISfHsA61oanJJGt8FAfrcuolC2T5Y-mpJiCkhmek
 Content-Type: application/json
 
 {
-    "nombre": "Tubería hoal jfkldñsa tapada"
+    "nombre": "Popo en el piso"
 }

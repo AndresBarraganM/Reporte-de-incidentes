@@ -44,7 +44,10 @@
         </label>
         <label>
           Planta:
-          <input id="plantaEdificio" type="text" name="planta" placeholder="Ej. alta, baja" required />
+          <select name="planta-edificio" id="plantaEdificio">
+            <option value="alta">Alta</option>
+            <option value="baja">Baja</option>
+          </select>
         </label>
         <div class="form-buttons">
           <button type="submit">Enviar</button>
@@ -62,7 +65,10 @@
         </label>
         <label>
           Género del Baño:
-          <select name="genero-bao" id="generoBano"> </select>
+          <select name="genero-bao" id="generoBano">
+            <option value="hombre">Masculino</option>
+            <option value="mujer">Femenino</option>
+          </select>
         </label>
         <div class="form-buttons">
           <button type="submit">Enviar</button>
