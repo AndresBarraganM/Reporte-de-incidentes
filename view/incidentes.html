@@ -29,7 +29,7 @@
       <h1>Gestión de Incidentes</h1>
     </header>
 
-    <section class="filtros">
+    <section class="filtros" id="selectorFiltros">
       <h2>Filtrar incidentes</h2>
       <form id="filtro-incidentes">
       <div class="campo">
@@ -108,40 +108,27 @@
     
   </div>
 </div>
-<script>
+  <script>
     if(!localStorage.getItem('authToken')){
       window.location.href = "login.html"
     }
   </script>
   <script src="js/cargarIncidentes.js"></script>
 
-  <script>
-document.getElementById("filtro-incidentes").addEventListener("submit", async (e) => {
+  <script type="module">
+  import { ejecutarObtencionFiltrada, obtenerIncidentesAPI, obtenerSectionFiltro } from './js/filtro.js';
+
+  // filtrado
+  const sectionFiltro = document.getElementById('selectorFiltros');
+  sectionFiltro.innerHTML = await obtenerSectionFiltro();
+
+  document.getElementById("form-filtros").addEventListener("submit", async (e) => {
     e.preventDefault();
+  
+    // Los datos son obtenidos desde el metodo
+    const datos = await ejecutarObtencionFiltrada()
 
-    const fechaInicio = document.getElementById("fecha-inicio").value;
-    const fechaFin = document.getElementById("fecha-fin").value;
-    const estado = document.getElementById("estado").value;
-    const prioridad = document.getElementById("prioridad").value;
-    const banio = document.getElementById("banio").value;
-
-    // Construimos los filtros
-    const filtros = new URLSearchParams();
-
-    if (fechaInicio) filtros.append("fecha.despuesDe", fechaInicio);
-    if (fechaFin) filtros.append("fecha.antesDe", fechaFin);
-    if (estado) filtros.append("estado", estado);
-    if (prioridad) filtros.append("prioridad", prioridad);
-    if (banio) filtros.append("banio", banio); // El backend debe entender "banio"
-
-    try {
-    const response = await fetch(`http://localhost:1234/incidentes?${filtros.toString()}`);
-    if (!response.ok) throw new Error("Error al cargar incidentes");
-    const datos = await response.json();
     mostrarIncidentes(datos);
-    } catch (error) {
-      console.error("Error:", error);
-    }
 });
 
 // Mostrar los resultados en una tabla
@@ -187,7 +174,7 @@ async function cargarBanios() {
   }
 }
 
-window.addEventListener('DOMContentLoaded', cargarBanios);
+//window.addEventListener('DOMContentLoaded', cargarBanios);
 
 </script>
 
