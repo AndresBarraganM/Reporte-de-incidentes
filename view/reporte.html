@@ -33,36 +33,9 @@
       <p>Filtra, exporta y analiza los incidentes para tomar decisiones informadas.</p>
     </header>
     
-    <section class="filtros-avanzados">
-      <h2>Filtros Avanzados</h2>
-      <form id="form-filtros">
-        <div class="campo">
-          <label for="fecha-inicio">Fecha Inicio:</label>
-          <input type="date" id="fecha-inicio" name="fecha-inicio">
-        </div>
-        <div class="campo">
-          <label for="fecha-fin">Fecha Fin:</label>
-          <input type="date" id="fecha-fin" name="fecha-fin">
-        </div>
-        <div class="campo">
-          <label for="ubicacion">Ubicación:</label>
-          <select id="ubicacion" name="ubicacion">
-            <option value="">Todas</option>
-            <!-- Más opciones según necesidad -->
-          </select>
-        </div>
-        <div class="campo">
-          <label for="estado">Estado:</label>
-          <select id="estado" name="estado">
-            <option value="">Todos</option>
-            <option value="pendiente">Pendiente</option>
-            <option value="en-proceso">En Proceso</option>
-            <option value="resuelto">Resuelto</option>
-          </select>
-        </div>
-        <button type="submit">Aplicar Filtros</button>
-      </form>
-    </section>
+    <div id="selectorFiltros">
+
+    </div>
 
   <!-- Sección de Exportación de Datos -->
     <section class="exportacion">
@@ -101,10 +74,21 @@
   </script>
 
   <!-- Scripts para inicializar la paguina y graficas-->
-  <script>
+  <script type="module">
+    import { obtenerSectionFiltro, ejecutarObtencionFiltrada, obtenerIncidentesAPI } from './js/filtro.js';
 
     async function inicializarPaguina(){
       // Obtener datos de la API o de un array estático
+
+      // filtrado
+      const sectionFiltro = document.getElementById('selectorFiltros');
+      sectionFiltro.innerHTML = await obtenerSectionFiltro();
+      document.getElementById('form-filtros').addEventListener('submit', () => {
+        event.preventDefault();
+        filtrar()
+      })
+
+
       let datosAPI;
       try {
         datosAPI = await obtenerIncidentesAPI({});
@@ -130,33 +114,6 @@
           title: 'Error al generar las gráficas',
           text: 'No se pudieron generar las gráficas. Por favor, inténtalo de nuevo más tarde.'
         });
-      }
-    }
-
-    async function obtenerIncidentesAPI(filtros = {}){
-      const queryParams = new URLSearchParams(filtros).toString();
-      const url = `http://localhost:1234/incidentes${queryParams ? '?' + queryParams : ''}`;
-      console.log('URL de la API:', url);
-      try {
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error('Error en la solicitud: ' + response.status);
-        }
-        const temp = await response.json();
-        const data = temp.datos
-        if (data.length === 0) {
-          Swal.fire({
-            icon: 'info',
-            title: 'No hay datos disponibles',
-            text: 'No se encontraron incidentes con los filtros aplicados.'
-          });
-          return {};
-        }
-        incidentesAPI = data; // Variable global
-        return incidentesAPI;
-      } catch (error) {
-        console.error('Error al obtener los datos:', error);
-        throw error;
       }
     }
     
@@ -233,63 +190,20 @@
       return { porBano, porFecha, porIncidente };
     }
 
-    // Al cargar la página, generamos la gráfica
-    window.addEventListener('DOMContentLoaded', () => {
-      inicializarPaguina();
-    });
+    async function filtrar(){
 
-    // Agregar ubicaciones de banos a la lista de filtros
-    document.addEventListener('DOMContentLoaded', function () {
-    const select = document.getElementById('ubicacion');
+      const datos = await ejecutarObtencionFiltrada(); 
+      console.log('Datos filtrados:', datos);
 
-    fetch('http://localhost:1234/banios')
-      .then(response => response.json())
-      .then(data => {
-        const ubicacionesUnicas = new Set();
-
-        data.forEach(banio => {
-          if (banio.ubicacion) {
-            ubicacionesUnicas.add(`${banio.ubicacion}`);
-          }
+      if (datos.length === 0) {
+        Swal.fire({
+          icon: 'info',
+          title: 'No hay datos disponibles',
+          text: 'No se encontraron incidentes con los filtros aplicados.'
         });
-
-        // Agregar cada ubicación como opción
-        ubicacionesUnicas.forEach(ubicacion => {
-          const option = document.createElement('option');
-          option.value = ubicacion;
-          option.textContent = ubicacion;
-          select.appendChild(option);
-        });
-      })
-      .catch(error => {
-        console.error('Error al obtener las ubicaciones:', error);
-      });
-  });
-
-  </script>
-
-  <!-- Script para el filtro-->
-  <script> 
-    document.getElementById('form-filtros').addEventListener('submit', async function(event) {
-      event.preventDefault(); // Evita el envío del formulario
-
-      // Obtener los valores de los filtros
-      const fechaInicio = document.getElementById('fecha-inicio').value;
-      const fechaFin = document.getElementById('fecha-fin').value;
-      const ubicacion = document.getElementById('ubicacion').value;
-      const estado = document.getElementById('estado').value;
-
-      // Crear un objeto con los filtros
-      const filtros = {
-        'fechaDespuesDe': fechaInicio,
-        'fechaAntesDe': fechaFin,
-        'edificio': ubicacion.split(' planta ')[0], 
-        'planta': ubicacion.split(' planta ')[1] || '',
-        'estado': estado
-      };
-
-      // Obtener los datos filtrados de la API
-      const datos = await obtenerIncidentesAPI(filtros)
+        return ;
+      }
+      
       if (Object.keys(datos).length === 0) {
         Swal.fire({
           icon: 'info',
@@ -300,11 +214,16 @@
       }
 
       // realizar el resto con estos datos
-      await generarGraficas(datos, filtros);
+      await generarGraficas(datos);
+    };
 
+    // Al cargar la página, generamos la gráfica
+    window.addEventListener('DOMContentLoaded', () => {
+      inicializarPaguina();
     });
-  </script>
 
+
+  </script>
   <!-- Scripts para exportar a CSV y PDF -->
   <script >
     document.getElementById('export-pdf').addEventListener('click', exportarPDF);
