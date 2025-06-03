@@ -45,17 +45,24 @@ export async function ejecutarObtencionFiltrada() {
   const fechaInicio = document.getElementById('fecha-inicio').value;
   const fechaFin = document.getElementById('fecha-fin').value;
   const ubicacion = document.getElementById('ubicacion').value;
+  let edificio = '';
+  let planta = '';
+  if (ubicacion !== 'Ninguna') {
+    // Si la ubicación tiene el formato "Edificio Planta", separar los valores
+    const partes = ubicacion.split(' planta ');
+    edificio = partes[0];
+    planta = partes[1]; // Unir el resto como planta
+  }
   const estado = document.getElementById('estado').value;
 
   // Crear un objeto con los filtros
   const filtros = {
     'fechaDespuesDe': fechaInicio,
     'fechaAntesDe': fechaFin,
-    'edificio': ubicacion.split(' planta ')[0], 
-    'planta': ubicacion.split(' planta ')[1] || '',
+    'edificio': edificio, 
+    'planta': planta,
     'estado': estado
   };
-
   // Obtener los datos filtrados de la API
   return await obtenerIncidentesAPI(filtros)
 }
@@ -90,6 +97,9 @@ export async function obtenerListaUbicaciones() {
     const data = await response.json();
 
     const ubicacionesUnicas = new Set();
+
+    // Agregar opcion para ninguno
+    ubicacionesUnicas.add('Ninguna');
 
     data.forEach(banio => {
       if (banio.ubicacion) {
