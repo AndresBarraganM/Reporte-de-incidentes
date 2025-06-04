@@ -28,7 +28,7 @@ export async function validarIncidenteZod(incidente){
   }
   
   // verificar el campo de tipo incidente
-  const tipo_incidente = {tipo_incidente: incidente.tipo_incidente}
+  const tipo_incidente = {nombre: incidente.tipo_incidente}
   const resultadoTipoIncidente = await validarTipoIncidenteZod(tipo_incidente)
   if(!resultadoTipoIncidente.success){
     return resultadoTipoIncidente
