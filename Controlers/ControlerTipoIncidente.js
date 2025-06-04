@@ -1,6 +1,6 @@
 import { validateRequest } from "twilio/lib/webhooks/webhooks.js";
 import { TipoIncidenteModel } from "../Modelos/AmazonRDS/TipoIncidenteModel.js";
-import { validarTipoIncidenteZod } from "../Schemas/TipoIncidenteSchema.js";
+import { validarTipoIncidenteZod } from "../Schemas/AgregarTipoIncidenteSchema.js";
 
 
 export class ControlerTipoIncidente{
