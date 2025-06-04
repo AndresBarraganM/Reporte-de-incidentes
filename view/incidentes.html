@@ -140,7 +140,7 @@ function mostrarIncidentes(incidentes) {
         const fila = document.createElement("tr");
         fila.innerHTML = `
             <td>${inc.id_reporte}</td>
-            <td>${inc.bano.edificio.nombre} - ${inc.bano.genero} - ${inc.bano.planta}</td>
+            <td>${inc.bano.edificio.nombre} - ${inc.bano.genero} - ${inc.bano.edificio.planta}</td>
             <td>${inc.incidente.nombre}</td>
             <td>${new Date(inc.fecha_reporte).toLocaleString()}</td>
             <td>${inc.prioridad}</td>
