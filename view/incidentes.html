@@ -206,6 +206,30 @@ async function cargarBanios() {
 
 //window.addEventListener('DOMContentLoaded', cargarBanios);
 
+// evento para el botón de ver foto
+document.addEventListener('click', async (e) => {
+  if (e.target.classList.contains('verFoto')) {
+    const idFoto = e.target.getAttribute('id_foto');
+    try {
+      const response = await fetch(`http://localhost:1234/incidentes/foto/${idFoto}/`);
+      if (!response.ok) throw new Error('Error al obtener la imagen');
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      window.open(url, '_blank');
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'No se pudo obtener la imagen',
+        text: 'Hubo un error al intentar obtener la imagen. Por favor, inténtalo de nuevo más tarde.',
+        confirmButtonColor: '#d33'
+      });
+      console.error('Error al obtener la imagen:', error);
+      return;
+    }
+  }
+});
+
+
 </script>
 
 <script src="js/cerrarSesion.js"></script>
