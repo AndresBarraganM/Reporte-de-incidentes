@@ -67,7 +67,7 @@ export class IncidenteModel{
         }
 
         const incidentes = await modelo_incidentes.findAll({
-            attributes: ['id_incidente', 'id_reporte', 'descripcion', 'estado', 'prioridad', 'fecha_reporte'],
+            attributes: ['id_incidente', 'id_reporte', 'descripcion', 'estado', 'prioridad', 'fecha_reporte','img'],
             where: whereIncidente,
             include: [
                 {
@@ -97,6 +97,7 @@ export class IncidenteModel{
                 id_incidente: incidente.id_incidente,
                 nombre: incidente.tipo_incidente.nombre
             },
+            img: incidente.img,
             descripcion: incidente.descripcion,
             estado: incidente.estado,
             prioridad: incidente.prioridad,
