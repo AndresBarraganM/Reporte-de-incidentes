@@ -20,6 +20,19 @@ async function cargarIncidentes(filtros = {}) {
       const tr = document.createElement('tr');
       tr.setAttribute('data-estado-actual', incidente.estado);
       const detalleString = encodeURIComponent(JSON.stringify(incidente));
+      
+      // ver si existe una foto
+      let fotoBoton = '';
+      if (!incidente.img) {
+      fotoBoton = `
+        <button class="" style = "background-color:rgb(156, 156, 156); color: #FFFFFF;">Imagen inexistente</button>
+      `
+      } else {
+      fotoBoton = `
+        <button class="dropbtn verFoto" style = "" id_foto = ${incidente.id_reporte} >Ver Imagen</button>
+      `
+      }
+
 
       tr.innerHTML = `
         <td>${incidente.id_reporte}</td>
@@ -41,6 +54,9 @@ async function cargarIncidentes(filtros = {}) {
               <a href="#" data-prioridad="baja">Cambiar a Prioridad Baja</a>
             </div>
           </div>
+        </td>
+        <td>
+          ${fotoBoton}
         </td>
       `;
 

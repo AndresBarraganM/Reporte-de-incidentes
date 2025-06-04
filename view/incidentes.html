@@ -83,6 +83,7 @@
             <th>Prioridad</th>
             <th>Estado</th>
             <th>Acciones</th>
+            <th>Foto</th>
           </tr>
         </thead>
         <tbody id="tabla-incidentes-body">
@@ -127,6 +128,7 @@
   
     // Los datos son obtenidos desde el metodo
     const datos = await ejecutarObtencionFiltrada()
+    console.log('ejecucion filtrada', datos);
 
     mostrarIncidentes(datos);
 });
@@ -138,6 +140,20 @@ function mostrarIncidentes(incidentes) {
 
     incidentes.forEach((inc) => {
         const fila = document.createElement("tr");
+        const detalleString = encodeURIComponent(JSON.stringify(inc));
+
+        // ver si cuenta con foto o no
+        let fotoBoton = '';
+        if (!inc.img) {
+        fotoBoton = `
+           <button class="" style = "background-color:rgb(156, 156, 156); color: #FFFFFF;">Imagen inexistente</button>
+        `
+        } else {
+        fotoBoton = `
+          <button class="dropbtn verFoto" style = "" id_foto = ${inc.id_reporte} >Ver Imagen</button>
+        `
+        }
+
         fila.innerHTML = `
             <td>${inc.id_reporte}</td>
             <td>${inc.bano.edificio.nombre} - ${inc.bano.genero} - ${inc.bano.edificio.planta}</td>
@@ -146,7 +162,21 @@ function mostrarIncidentes(incidentes) {
             <td>${inc.prioridad}</td>
             <td>${inc.estado}</td>
             <td>
-                <button onclick="verDetalle(${inc.id_reporte})">Ver</button>
+                <div class="dropdown">
+                <button class="dropbtn">Acciones</button>
+                <div class="dropdown-content">
+                  <a href="#" class="ver-detalle" data-detalle="${detalleString}">Ver Detalle</a>
+                  <a href="#" data-estado="en_proceso">Marcar como En Proceso</a>
+                  <a href="#" data-estado="resuelto">Marcar como Resuelto</a>
+                  <a href="#" data-estado="pendiente">Marcar como Pendiente</a>
+                  <a href="#" data-prioridad="alta">Cambiar a Prioridad Alta</a>
+                  <a href="#" data-prioridad="media">Cambiar a Prioridad Media</a>
+                  <a href="#" data-prioridad="baja">Cambiar a Prioridad Baja</a>
+                </div>
+              </div>
+            </td>
+            <td>
+              ${fotoBoton}
             </td>
         `;
         tbody.appendChild(fila);
