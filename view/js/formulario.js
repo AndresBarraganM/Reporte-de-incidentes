@@ -110,10 +110,22 @@ async function register() {
     }
 
     if (data.success) {
-      alert('Usuario registrado exitosamente');
+      //alert('Usuario registrado exitosamente');
       // Opcional: cerrar el formulario y refrescar la tabla
-      document.getElementById('register-form').remove();
-      location.reload();
+      // const data = await response.json()
+            Swal.fire({
+                icon: 'success',
+                title: `Bien`,
+                text: `Usuario agregado correctamente`,
+                timer: 2000,
+                showConfirmButton: true
+            });
+      //document.getElementById('register-form').remove();
+      //location.reload();
+      setTimeout(() => {
+  document.getElementById('register-form').remove();
+  location.reload();
+}, 2000); // espera 2 segundos
 
 
     } else {
