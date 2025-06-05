@@ -25,7 +25,7 @@ export async function obtenerSectionFiltro() {
           <select id="estado" name="estado">
             <option value="">Todos</option>
             <option value="pendiente">Pendiente</option>
-            <option value="en-proceso">En Proceso</option>
+            <option value="en_proceso">En Proceso</option>
             <option value="resuelto">Resuelto</option>
           </select>
         </div>
