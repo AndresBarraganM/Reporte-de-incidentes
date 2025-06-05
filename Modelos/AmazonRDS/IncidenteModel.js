@@ -52,13 +52,14 @@ export class IncidenteModel{
         if (banio) whereBano.genero_bano = banio;
         if (estado) whereIncidente.estado = estado;
         if (prioridad) whereIncidente.prioridad = prioridad;
+
         if (fecha) {
             whereIncidente.fecha_reporte = {};
             if (fecha.antesDe) {
-                whereIncidente.fecha_reporte[Op.lt] = new Date(fecha.antesDe);
+                whereIncidente.fecha_reporte[Op.lt] = fecha.antesDe;
             }
             if (fecha.despuesDe) {
-                whereIncidente.fecha_reporte[Op.gt] = new Date(fecha.despuesDe);
+                whereIncidente.fecha_reporte[Op.gt] = fecha.despuesDe;
             }
             
             /* if (Object.keys(whereIncidente.fecha_reporte).length === 0) {
