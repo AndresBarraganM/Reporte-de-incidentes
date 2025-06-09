@@ -65,10 +65,10 @@ async function loginUser() {
     const errorDiv = document.getElementById('error-message');
     errorDiv.textContent = '';
 
-    const nombre = document.getElementById('username')?.value;
+    const email = document.getElementById('email')?.value;
     const password = document.getElementById('password')?.value;
 
-    if (!nombre || !password) {
+    if (!email || !password) {
         showAlertModal('Por favor complete todos los campos');
         return;
     }
@@ -79,7 +79,7 @@ async function loginUser() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ nombre: nombre, contrasena_hash: password })
+            body: JSON.stringify({ email: email, contrasena_hash: password })
         });
 
         const data = await response.json();

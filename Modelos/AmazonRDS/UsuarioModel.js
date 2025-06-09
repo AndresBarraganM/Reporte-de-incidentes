@@ -188,11 +188,11 @@ export class UsuarioModelo {
      * @returns {JSON | null} retorna un JSON con los datos del usuario o null si no se encuentra
      * @example UsuarioModelo.validarCuenta("corre@example.com", "contraseña123")
      */
-    static async validarCuenta(nombre){
+    static async validarCuenta(email){
         try{
             const usuario = await modelo_usuarios.findOne({
                 where: {
-                    nombre: nombre
+                    email: email
                 }
             });
             return usuario ? usuario.dataValues : null;

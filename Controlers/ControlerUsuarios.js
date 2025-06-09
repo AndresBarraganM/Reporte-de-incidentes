@@ -12,7 +12,6 @@ export class ControlerUsuario {
 
     static async loginUsuario(req, res){
       const datos = req.body
-
       // validar datos
       const verificacion = verificarUsuarioCredencialesZod(datos)
       if (verificacion.success === false) {
@@ -22,7 +21,7 @@ export class ControlerUsuario {
       let usuario = null
       // verificar que si existe
       try {
-        usuario = await UsuarioModelo.validarCuenta(datos.nombre);
+        usuario = await UsuarioModelo.validarCuenta(datos.email);
         if (!usuario) {
             return res.status(404).json({ message: 'correo o contraseña no validas' });
           }
@@ -45,7 +44,7 @@ export class ControlerUsuario {
       // generar token
       const token = generarToken({
           id_usuario: usuario.id_usuario,
-          nombre: usuario.nombre
+          nombre: usuario.email
       });
 
       // devolver token y datos del usuario

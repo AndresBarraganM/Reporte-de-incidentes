@@ -22,7 +22,7 @@ export function verificarUsuarioZod(usuario) {
 // Solo valida nombre y email (útil para edición parcial, por ejemplo)
 export function verificarUsuarioCredencialesZod(usuarioParcial) {
   const parcialSchema = z.object({
-    nombre: usuarioSchema.shape.nombre,
+    email: usuarioSchema.shape.email,
     contrasena_hash: usuarioSchema.shape.contrasena_hash,
   });
   return parcialSchema.safeParse(usuarioParcial);
