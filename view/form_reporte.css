@@ -104,6 +104,13 @@ textarea {
     color: #000000; /* Negro */
 }
 
+/* Estilo para la imagen seleccionada */
+.preview-img {
+    max-width: 100%;
+    max-height: 200px;
+    margin-top: 10px;
+}
+
 /* Estilo para el botón de enviar */
 input[type="submit"] {
     width: calc(100% - 20px); /* Ajuste para que no toquen los bordes */

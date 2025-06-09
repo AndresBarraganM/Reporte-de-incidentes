@@ -33,6 +33,7 @@
                 <input type="file" id="foto" name="foto" accept="image/*">
                 <label for="foto" class="file-label">Seleccionar archivo</label>
                 <span class="file-name">Ningún archivo seleccionado</span>
+                <div id="preview-container"> </div>
             </div>
 
             <label for="baño">Baño:</label>
@@ -58,8 +59,30 @@
     <script>
         // JavaScript para mostrar el nombre del archivo seleccionado
         document.getElementById('foto').addEventListener('change', function (e) {
-            const fileName = e.target.files[0] ? e.target.files[0].name : "Ningún archivo seleccionado";
-            document.querySelector('.file-name').textContent = fileName;
+            const file = e.target.files[0];
+            const fileNameElement = document.querySelector('.file-name');
+            const previewContainer = document.getElementById('preview-container');
+
+            // Mostrar el nombre del archivo
+            if (file) {
+                fileNameElement.textContent = file.name;
+
+                // Limpiar cualquier imagen previa
+                previewContainer.innerHTML = '';
+
+                // Crear una vista previa de la imagen
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.classList.add('preview-img');
+                    previewContainer.appendChild(img);
+                }
+                reader.readAsDataURL(file);
+            } else {
+                fileNameElement.textContent = 'Ningún archivo seleccionado';
+                previewContainer.innerHTML = '';
+            }
         });
     </script>
 
@@ -123,6 +146,7 @@
     </script>
 
     <script> 
+        // JavaScript para cargar los tipos de incidentes en el select
         const incidenteSelect = document.getElementById('incidente');
 
         fetch(serverUrl+'tipos_incidentes')
@@ -141,6 +165,7 @@
     </script>
 
     <script>
+    // JavaScript para manejar el envío del formulario
     document.getElementById('reporteForm').addEventListener('submit', async function(e) {
         e.preventDefault();
     
@@ -179,7 +204,7 @@
     
             if (response.ok) {
                 alert('Reporte enviado con éxito');
-                // Opcional: resetear formulario
+                // resetear formulario
                 e.target.reset();
             } else {
                 const errorText = await response.text();
