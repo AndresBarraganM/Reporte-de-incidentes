@@ -6,14 +6,12 @@
 ## Inicio de sesion del usuario base
 ## Retorna token de sesion
 
-##USUARIO ADMIN: admin
-## CONTRASEÑA ADMIN: admin123
 POST http://localhost:1234/usuario/login
 Content-Type: application/json
 
 {
-  "nombre": "admin",
-  "contrasena_hash": "admin1234"
+  "email": "usuario@ite.edu.mx",
+  "contrasena_hash": "password"
 }
 
 ###
