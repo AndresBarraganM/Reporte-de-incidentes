@@ -35,6 +35,34 @@ export async function obtenerSectionFiltro() {
   `
 }
 
+/*
+  * Agrega un evento de verificación al formulario de filtros
+  * se asegura que las fechas antesDe y despuesDe no sea una antes de la otra
+  *  incorrectamente
+  * Depende de que obtenerSectionFiltro() exista en algun lado de la paguina
+  * @returns {void}
+*/
+export function agregarVerificacionFiltros() {
+  // Agregar evento al formulario de filtros
+  // Ahora que el HTML ya está en el DOM, agrega los escuchadores
+  const fechaInicio = document.getElementById('fecha-inicio');
+  const fechaFin = document.getElementById('fecha-fin');
+
+  fechaInicio.addEventListener('change', () => {
+    fechaFin.min = fechaInicio.value;
+    if (fechaFin.value < fechaInicio.value) {
+      fechaFin.value = fechaInicio.value;
+    }
+  });
+
+  fechaFin.addEventListener('change', () => {
+    fechaInicio.max = fechaFin.value;
+    if (fechaInicio.value > fechaFin.value) {
+      fechaInicio.value = fechaFin.value;
+    }
+  });
+}
+
 /* * Ejecuta la obtención de incidentes filtrados según los valores de los filtros
   * Depende de que obtenerSectionFiltro() exista en algun lado de la paguina
   * @returns {Promise<Object>} Retorna una promesa que resuelve con los datos filtrados

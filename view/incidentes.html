@@ -117,11 +117,12 @@
   <script src="js/cargarIncidentes.js"></script>
 
   <script type="module">
-  import { ejecutarObtencionFiltrada, obtenerIncidentesAPI, obtenerSectionFiltro } from './js/filtro.js';
+  import { ejecutarObtencionFiltrada, obtenerIncidentesAPI, obtenerSectionFiltro, agregarVerificacionFiltros } from './js/filtro.js';
 
   // filtrado
   const sectionFiltro = document.getElementById('selectorFiltros');
   sectionFiltro.innerHTML = await obtenerSectionFiltro();
+  agregarVerificacionFiltros();
 
   document.getElementById("form-filtros").addEventListener("submit", async (e) => {
     e.preventDefault();

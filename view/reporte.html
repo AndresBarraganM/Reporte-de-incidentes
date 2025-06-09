@@ -80,7 +80,7 @@
 
   <!-- Scripts para inicializar la paguina y graficas-->
   <script type="module">
-    import { obtenerSectionFiltro, ejecutarObtencionFiltrada, obtenerIncidentesAPI } from './js/filtro.js';
+    import { obtenerSectionFiltro, ejecutarObtencionFiltrada, obtenerIncidentesAPI, agregarVerificacionFiltros } from './js/filtro.js';
 
     async function inicializarPaguina(){
       // Obtener datos de la API o de un array estático
@@ -88,6 +88,7 @@
       // filtrado
       const sectionFiltro = document.getElementById('selectorFiltros');
       sectionFiltro.innerHTML = await obtenerSectionFiltro();
+      agregarVerificacionFiltros();
       document.getElementById('form-filtros').addEventListener('submit', () => {
         event.preventDefault();
         filtrar()
