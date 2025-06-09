@@ -8,8 +8,9 @@
 </head>
 
 <script>
-    // direccion del servidor
-    const serverUrl = 'http://10.4.25.37:1234/';
+window.serverConfig = {
+    direccionServidor: 'http://10.4.25.37:1234/', // Cambia esto a la URL de tu servidor
+    };
 </script>
 
 <body>
@@ -197,7 +198,7 @@
         }
     
         try {
-            const response = await fetch(serverUrl+'incidentes', {
+            const response = await fetch(window.serverConfig.direccionServidor+'incidentes', {
                 method: 'POST',
                 body: formData
             });
