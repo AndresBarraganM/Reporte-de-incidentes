@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (!token) return alert("No has iniciado sesión");
 
   try {
-    const response = await fetch('http://localhost:1234/usuario/perfil', {
+    const response = await fetch(window.serverConfig.direccionServidor+'usuario/perfil', {
   headers: {
     'Authorization': `Bearer ${token}`
   }

@@ -73,6 +73,12 @@
   </div>
 
   <script>
+    window.serverConfig = {
+    direccionServidor: 'http://localhost:1234/'
+    };
+  </script>
+
+  <script>
     if(!localStorage.getItem('authToken')){
       window.location.href = "login.html"
     }

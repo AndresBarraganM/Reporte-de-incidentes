@@ -44,7 +44,7 @@ async function updatePerfil(nombre, contrasena, correo, telefono) {
 
     // ----------------------ENVIO DE DATOS----------------------
     // Realiza la solicitud PATCH al endpoint correspondiente
-    const response = await fetch('http://localhost:1234/usuario/actualizar', {
+    const response = await fetch(window.serverConfig.direccionServidor+'usuario/actualizar', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',

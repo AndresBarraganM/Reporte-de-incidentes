@@ -7,7 +7,7 @@ async function cargarIncidentes(filtros = {}) {
   if (filtros.prioridad) params.append('prioridad', filtros.prioridad);
 
   try {
-    const response = await fetch(`http://localhost:1234/incidentes?${params.toString()}`);
+    const response = await fetch(`${window.serverConfig.direccionServidor}incidentes?${params.toString()}`);
     if (!response.ok) throw new Error('Error al obtener incidentes');
 
     const data = await response.json();
@@ -92,7 +92,7 @@ tbody.querySelectorAll('.dropdown-content a[data-prioridad]').forEach(btn => {
     const nuevaPrioridad = btn.dataset.prioridad;
 
     try {
-      const response = await fetch(`http://localhost:1234/incidentes/prioridad/${id}`, {
+      const response = await fetch(`${window.serverConfig.direccionServidor}incidentes/prioridad/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prioridad: nuevaPrioridad })
@@ -139,7 +139,7 @@ tbody.querySelectorAll('.dropdown-content a[data-prioridad]').forEach(btn => {
         }
 
         try {
-          const response = await fetch(`http://localhost:1234/incidentes/${id}`, {
+          const response = await fetch(`${window.serverConfig.direccionServidor}incidentes/${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ estado: nuevoEstado })

@@ -94,7 +94,7 @@
         const ubicacionSelect = document.getElementById('ubicacion');
         const banoSelect = document.getElementById('baño');
 
-        fetch(serverUrl+'banios')
+        fetch(window.serverConfig.direccionServidor+'banios')
             .then(response => response.json())
             .then(data => {
                 datosBanos = data;
@@ -149,7 +149,7 @@
         // JavaScript para cargar los tipos de incidentes en el select
         const incidenteSelect = document.getElementById('incidente');
 
-        fetch(serverUrl+'tipos_incidentes')
+        fetch(window.serverConfig.direccionServidor+'tipos_incidentes')
             .then(response => response.json())
             .then(data => {
                 // Rellenar el select con los tipos de incidentes

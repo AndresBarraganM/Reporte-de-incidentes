@@ -74,7 +74,7 @@ async function loginUser() {
     }
 
     try {
-        const response = await fetch("http://localhost:1234/usuario/login", {
+        const response = await fetch(window.serverConfig.direccionServidor+"usuario/login", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

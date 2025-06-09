@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Aqui se agrega el token al fetch
-  fetch('http://localhost:1234/usuario/usuarios/basico', {
+  fetch(window.serverConfig.direccionServidor+'usuario/usuarios/basico', {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${token}`,
@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cancelButtonText: 'Cancelar'
           }).then((result) => {
             if (result.isConfirmed) {
-              fetch(`http://localhost:1234/usuario/eliminar/${usuario.id_usuario}`, {
+              fetch(`${window.serverConfig.direccionServidor}usuario/eliminar/${usuario.id_usuario}`, {
                 method: 'DELETE',
                 headers: {
                   'Authorization': `Bearer ${token}`

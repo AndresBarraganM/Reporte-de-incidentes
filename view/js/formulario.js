@@ -78,7 +78,7 @@ async function register() {
   }
 
   try {
-    const response = await fetch("http://localhost:1234/usuario/usuario", {
+    const response = await fetch(window.serverConfig.direccionServidor+"usuario/usuario", {
       method: 'POST',
       headers: {
         "Authorization": `Bearer ${localStorage.getItem('authToken')}`,

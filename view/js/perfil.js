@@ -9,7 +9,7 @@ async function obtenerDatos() {
         if (!token) {
             throw new Error('No se ha iniciado sesión');
         }
-        const response = await fetch('http://localhost:1234/usuario/perfil', {
+        const response = await fetch(window.serverConfig.direccionServidor+'usuario/perfil', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

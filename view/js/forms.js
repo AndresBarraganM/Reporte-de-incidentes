@@ -1,7 +1,7 @@
 async function cargarOpciones() {
      const selectElement = document.getElementById("ubicacion")
 
-    const response = await fetch("http://localhost:1234/banios",{
+    const response = await fetch(window.serverConfig.direccionServidor+"banios",{
         method: "GET",
         headers: {
             "Content-Type": "application/json"

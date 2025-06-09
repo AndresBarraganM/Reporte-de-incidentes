@@ -108,7 +108,14 @@
     <p><strong>Estado:</strong> <span id="detalle-estado"></span></p>
     
   </div>
-</div>
+  </div>
+
+  <script>
+    window.serverConfig = {
+    direccionServidor: 'http://localhost:1234/'
+    };
+  </script>
+
   <script>
     if(!localStorage.getItem('authToken')){
       window.location.href = "login.html"
@@ -186,7 +193,7 @@ function mostrarIncidentes(incidentes) {
 
 async function cargarBanios() {
   try {
-    const response = await fetch('http://localhost:1234/banios');
+    const response = await fetch(window.serverConfig.direccionServidor+'banios');
     if (!response.ok) throw new Error('Error al obtener baños');
     const banios = await response.json();
 
@@ -212,7 +219,7 @@ document.addEventListener('click', async (e) => {
   if (e.target.classList.contains('verFoto')) {
     const idFoto = e.target.getAttribute('id_foto');
     try {
-      const response = await fetch(`http://localhost:1234/incidentes/foto/${idFoto}/`);
+      const response = await fetch(`${window.serverConfig.direccionServidor}incidentes/foto/${idFoto}/`);
       if (!response.ok) throw new Error('Error al obtener la imagen');
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
@@ -231,9 +238,9 @@ document.addEventListener('click', async (e) => {
 });
 
 
-</script>
+  </script>
 
-<script src="js/cerrarSesion.js"></script>
+  <script src="js/cerrarSesion.js"></script>
 
 
 </body>

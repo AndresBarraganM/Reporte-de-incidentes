@@ -4,7 +4,7 @@ const token = localStorage.getItem('authToken')
 async function obtenerEdificios() {
     const select = document.getElementById('idEdificio')
     try {
-        const response = await fetch("http://localhost:1234/edificio/", {
+        const response = await fetch(window.serverConfig.direccionServidor+"edificio/", {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -45,7 +45,7 @@ async function agregarEdificio(){
     console.log(nombreEdificio, plantaEdificio)
 
     try{
-        const response = await fetch("http://localhost:1234/edificio/agregar", {
+        const response = await fetch(window.serverConfig.direccionServidor+"edificio/agregar", {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -86,7 +86,7 @@ async function agregarBano(){
     const SelectBano = document.getElementById('idEdificio').value
     const generoBano = document.getElementById('generoBano').value
     try{
-        const response = await fetch('http://localhost:1234/banios/agregar', {
+        const response = await fetch(window.serverConfig.direccionServidor+'banios/agregar', {
             method: 'POST',
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -150,7 +150,7 @@ async function agregarTipoIncidente() {
     }
 
     try {
-        const response = await fetch('http://localhost:1234/tipos_incidentes/agregar', {
+        const response = await fetch(window.serverConfig.direccionServidor+'tipos_incidentes/agregar', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,

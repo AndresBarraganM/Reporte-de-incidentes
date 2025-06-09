@@ -146,7 +146,7 @@
       document.querySelector('.prev').addEventListener('click', prevSlide);
       document.querySelector('.next').addEventListener('click', nextSlide);
       try {
-        const res = await fetch(serverUrl + 'incidentes');
+        const res = await fetch(window.serverConfig.direccionServidor+ 'incidentes');
         const data = await res.json();
         initSlideshow(data);
         setInterval(nextSlide, 5000);

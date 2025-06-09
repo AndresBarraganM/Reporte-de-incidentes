@@ -3,7 +3,7 @@ async function getIncidentes() {
   const pendientes = document.getElementById("pendientes-incidentes")
 
   try {
-    const response = await fetch("http://localhost:1234/incidentes", {
+    const response = await fetch(window.serverConfig.direccionServidor+"incidentes", {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' }
     })
@@ -75,7 +75,7 @@ async function incidentes(datos) {
     btn.addEventListener('click', async e => {
       const id = btn.dataset.id
       try {
-        const response = await fetch(`http://localhost:1234/incidentes/${id}`, {
+        const response = await fetch(`${window.serverConfig.direccionServidor}incidentes/${id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ estado: 'resuelto' })

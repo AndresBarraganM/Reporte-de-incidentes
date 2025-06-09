@@ -98,7 +98,7 @@ export async function ejecutarObtencionFiltrada() {
 
 export async function obtenerIncidentesAPI(filtros = {}){
   const queryParams = new URLSearchParams(filtros).toString();
-  const url = `http://localhost:1234/incidentes${queryParams ? '?' + queryParams : ''}`;
+  const url = `${window.serverConfig.direccionServidor}incidentes${queryParams ? '?' + queryParams : ''}`;
   console.log('URL de la API:', url);
   try {
     const response = await fetch(url);
@@ -121,7 +121,7 @@ export async function obtenerListaUbicaciones() {
   select.id = 'ubicacion';
 
   try {
-    const response = await fetch('http://localhost:1234/banios');
+    const response = await fetch(window.serverConfig.direccionServidor+'banios');
     const data = await response.json();
 
     const ubicacionesUnicas = new Set();
