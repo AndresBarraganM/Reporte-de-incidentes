@@ -38,14 +38,33 @@ CREATE TABLE IF NOT EXISTS `banos` (
 
 --
 -- Volcado de datos para la tabla `banos`
---
+-- id_edificio obtenido de la tabla `edificios` segun los edificios preexistentes
 
-INSERT INTO `banos` (`id_bano`, `id_edificio`, `genero_bano`) VALUES
-(1, 3, 'hombre'),
-(2, 11, 'hombre'),
-(3, 11, 'mujer'),
-(4, 6, 'hombre'),
-(5, 6, 'mujer');
+INSERT INTO `banos` (`id_edificio`, `genero_bano`) VALUES
+(1, 'mujer'),
+(1, 'hombre'),
+(2, 'mujer'),
+(2, 'hombre'),
+(3, 'mujer'),
+(3, 'hombre'),
+(4, 'mujer'),
+(4, 'hombre'),
+(5, 'mujer'),
+(5, 'hombre'),
+(6, 'mujer'),
+(6, 'hombre'),
+(7, 'mujer'),
+(7, 'hombre'),
+(8, 'mujer'),
+(8, 'hombre'),
+(9, 'mujer'),
+(9, 'hombre'),
+(10, 'mujer'),
+(10, 'hombre'),
+(11, 'mujer'),
+(11, 'hombre'),
+(12, 'mujer'),
+(12, 'hombre');
 
 -- --------------------------------------------------------
 
@@ -66,18 +85,18 @@ CREATE TABLE IF NOT EXISTS `edificios` (
 --
 
 INSERT INTO `edificios` (`id_edificio`, `nombre`, `planta`) VALUES
-(2, '100', 'baja'),
-(3, '100', 'alta'),
-(4, '200', 'baja'),
-(5, '200', 'alta'),
-(6, '300', 'baja'),
-(8, '400', 'baja'),
-(9, '400', 'alta'),
-(10, '500', 'baja'),
-(11, '600', 'baja'),
-(12, 'Gimnacio', 'baja'),
-(13, 'Centro de Información', 'baja'),
-(14, 'Auditorio', 'baja');
+(1,'100', 'baja'),
+(2,'100', 'alta'),
+(3,'200', 'baja'),
+(4,'200', 'alta'),
+(5,'300', 'baja'),
+(6,'400', 'baja'),
+(7,'400', 'alta'),
+(8,'500', 'baja'),
+(9,'600', 'alta'),
+(10,'Gimnacio', 'baja'),
+(11,'Centro de Información', 'baja'),
+(12,'Auditorio', 'baja');
 
 -- --------------------------------------------------------
 
@@ -145,9 +164,9 @@ CREATE TABLE IF NOT EXISTS `reporte_incidente` (
 -- Volcado de datos para la tabla `reporte_incidente`
 --
 
-INSERT INTO `reporte_incidente` (`id_reporte`, `id_bano`, `id_usuario_reporta`, `id_incidente`, `img`, `descripcion`, `fecha_reporte`, `estado`, `prioridad`) VALUES
-(1, 1, NULL, 2, NULL, 'Falta jabón en ambos dispensadores', '2025-04-10 17:29:09', 'pendiente', 'media'),
-(2, 3, NULL, 1, NULL, 'Desperdicio de papel pegado en el techo', '2025-04-10 17:33:41', 'pendiente', 'media');
+-- INSERT INTO `reporte_incidente` (`id_reporte`, `id_bano`, `id_usuario_reporta`, `id_incidente`, `img`, `descripcion`, `fecha_reporte`, `estado`, `prioridad`) VALUES
+-- (1, 1, NULL, 2, NULL, 'Falta jabón en ambos dispensadores', '2025-04-10 17:29:09', 'pendiente', 'media'),
+-- (2, 3, NULL, 1, NULL, 'Desperdicio de papel pegado en el techo', '2025-04-10 17:33:41', 'pendiente', 'media');
 
 -- --------------------------------------------------------
 
@@ -166,10 +185,21 @@ CREATE TABLE IF NOT EXISTS `tipo_incidente` (
 -- Volcado de datos para la tabla `tipo_incidente`
 --
 
-INSERT INTO `tipo_incidente` (`id_incidente`, `nombre`) VALUES
-(1, 'Bandalismo'),
-(2, 'Falta de jabón');
-
+INSERT INTO `tipo_incidente` (`nombre`) VALUES
+('Inmobiliaro vandalisado'),
+('Baño tapado'),
+('Falta de papel'),
+('Fuga de agua'),
+('Mal olor'),
+('Falta de luz'),
+('Espejo dañado'),
+('Inodoro dañado'),
+('Lavabo dañado'),
+('Puerta dañada'),
+('Falta de jabón'),
+('Falta de papel higiénico'),
+('Falta de toallas de papel'),
+('Otro');
 -- --------------------------------------------------------
 
 --
@@ -187,13 +217,23 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
+
+-- --------------------------------------------------------
+-- Estructura de tabla para la tabla `usuariostelegram`
+-- Utilizada para almacenar los usuarios de Telegram que reciben notificaciones
+DROP TABLE IF EXISTS `usuariostelegram`;
+CREATE TABLE IF NOT EXISTS usuariostelegram (
+  chat_id bigint(20) NOT NULL,
+  nombre varchar(100) DEFAULT NULL,
+  PRIMARY KEY (chat_id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id_usuario`, `nombre`, `email`, `telefono`, `contrasena_hash`) VALUES
-(1, 'admin', 'admin@ejemplo.com', '123456789', '$2b$10$rneWdL8Ax0MOc5GJOmFQSelm3/1t5A27G0jWpmrAYXSYoLoIJNS9a'),
-(2, 'salva123', 'salva@ejemplo.com', '6461234567', '$2b$10$MUqDtGwdIe/q.spMopxPT.MNkXqzsj.g3R4nV3RiT1hU1QcjHRUwu');
+-- INSERT INTO `usuarios` (`id_usuario`, `nombre`, `email`, `telefono`, `contrasena_hash`) VALUES
+-- (1, 'administrador', 'admin@ejemplo.com', '123456789', '$2b$10$rneWdL8Ax0MOc5GJOmFQSelm3/1t5A27G0jWpmrAYXSYoLoIJNS9a'),
+-- (2, 'salva123', 'salva@ejemplo.com', '6461234567', '$2b$10$MUqDtGwdIe/q.spMopxPT.MNkXqzsj.g3R4nV3RiT1hU1QcjHRUwu');
 
 --
 -- Restricciones para tablas volcadas
