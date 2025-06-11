@@ -1,18 +1,15 @@
 ![Logo de ReporTec](view/logo.png)
 
 <div align="center">
-
 # 📋 ReporTec
-
 </div>
 
 Reportec permite a cualquier miembro de la comunidad universitaria escanear un código QR ubicado en los baños para reportar situaciones como la falta de papel, agua tirada, suciedad u otros problemas. Una vez enviado el reporte, este llega directamente al sistema, donde puede ser visualizado y gestionado por el personal encargado del mantenimiento o limpieza.
+
 ---
 
 <div align="center">
-
 ## 🧩 Tecnologías utilizadas
-
 </div>
 
 - **Backend**: Node.js + Express.js
