@@ -1,1 +1,1 @@
-![Logo de ReporTec](view/logo2.png)
+![Logo de ReporTec](view/logo.png)
