@@ -1,5 +1,3 @@
-![Logo de ReporTec](view/logo.png)
-
 <div align="center">
   
 # 📋 ReporTec
