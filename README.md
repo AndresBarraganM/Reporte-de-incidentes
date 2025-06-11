@@ -1,12 +1,19 @@
 ![Logo de ReporTec](view/logo.png)
 
-# 📋 Reporte de Incidentes
+<div align="center">
 
-Aplicación web para registrar, gestionar y visualizar reportes de incidentes ocurridos en baños de una institución educativa. Esta plataforma permite a los usuarios generar reportes mediante un sistema intuitivo y a los administradores gestionarlos eficientemente.
+# 📋 ReporTec
 
+</div>
+
+Reportec permite a cualquier miembro de la comunidad universitaria escanear un código QR ubicado en los baños para reportar situaciones como la falta de papel, agua tirada, suciedad u otros problemas. Una vez enviado el reporte, este llega directamente al sistema, donde puede ser visualizado y gestionado por el personal encargado del mantenimiento o limpieza.
 ---
 
+<div align="center">
+
 ## 🧩 Tecnologías utilizadas
+
+</div>
 
 - **Backend**: Node.js + Express.js
 - **Base de datos**: MySQL (Amazon RDS)
