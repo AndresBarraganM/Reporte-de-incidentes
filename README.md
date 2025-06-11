@@ -1,6 +1,6 @@
 <div align="center">
   
-# 📋 ReporTec
+# ReporTec
 
 </div>
 
@@ -10,7 +10,7 @@ Reportec permite a cualquier miembro de la comunidad universitaria escanear un c
 
 <div align="center">
   
-## 🧩 Tecnologías utilizadas
+## Tecnologías utilizadas
 
 </div>
 
@@ -22,20 +22,25 @@ Reportec permite a cualquier miembro de la comunidad universitaria escanear un c
 
 ---
 
-## 📁 Estructura del proyecto
+<div align="center">
+  
+## Estructura del proyecto
 
+</div>
+
+```bash
 Reporte-de-incidentes/
 │
-├── controllers/ # Lógica de controladores (manejo de solicitudes)
-├── middlewares/ # Middlewares personalizados (autenticación, validación)
-├── models/ # Modelos Sequelize (tablas y relaciones)
-├── services/ # Servicios para la lógica de negocio
-├── view/ # Plantillas HTML
-├── modules/ # Funciones auxiliares reutilizables
-├── schemas/ # Validación de datos (Zod, Joi u otro)
-├── test/ # Pruebas del sistema
-├── utils/ # Utilidades generales
-├── incidentes.sql # Script de creación de base de datos
-├── index.js # Punto de entrada del servidor
-├── .env # Variables de entorno
-└── package.json # Dependencias del proyecto
+├── controllers/         # Lógica de controladores (manejo de solicitudes)
+├── middlewares/         # Middlewares personalizados (autenticación, validación)
+├── models/              # Modelos Sequelize (tablas y relaciones)
+├── services/            # Servicios para la lógica de negocio
+├── view/                # Plantillas HTML
+├── modules/             # Funciones auxiliares reutilizables
+├── schemas/             # Validación de datos (Zod, Joi u otro)
+├── test/                # Pruebas del sistema
+├── utils/               # Utilidades generales
+├── incidentes.sql       # Script de creación de base de datos
+├── index.js             # Punto de entrada del servidor
+├── .env                 # Variables de entorno
+└── package.json         # Dependencias del proyecto
